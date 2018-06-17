@@ -1,0 +1,179 @@
+<?php
+use yii\helpers\Html;
+use yii\bootstrap\Nav;
+use yii\bootstrap\NavBar;
+use yii\widgets\Breadcrumbs;
+use backend\themes\klolofil\assets\KlolofilAsset;
+
+/* @var $this \yii\web\View */
+/* @var $content string */
+
+KlolofilAsset::register($this);
+$directoryAsset = Yii::$app->assetManager->getPublishedUrl('@klolofil/dist');
+
+$this->registerCss('
+     body{
+                font-family: "Cloud-Light";
+                font-size: 16px;
+            }
+');
+$cururl = Yii::$app->controller->id;
+//echo $cururl;return;
+
+$this->registerJs('
+$(function(){
+  //$(".sidebar-scroll").find(".nav").find(".usect").trigger("click");
+  var xx = $(".sidebar-scroll").find(".nav").find("'.".".$cururl.'").parent().parent().parent().parent().attr("class");
+  //alert(xx);
+  if(xx == "has-sub"){
+    $(".sidebar-scroll").find(".nav").find("'.".".$cururl.'").parent().parent().parent().parent().find(".collapsed").trigger("click");
+  }
+  $(".sidebar-scroll").find(".nav").find("'.".".$cururl.'").addClass("active");
+});
+',static::POS_END);
+
+?>
+<?php $this->beginPage() ?>
+    <!DOCTYPE html>
+    <html lang="<?= Yii::$app->language ?>">
+    <head>
+        <meta charset="<?= Yii::$app->charset ?>">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <?php $this->registerCsrfMetaTags() ?>
+        <title><?= Html::encode($this->title) ?></title>
+        <link rel="shortcut icon" href="<?php echo Yii::$app->getUrlManager()->baseUrl; ?>/img/icon/pingpetch.ico" type="image/x-icon" />
+
+        <?php $this->head() ?>
+
+    </head>
+    <body>
+    <div id="wrapper">
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="brand">
+            <a href="index.html"><img src="img/aj.png" alt="Klorofil Logo" class="img-responsive logo"></a>
+        </div>
+        <div class="container-fluid">
+            <div class="navbar-btn">
+                <button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
+            </div>
+            <form class="navbar-form navbar-left">
+                <div class="input-group">
+                    <input type="text" value="" class="form-control" placeholder="ค้นหาหน้า dashboard...">
+                    <span class="input-group-btn"><button type="button" class="btn btn-primary">Go</button></span>
+                </div>
+            </form>
+
+            <div id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle icon-menu" data-toggle="dropdown">
+                            <i class="lnr lnr-alarm"></i>
+                            <span class="badge bg-danger">5</span>
+                        </a>
+                        <ul class="dropdown-menu notifications">
+                            <li><a href="#" class="notification-item"><span class="dot bg-warning"></span>System space is almost full</a></li>
+                            <li><a href="#" class="notification-item"><span class="dot bg-danger"></span>You have 9 unfinished tasks</a></li>
+                            <li><a href="#" class="notification-item"><span class="dot bg-success"></span>Monthly report is available</a></li>
+                            <li><a href="#" class="notification-item"><span class="dot bg-warning"></span>Weekly meeting in 1 hour</a></li>
+                            <li><a href="#" class="notification-item"><span class="dot bg-success"></span>Your request has been approved</a></li>
+                            <li><a href="#" class="more">See all notifications</a></li>
+                        </ul>
+                    </li>
+<!--                    <li class="dropdown">-->
+<!--                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="lnr lnr-question-circle"></i> <span>Help</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>-->
+<!--                        <ul class="dropdown-menu">-->
+<!--                            <li><a href="#">Basic Use</a></li>-->
+<!--                            <li><a href="#">Working With Data</a></li>-->
+<!--                            <li><a href="#">Security</a></li>-->
+<!--                            <li><a href="#">Troubleshooting</a></li>-->
+<!--                        </ul>-->
+<!--                    </li>-->
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span><?=\backend\models\User::findName(Yii::$app->user->id);?></span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#"><i class="lnr lnr-user"></i> <span>My Profile</span></a></li>
+                            <li><a href="#"><i class="lnr lnr-envelope"></i> <span>Message</span></a></li>
+                            <li><a href="#"><i class="lnr lnr-cog"></i> <span>Settings</span></a></li>
+                            <li><a href="index.php?r=site/logout"><i class="lnr lnr-exit"></i> <span>Logout</span></a></li>
+                        </ul>
+                    </li>
+                    <!-- <li>
+                        <a class="update-pro" href="https://www.themeineed.com/downloads/klorofil-pro-bootstrap-admin-dashboard-template/?utm_source=klorofil&utm_medium=template&utm_campaign=KlorofilPro" title="Upgrade to Pro" target="_blank"><i class="fa fa-rocket"></i> <span>UPGRADE TO PRO</span></a>
+                    </li> -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- END NAVBAR -->
+    <!-- LEFT SIDEBAR -->
+    <div id="sidebar-nav" class="sidebar">
+        <div class="sidebar-scroll">
+            <br />
+            <nav>
+                <ul class="nav">
+                    <li><a href="index.php?r=site/index" class="site"><i class="fa fa-dashboard"></i> <span>แดซบอร์ด</span></a></li>
+                    <li><a href="index.php?r=plant/index" class="plant"><i class="lnr lnr-code"></i> <span>ข้อมูลบริษัท</span></a></li>
+                    <li class="has-sub">
+                        <a href="#subUser" data-toggle="collapse" class="collapsed usect"><i class="fa fa-users"></i> <span>ข้อมูลผู้ใช้</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                        <div id="subUser" class="collapse ">
+                            <ul class="nav">
+                                <li><a href="index.php?r=usergroup/index" class="usergroup">กลุ่มผู้ใช้</a></li>
+                                <li><a href="index.php?r=user/index" class="user">ผู้ใช้งาน</a></li>
+                                <li><a href="index.php?r=authitem/index" class="authitem">สิทธิ์การใช้งาน</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="has-sub">
+                        <a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-file-empty"></i> <span>ข้อมูลพื้นฐาน</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                        <div id="subPages" class="collapse ">
+                            <ul class="nav">
+                                <li><a href="index.php?r=department/index" class="department">ฝ่าย</a></li>
+                                <li><a href="index.php?r=section/index" class="section">แผนก</a></li>
+                                <li><a href="index.php?r=employee/index" class="employee">พนักงาน</a></li>
+                                <li><a href="index.php?r=position/index" class="position">ตำแหน่ง</a></li>
+                                <li><a href="index.php?r=zone/index" class="zone">กอง</a></li>
+                                <li><a href="index.php?r=sequence/index" class="sequence">เลขที่เอกสาร</a></li>
+                                <li><a href="index.php?r=supliergroup/index" class="supliergroup">กลุ่ม suplier</a></li>
+                                <li><a href="index.php?r=suplier/index" class="suplier">suplier</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li><a href="index.php?r=purchplan/index" class="purchplan"><i class="lnr lnr-cog"></i> <span>วางแผนซื้อ</span></a></li>
+                    <li><a href="notifications.html" class=""><i class="lnr lnr-alarm"></i> <span>รับวัตถุดิบ</span></a></li>
+
+                    <li><a href="tables.html" class=""><i class="lnr lnr-dice"></i> <span>รายงานการผลิต</span></a></li>
+                    <li><a href="typography.html" class=""><i class="lnr lnr-text-format"></i> <span>บัญชี</span></a></li>
+                    <li><a href="index.php?r=report/index" class="report"><i class="fa fa-area-chart"></i> <span>รายงาน</span></a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!-- END LEFT SIDEBAR -->
+    <!-- MAIN -->
+        <div class="main">
+            <!-- MAIN CONTENT -->
+<!--            <div class="main-content">-->
+
+                <?php $this->beginBody() ?>
+            <div class="main-content">
+                <div class="container-fluid">
+                    <?php
+                    echo Breadcrumbs::widget([
+                        'options' => ['class'=>'breadcrumb','style'=>'margin-top: -10px;'],
+                        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+
+                    ]);
+                    ?>
+                <?= $content ?>
+                </div>
+            </div>
+                <?php $this->endBody() ?>
+
+<!--            </div>-->
+        </div>
+    </div>
+    </body>
+    </html>
+<?php $this->endPage() ?>
