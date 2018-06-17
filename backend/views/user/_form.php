@@ -56,7 +56,7 @@ $this->registerJsFile(
                                <div class="form-group group-role" style="background: #F0F0F0;padding-top: 20px;">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">สิทธิ์ใช้งาน 
                                 </label>
-                                <div class="col-md-2 col-sm-6 col-xs-12">
+                                <div class="col-md-3 col-sm-6 col-xs-12">
                                     <?= $form->field($model, 'roles')->checkboxList($model->getAllRoles())->label(false) ?>
                                 </div>
                               </div>
