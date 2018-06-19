@@ -89,7 +89,6 @@ class UserController extends Controller
         $model = new User();
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->status = $model->status == 1?10:1;
             if($model->save()){
                  $model->assignment();
                   $session = Yii::$app->session;
@@ -115,7 +114,6 @@ class UserController extends Controller
         $model->getRoleByUser();
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->status = $model->status == 1?10:1;
             if($model->save()){
                 $model->assignment();
                 $session = Yii::$app->session;
