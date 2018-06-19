@@ -50,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="btn-group">
                 <?= Html::a(Yii::t('app', '<i class="fa fa-plus"></i> สร้างแผนสั่งซื้อ'), ['create'], ['class' => 'btn btn-success']) ?>
             </div>
-            <h4 class="pull-right"><?=$this->title?> <i class="fa fa-institution"></i><small></small></h4>
+            <h4 class="pull-right"><?=$this->title?> <i class="fa fa-calendar-check-o"></i><small></small></h4>
             <!-- <ul class="nav navbar-right panel_toolbox">
               <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
               <li class="dropdown">

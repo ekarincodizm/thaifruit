@@ -34,7 +34,7 @@ $this->registerJs($js,static::POS_END);
 ?>
 <div class="panel panel-headlin">
     <div class="panel-heading">
-        <h3><i class="fa fa-users"></i> วางแผนซื้อ<small></small></h3>
+        <h3><i class="fa fa-calendar"></i> วางแผนซื้อ<small></small></h3>
 
         <div class="clearfix"></div>
     </div>
