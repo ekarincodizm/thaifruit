@@ -80,8 +80,12 @@ class ProductcatController extends Controller
     {
         $model = new Productcat();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            if($model->save()){
+                $session = Yii::$app->session;
+                $session->setFlash('msg','บันทึกรายการเรียบร้อย');
+                return $this->redirect(['index']);
+            }
         }
 
         return $this->render('create', [
@@ -99,8 +103,12 @@ class ProductcatController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            if($model->save()){
+                $session = Yii::$app->session;
+                $session->setFlash('msg','บันทึกรายการเรียบร้อย');
+                return $this->redirect(['index']);
+            }
         }
 
         return $this->render('update', [
@@ -117,8 +125,10 @@ class ProductcatController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
+            $session = Yii::$app->session;
+            $session->setFlash('msg','บันทึกรายการเรียบร้อย');
+            return $this->redirect(['index']);
 
-        return $this->redirect(['index']);
     }
 
     /**

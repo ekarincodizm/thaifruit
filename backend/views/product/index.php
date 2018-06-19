@@ -27,7 +27,6 @@ $view_type = $viewtype;
 
 $groupall = \backend\models\Productcat::find()->where(['!=','name',''])->orderby(['name'=>SORT_ASC])->all();
 $stock_status = [['id'=>1,'name'=>'มีสินค้า'],['id'=>2,'name'=>'สินค่าต่ำกว่ากำหนด'],['id'=>3,'name'=>'ไม่มีสินค้า']];
-
 $this->registerJsFile(
     '@web/js/stockbalancejs.js?V=001',
     ['depends' => [\yii\web\JqueryAsset::className()]],
@@ -667,9 +666,7 @@ $this->registerJsFile("https://code.jquery.com/jquery-1.12.4.js",['depends'=> [\
       "Scala",
       "Scheme"
     ];
-         $(".na").autocomplete({
-                 source: availableTags
-            });
+        
           
     
     var nowTemp = new Date();
@@ -685,7 +682,7 @@ $this->registerJsFile("https://code.jquery.com/jquery-1.12.4.js",['depends'=> [\
           },  
           theme: "square"
         };
-       // $(".na").easyAutocomplete(options);
+       
     
         if($("#product_group").val()!=""){
             $("#product_group").multiselect({
@@ -711,13 +708,7 @@ $this->registerJsFile("https://code.jquery.com/jquery-1.12.4.js",['depends'=> [\
                 $(this).parent().find(".btn-group").find(".multiselect").css({"background-color":"#F5F5F5","color":"#000"});
             }
         }); 
-        $("select#stock_status").change(function(){
-           if($(this).val()!=""){
-                $(this).parent().find(".btn-group").find(".multiselect").css({"background-color":"gray","color":"#FFF"});
-           }else{
-                $(this).parent().find(".btn-group").find(".multiselect").css({"background-color":"#F5F5F5","color":"#000"});
-            }
-        }); 
+        
          
          $("div.btn-reset").click(function(){
 

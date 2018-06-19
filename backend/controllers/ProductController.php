@@ -116,33 +116,33 @@ class ProductController extends Controller
     public function actionView($id)
     {
 
-        $modeljournalline = \backend\models\Journalline::find()->where(['product_id'=>$id])->all();
-        $uploadfile = new \backend\models\Uploadfile();
+       // $modeljournalline = \backend\models\Journalline::find()->where(['product_id'=>$id])->all();
+      //  $uploadfile = new \backend\models\Uploadfile();
 
         //echo strtotime(date_format($start,'d-m-Y'));
        // echo strtotime() ."-". strtotime(trim($dt_range[1]));
-        $movementSearch = new \backend\models\MovementSearch();
-        $movementDp = $movementSearch->search(Yii::$app->request->queryParams);
-        $movementDp->pagination->pageSize = 10;
-        $movementDp->query->andFilterWhere(['product_id'=>$id]);
-        if(isset(Yii::$app->request->queryParams['MovementSearch']['created_at'])){
-            $dt = Yii::$app->request->queryParams['MovementSearch']['created_at'];
-            $dt_range = explode("to",$dt);
-            $start = date_create(trim($dt_range[0]));
-            $end = date_create(trim($dt_range[1]));
-            $movementDp->query->andFilterWhere(['between','created_at',strtotime(date_format($start,'d-m-Y')),strtotime(date_format($end,'d-m-Y'))]);
+      //  $movementSearch = new \backend\models\MovementSearch();
+      //  $movementDp = $movementSearch->search(Yii::$app->request->queryParams);
+       // $movementDp->pagination->pageSize = 10;
+       // $movementDp->query->andFilterWhere(['product_id'=>$id]);
+//        if(isset(Yii::$app->request->queryParams['MovementSearch']['created_at'])){
+//            $dt = Yii::$app->request->queryParams['MovementSearch']['created_at'];
+//            $dt_range = explode("to",$dt);
+//            $start = date_create(trim($dt_range[0]));
+//           // $end = date_create(trim($dt_range[1]));
+//           // $movementDp->query->andFilterWhere(['between','created_at',strtotime(date_format($start,'d-m-Y')),strtotime(date_format($end,'d-m-Y'))]);
+//
+//        }
 
-        }
-
-        $photoes = \backend\models\Productgallery::find()->where(['product_id'=>$id])->all();
+       // $photoes = \backend\models\Productgallery::find()->where(['product_id'=>$id])->all();
 
         return $this->render('view', [
             'model' => $this->findModel($id),
-            'modeljournalline' => $modeljournalline,
-            'photoes'=>$photoes,
-            'uploadfile'=>$uploadfile,
-            'movementDp' => $movementDp,
-            'movementSearch'=> $movementSearch,
+           // 'modeljournalline' => $modeljournalline,
+          //  'photoes'=>$photoes,
+          //  'uploadfile'=>$uploadfile,
+          //  'movementDp' => $movementDp,
+         //   'movementSearch'=> $movementSearch,
         ]);
     }
 

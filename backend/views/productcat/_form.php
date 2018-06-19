@@ -8,10 +8,8 @@ use toxor88\switchery\Switchery;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="productcat-form">
-
-    <div class="x_panel">
-                  <div class="x_title">
+<div class="panel panel-headline">
+    <div class="panel-heading">
                     <h3><i class="fa fa-cubes"></i> <?=$this->title?> <small></small></h3>
                     <!-- <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -30,7 +28,7 @@ use toxor88\switchery\Switchery;
                     </ul> -->
                     <div class="clearfix"></div>
                   </div>
-                  <div class="x_content">
+                  <div class="panel-body">
                     <br />
                                <?php $form = ActiveForm::begin(['options'=>['class'=>'form-horizontal form-label-left']]); ?>
                                <div class="form-group">
@@ -67,5 +65,3 @@ use toxor88\switchery\Switchery;
                         </div>
                     </div>
 
-
-</div>

@@ -129,9 +129,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                            [
 
                                               'header' => '',
-                                              'headerOptions' => ['style' => 'width: 160px;text-align:center;','class' => 'activity-view-link',],
+                                              'headerOptions' => ['style' => 'text-align:center;','class' => 'activity-view-link',],
                                               'class' => 'yii\grid\ActionColumn',
-                                              'contentOptions' => ['style' => 'text-align: center'],
+                                              'contentOptions' => ['style' => 'text-align: right'],
                                               'buttons' => [
                                                   'view' => function($url, $data, $index) {
                                                       $options = [

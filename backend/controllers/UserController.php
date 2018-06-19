@@ -28,17 +28,17 @@ class UserController extends Controller
                     'delete' => ['POST','GET'],
                 ],
             ],
-            'access'=>[
-                'class'=>AccessControl::className(),
-                'rules'=>[
-                    [
-                        'allow'=>true,
-                        'actions'=>['index','create','update','delete','view','resetpassword'],
-                        'roles'=>['@'],
-                    ],
-
-                ]
-            ]
+//            'access'=>[
+//                'class'=>AccessControl::className(),
+//                'rules'=>[
+//                    [
+//                        'allow'=>true,
+//                        'actions'=>['index','create','update','delete','view','resetpassword'],
+//                        'roles'=>['@'],
+//                    ],
+//
+//                ]
+//            ]
 
         ];
     }

@@ -151,6 +151,7 @@ $(function(){
                             <ul class="nav">
                                 <li><a href="index.php?r=productcat/index" class="productcat">กลุ่มสินค้า</a></li>
                                 <li><a href="index.php?r=product/index" class="product">สินค้า</a></li>
+                                <li><a href="index.php?r=unit/index" class="unit">หน่วยนับ</a></li>
                             </ul>
                         </div>
                     </li>
