@@ -46,10 +46,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-        
-    
-    <div class="x_panel">
-                  <div class="x_title">
+
+
+    <div class="panel panel-headline">
+        <div class="panel-heading">
                     <div class="btn-group">
                       <?= Html::a(Yii::t('app', '<i class="fa fa-plus"></i> สร้างหน่วยนับ'), ['create'], ['class' => 'btn btn-success']) ?>
                     </div>
@@ -70,7 +70,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     </ul> -->
                     <div class="clearfix"></div>
                   </div>
-                  <div class="x_content">
+                  <div class="panel-body">
                         <div class="row">
                           <div class="col-lg-9">
                             <div class="form-inline">

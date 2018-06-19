@@ -35,7 +35,7 @@ use toxor88\switchery\Switchery;
             </div>
             <div class="panel-body">
                 <br />
-                                <?php $form = ActiveForm::begin(['options'=>['class'=>'form-horizontal form-label-left']]); ?>
+                                <?php $form = ActiveForm::begin(['options'=>['enctype' => 'multipart/form-data','class'=>'form-horizontal form-label-left']]); ?>
 
 
                 <div class="form-group">
@@ -63,6 +63,7 @@ use toxor88\switchery\Switchery;
                         <?= $form->field($model, 'first_name')->textInput(['maxlength' => true])->label(false) ?>
                     </div>
                 </div>
+                <input type="hidden" name="old_photo" value="<?=$model->photo?>">
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">นามสกุล <span class="required">*</span>
                     </label>
@@ -102,6 +103,17 @@ use toxor88\switchery\Switchery;
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">ประเภทค่าจ้าง
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?= $form->field($model, 'salary_type')->widget(Select2::className(),[
+                            'data'=>ArrayHelper::map(\backend\helpers\SalaryType::asArrayObject(),'id','name'),
+                            'options' => ['placeholder'=>'เลือก']
+                        ])->label(false) ?>
+                    </div>
+                </div>
+
 
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">บันทึก
@@ -114,9 +126,17 @@ use toxor88\switchery\Switchery;
                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">รูปภาพ
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
+                        <a href="../web/uploads/img_profile/<?=$model->photo?>" target="_blank"><?=$model->photo;?></a>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
                         <?= $form->field($model, 'photo')->fileInput(['maxlength' => true])->label(false) ?>
                     </div>
                 </div>
+
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">สถานะ
                     </label>

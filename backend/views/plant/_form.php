@@ -398,7 +398,7 @@ $bank = Bank::find()->all();
     </div>
 
   </div>
-
+</div>
 
 <?php
   $this->registerJs('

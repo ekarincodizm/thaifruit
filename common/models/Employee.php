@@ -38,8 +38,8 @@ class Employee extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['emp_code'],'required'],
-            [['gender_id', 'prefix', 'section_id', 'position_id','user_id', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
+            [['emp_code','first_name','last_name'],'required'],
+            [['gender_id', 'prefix', 'section_id', 'position_id','user_id','salary_type', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
             [['first_name', 'last_name', 'description', 'photo','emp_code'], 'string', 'max' => 255],
         ];
     }
@@ -60,6 +60,7 @@ class Employee extends \yii\db\ActiveRecord
             'position_id' => Yii::t('app', 'ตำแหน่ง'),
             'description' => Yii::t('app', 'รายละเอียด'),
             'photo' => Yii::t('app', 'รูปภาพ'),
+            'salary_type'=> Yii::t('app', 'ประเภทค่าจ้าง'),
             'status' => Yii::t('app', 'สถานะ'),
             'created_at' => Yii::t('app', 'สร้างเมื่อ'),
             'updated_at' => Yii::t('app', 'แก้ไขเมื่อ'),

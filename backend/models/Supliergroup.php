@@ -47,7 +47,7 @@ class Supliergroup extends \common\models\VendorGroup
 		    ];
 		 }
 
-		  public function findVendorgroupname($id){
+		  public function findName($id){
 		 	$model = Supliergroup::find()->where(['id'=>$id])->one();
 		 	return count($model)>0?$model->name:'';
 		 }

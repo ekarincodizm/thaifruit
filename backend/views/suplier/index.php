@@ -117,7 +117,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                           'attribute'=>'vendor_group_id',
                                           'contentOptions' => ['style' => 'vertical-align: middle'],  
                                           'value'=> function($data){
-                                              return \backend\models\Vendorgroup::findVendorgroupname($data->vendor_group_id);
+                                              return \backend\models\Supliergroup::findName($data->vendor_group_id);
                                           }
                                         ],
                                          [
@@ -131,9 +131,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                                        [
 
                                                           'header' => '',
-                                                          'headerOptions' => ['style' => 'width: 160px;text-align:center;','class' => 'activity-view-link',],
+                                                          'headerOptions' => ['style' => 'text-align:center;','class' => 'activity-view-link',],
                                                           'class' => 'yii\grid\ActionColumn',
-                                                          'contentOptions' => ['style' => 'text-align: center'],
+                                                          'contentOptions' => ['style' => 'text-align: right'],
                                                           'buttons' => [
                                                               'view' => function($url, $data, $index) {
                                                                   $options = [

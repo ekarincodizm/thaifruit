@@ -31,7 +31,7 @@ class PurchplanController extends Controller
                 'rules'=>[
                     [
                         'allow'=>true,
-                        'actions'=>['index','create','update','delete','view'],
+                        'actions'=>['index','create','update','delete','view','calendaritem','createtitle'],
                         'roles'=>['@'],
                     ]
                 ]
@@ -51,10 +51,13 @@ class PurchplanController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $dataProvider->pagination->pageSize = $pageSize;
 
-        return $this->render('index', [
+        $modelevent = new \common\models\Event();
+
+        return $this->render('_plancalendar', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'perpage' => $pageSize,
+            'modelevent'=>$modelevent,
         ]);
     }
 
@@ -147,5 +150,39 @@ class PurchplanController extends Controller
         }
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+    }
+
+    public function actionCalendaritem($start=NULL,$end=NULL,$_=NULL){
+
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+       // $times = \app\modules\timetrack\models\Timetable::find()->where(array('category'=>\app\modules\timetrack\models\Timetable::CAT_TIMETRACK))->all();
+        $times = \common\models\Event::find()->all();
+        $events = [];
+
+        foreach ($times AS $time){
+            //Testing
+            $Event = new \yii2fullcalendar\models\Event();
+            $Event->id = $time->id;
+            $Event->title = $time->title;
+            $Event->start = date('Y-m-d\TH:i:s\Z',$time->start);
+            $Event->end = date('Y-m-d\TH:i:s\Z',strtotime($time->end.' '.$time->end));
+            $Event->backgroundColor = "green";
+            $events[] = $Event;
+        }
+
+        return $events;
+    }
+    public function actionCreatetitle(){
+        $model = new \common\models\Event();
+        if($model->load(Yii::$app->request->post())){
+          //  echo Yii::$app->request->post('plan_date');return;
+            $pdate = date_create(Yii::$app->request->post('plan_date'));
+            //echo date_format($pdate,'d-m-Y');return;
+            $model->start = strtotime(date_format($pdate,'d-m-Y'));
+            if($model->save()){
+                return $this->redirect(['index']);
+            }
+        }
     }
 }

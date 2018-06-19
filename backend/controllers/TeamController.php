@@ -3,18 +3,17 @@
 namespace backend\controllers;
 
 use Yii;
-use backend\models\Employee;
-use backend\models\EmployeeSearch;
+use backend\models\Team;
+use backend\models\TeamSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use yii\web\UploadedFile;
 
 /**
- * EmployeeController implements the CRUD actions for Employee model.
+ * TeamController implements the CRUD actions for Team model.
  */
-class EmployeeController extends Controller
+class TeamController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -42,14 +41,13 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Lists all Employee models.
+     * Lists all Team models.
      * @return mixed
      */
-
     public function actionIndex()
     {
         $pageSize = \Yii::$app->request->post("perpage");
-        $searchModel = new EmployeeSearch();
+        $searchModel = new TeamSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $dataProvider->pagination->pageSize = $pageSize;
 
@@ -61,7 +59,7 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Displays a single Employee model.
+     * Displays a single Team model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -74,23 +72,15 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Creates a new Employee model.
+     * Creates a new Team model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Employee();
+        $model = new Team();
 
         if ($model->load(Yii::$app->request->post())) {
-            $uploaded = UploadedFile::getInstance($model,'photo');
-            if(!empty($uploaded)){
-                $file = time().".".$uploaded->getExtension();
-                if($uploaded->saveAs('../web/uploads/img_profile/'.$file)){
-                    $model->photo = $file;
-                }
-
-            }
             if($model->save()){
                 $session = Yii::$app->session;
                 $session->setFlash('msg','บันทึกรายการเรียบร้อย');
@@ -104,7 +94,7 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Updates an existing Employee model.
+     * Updates an existing Team model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -115,16 +105,6 @@ class EmployeeController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
-            $oldphoto = Yii::$app->request->post('old_photo');
-            $uploaded = UploadedFile::getInstance($model, 'photo');
-            if(!empty($uploaded)){
-                $upfiles = time() . "." . $uploaded->getExtension();
-                if ($uploaded->saveAs('../web/uploads/img_profile/' . $upfiles)) {
-                    $model->photo = $upfiles;
-                }
-            }else{
-                $model->photo = $oldphoto;
-            }
             if($model->save()){
                 $session = Yii::$app->session;
                 $session->setFlash('msg','บันทึกรายการเรียบร้อย');
@@ -138,7 +118,7 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Deletes an existing Employee model.
+     * Deletes an existing Team model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -155,15 +135,15 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Finds the Employee model based on its primary key value.
+     * Finds the Team model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Employee the loaded model
+     * @return Team the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Employee::findOne($id)) !== null) {
+        if (($model = Team::findOne($id)) !== null) {
             return $model;
         }
 

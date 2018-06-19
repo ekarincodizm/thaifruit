@@ -85,10 +85,10 @@ class SuplierController extends Controller
         $model_address_plant = AddressBook::find()->where(['party_type_id'=>2])->one();
         $model_address = new AddressBook();
         if ($model->load(Yii::$app->request->post())&& $model_address->load(Yii::$app->request->post())) {
-            if($model->save()){
-                $model_address->party_type_id = 2; // vendor
-                $model_address->party_id = $model->id;
-                $model_address->save(false);
+            if($model->save(false)){
+//                $model_address->party_type_id = 2; // vendor
+//                $model_address->party_id = $model->id;
+//                $model_address->save(false);
                 $session = Yii::$app->session;
                 $session->setFlash('msg','บันทึกรายการเรียบร้อย');
                 return $this->redirect(['index']);

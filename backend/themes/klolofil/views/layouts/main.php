@@ -16,6 +16,9 @@ $this->registerCss('
                 font-family: "Cloud-Light";
                 font-size: 16px;
             }
+     .required{
+             color: red;
+        }
 ');
 $cururl = Yii::$app->controller->id;
 //echo $cururl;return;
@@ -134,6 +137,8 @@ $(function(){
                                 <li><a href="index.php?r=employee/index" class="employee">พนักงาน</a></li>
                                 <li><a href="index.php?r=position/index" class="position">ตำแหน่ง</a></li>
                                 <li><a href="index.php?r=zone/index" class="zone">กอง</a></li>
+                                <li><a href="index.php?r=orchard/index" class="orchard">สวน</a></li>
+                                <li><a href="index.php?r=team/index" class="team">ทีมตัด</a></li>
                                 <li><a href="index.php?r=sequence/index" class="sequence">เลขที่เอกสาร</a></li>
                                 <li><a href="index.php?r=supliergroup/index" class="supliergroup">กลุ่ม suplier</a></li>
                                 <li><a href="index.php?r=suplier/index" class="suplier">suplier</a></li>
