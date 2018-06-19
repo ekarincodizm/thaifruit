@@ -25,7 +25,7 @@ class UserController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'delete' => ['POST','GET'],
                 ],
             ],
             'access'=>[
@@ -33,14 +33,10 @@ class UserController extends Controller
                 'rules'=>[
                     [
                         'allow'=>true,
-                        'actions'=>['index','create','update','delete','view'],
+                        'actions'=>['index','create','update','delete','view','resetpassword'],
                         'roles'=>['@'],
                     ],
-                    [
-                        'allow'=>true,
-                        'actions'=>['resetpassword'],
-                        'roles'=>['?'],
-                    ]
+                   
                 ]
             ]
 
