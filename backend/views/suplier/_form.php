@@ -63,6 +63,13 @@ $dist = District::find()->all();
                                    <?= $form->field($model, 'description')->textarea(['maxlength' => true,'class'=>'form-control'])->label(false) ?>
                                 </div>
                               </div>
+                      <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">เลขที่บัตรประชาชน
+                          </label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                              <?= $form->field($model, 'id_card')->textInput(['maxlength' => true,'class'=>'form-control'])->label(false) ?>
+                          </div>
+                      </div>
                               <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">กลุ่มผู้ขาย 
                                 </label>
