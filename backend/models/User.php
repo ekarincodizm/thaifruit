@@ -45,7 +45,7 @@ class User extends \common\models\User
         return count($model)>0?$model:null;
 
     }
-    public function findUserName($id){
+    public function findName($id){
         $model = User::find()->where(['id'=>$id])->one();
         return count($model)>0?$model->username:'';
 
