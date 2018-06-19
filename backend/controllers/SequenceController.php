@@ -31,7 +31,7 @@ class SequenceController extends Controller
                 'rules'=>[
                     [
                         'allow'=>true,
-                        'actions'=>['index','create','update','delete','view'],
+                        'actions'=>['index','create','update','delete','view','autogen'],
                         'roles'=>['@'],
                     ]
                 ]

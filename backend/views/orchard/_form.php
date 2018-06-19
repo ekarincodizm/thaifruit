@@ -26,6 +26,20 @@ use kartik\select2\Select2;
             </div>
         </div>
         <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">ชื่อผู้ติดต่อ
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <?= $form->field($model, 'contact_name')->textInput(['maxlength' => true,'class'=>'form-control'])->label(false) ?>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">เลขที่บัตรประชาชน
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <?= $form->field($model, 'id_card')->textInput(['maxlength' => true,'class'=>'form-control'])->label(false) ?>
+            </div>
+        </div>
+        <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">รายละเอียด
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -47,6 +61,13 @@ use kartik\select2\Select2;
                         'data'=> \yii\helpers\ArrayHelper::map(\backend\helpers\OrchardType::asArrayObject(),'id','name'),
                         'options'=>['placeholder'=>'เลือก']
                 ])->label(false) ?>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">LatLong
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <?= $form->field($model, 'latlong')->textInput(['maxlength' => true,'class'=>'form-control'])->label(false) ?>
             </div>
         </div>
         <div class="form-group">
