@@ -59,6 +59,13 @@ use kartik\select2\Select2;
             </div>
         </div>
         <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">ค่าจ้าง
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <?= $form->field($model, 'wage')->textInput(['maxlength' => true,'class'=>'form-control'])->label(false) ?>
+            </div>
+        </div>
+        <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">สถานะ
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
