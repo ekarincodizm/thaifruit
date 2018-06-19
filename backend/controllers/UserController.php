@@ -35,9 +35,15 @@ class UserController extends Controller
                         'allow'=>true,
                         'actions'=>['index','create','update','delete','view'],
                         'roles'=>['@'],
+                    ],
+                    [
+                        'allow'=>true,
+                        'actions'=>['resetpassword'],
+                        'roles'=>['?'],
                     ]
                 ]
             ]
+
         ];
     }
 

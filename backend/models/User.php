@@ -35,43 +35,43 @@ class User extends \common\models\User
 		    ];
 		 }
 
-  public function getAllRoles(){
-  	$auth = $auth = \Yii::$app->authManager;
-  	return ArrayHelper::map($auth->getRoles(),'name','name');
+    public function getAllRoles(){
+        $auth = $auth = \Yii::$app->authManager;
+        return ArrayHelper::map($auth->getRoles(),'name','name');
 
-  }
-  public function getUserinfo($id){
-  	$model = User::find()->where(['id'=>$id])->one();
-  	return count($model)>0?$model:null;
+    }
+    public function getUserinfo($id){
+        $model = User::find()->where(['id'=>$id])->one();
+        return count($model)>0?$model:null;
 
-  }
-    public function findName($id){
+    }
+    public function findUserName($id){
         $model = User::find()->where(['id'=>$id])->one();
         return count($model)>0?$model->username:'';
 
     }
-  public function getRoleByUser(){
-	  $auth = Yii::$app->authManager;
-	  $rolesUser = $auth->getRolesByUser($this->id);
-	  $roleItems = $this->getAllRoles();
-	  $roleSelect=[];
+    public function getRoleByUser(){
+        $auth = Yii::$app->authManager;
+        $rolesUser = $auth->getRolesByUser($this->id);
+        $roleItems = $this->getAllRoles();
+        $roleSelect=[];
 
-	  foreach ($roleItems as $key => $roleName) {
-	    foreach ($rolesUser as $role) {
-	      if($key==$role->name){
-	        $roleSelect[$key]=$roleName;
-	      }
-	    }
-	  }
-	  $this->roles = $roleSelect;
-	}
-  public function assignment(){
-    $auth = \Yii::$app->authManager;
-    $roleUser = $auth->getRolesByUser($this->id);
-    $auth->revokeAll($this->id);
-	    foreach ($this->roles as $key => $roleName) {
-	      $auth->assign($auth->getRole($roleName),$this->id);
-	    }
-	}
+        foreach ($roleItems as $key => $roleName) {
+            foreach ($rolesUser as $role) {
+                if($key==$role->name){
+                    $roleSelect[$key]=$roleName;
+                }
+            }
+        }
+        $this->roles = $roleSelect;
+    }
+    public function assignment(){
+        $auth = \Yii::$app->authManager;
+        $roleUser = $auth->getRolesByUser($this->id);
+        $auth->revokeAll($this->id);
+        foreach ($this->roles as $key => $roleName) {
+            $auth->assign($auth->getRole($roleName),$this->id);
+        }
+    }
 
 }
