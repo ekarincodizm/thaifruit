@@ -76,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="col-lg-3">
                     <div class="pull-right">
-                        <form id="form-perpage" class="form-inline" action="<?=Url::to(['location/index'],true)?>" method="post">
+                        <form id="form-perpage" class="form-inline" action="<?=Url::to(['section/index'],true)?>" method="post">
                             <div class="form-group">
                                 <label>แสดง </label>
                                 <select class="form-control" name="perpage" id="perpage">
@@ -161,6 +161,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         //'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
                                         //'data-method' => 'post',
                                         //'data-pjax' => '0',
+                                        'data-url'=>$url,
                                         'onclick'=>'recDelete($(this));'
                                     ]);
                                     return Html::a('<span class="glyphicon glyphicon-trash btn btn-xs btn-default"></span>', 'javascript:void(0)', $options);
@@ -174,3 +175,32 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <?php Pjax::end(); ?>
 </div>
+<?php
+$this->registerJsFile( '@web/js/sweetalert.min.js',['depends' => [\yii\web\JqueryAsset::className()]],static::POS_END);
+$this->registerCssFile( '@web/css/sweetalert.css');
+//$url_to_delete =  Url::to(['product/bulkdelete'],true);
+$this->registerJs('
+    $(function(){
+        $("#perpage").change(function(){
+            $("#form-perpage").submit();
+        });
+    });
+
+   function recDelete(e){
+        //e.preventDefault();
+        var url = e.attr("data-url");
+        swal({
+              title: "ต้องการลบรายการนี้ใช่หรือไม่",
+              text: "",
+              type: "error",
+              showCancelButton: true,
+              closeOnConfirm: false,
+              showLoaderOnConfirm: true
+            }, function () {
+              e.attr("href",url); 
+              e.trigger("click");        
+        });
+    }
+
+    ',static::POS_END);
+?>

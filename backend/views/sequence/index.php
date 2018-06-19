@@ -88,7 +88,7 @@ $this->params['breadcrumbs'][] = $this->title;
                           </div>
                           <div class="col-lg-3">
                               <div class="pull-right">
-                                  <form id="form-perpage" class="form-inline" action="<?=Url::to(['zone/index'],true)?>" method="post">
+                                  <form id="form-perpage" class="form-inline" action="<?=Url::to(['sequence/index'],true)?>" method="post">
                                       <div class="form-group">
                                           <label>แสดง </label>
                                           <select class="form-control" name="perpage" id="perpage">
@@ -228,7 +228,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                             //'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
                                                                             //'data-method' => 'post',
                                                                             //'data-pjax' => '0',
-                                                                            'data-url'=>Url::to(['sequence/delete','id'=>$data->id],true),
+                                                                            'data-url'=>$url,
                                                                             'onclick'=>'recDelete($(this));'
                                                                           ]);
                                                                   return Html::a('<span class="glyphicon glyphicon-trash btn btn-xs btn-default"></span>', 'javascript:void(0)', $options);
