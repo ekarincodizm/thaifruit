@@ -147,24 +147,7 @@ table.table-vendor td{
                                                       'enableCaseInsensitiveFiltering'=>true,
                                                   ], 
                                   ]); ?>
-                                  <?php      
-                                      echo MultiSelect::widget([
-                                              'id'=>"stock_status",
-                                              'name'=>'stock_status[]',
-                                              //'model'=>null,
-                                              "options" => ['multiple'=>"multiple",
-                                                              'onchange'=>''], // for the actual multiselect
-                                              'data' => count($stock_status)==0?['ไม่มีข้อมูล']:ArrayHelper::map($stock_status,'id','name'), // data as array
-                                              'value' => $stockstatus, // if preselected
-                                              "clientOptions" => 
-                                                  [
-                                                      "includeSelectAllOption" => true,
-                                                      'numberDisplayed' => 5,
-                                                      'nonSelectedText'=>'ประเภทสต๊อก',
-                                                      'enableFiltering' => true,
-                                                      'enableCaseInsensitiveFiltering'=>true,
-                                                  ], 
-                                  ]); ?>
+                                 
                                 <input type="hidden" name="perpage" value="<?=$perpage?>">
                                    <div class="btn-group">
                                          <input type="submit" class="btn btn-info btn-search" value="ค้นหา" />
