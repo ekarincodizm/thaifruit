@@ -99,10 +99,7 @@ table.table-vendor td{
                        <div class="btn-group">
                           <div class="btn btn-default btn-import"><i class="fa fa-upload"></i> นำเข้า</div>
                           <div class="btn btn-default btn-export"><i class="fa fa-download"></i> นำออก</div>
-                           <div class="btn btn-default btn-add-vendor"><i class="fa fa-thumbs-up"></i> อนุมัติผู้ขาย</div>
-                           <div class="btn btn-default btn-add-component"><i class="fa fa-object-group"></i> จัดชุดสินค้า</div>
                            <div class="btn btn-default btn-bulk-remove"><i class="fa fa-trash"></i><span class="remove_item"></span> ลบ</div>
-                          <div class="btn btn-default btn-print-stock"><i class="fa fa-print"></i> พิมพ์สต๊อก</div>
                           <div class="btn btn-default btn-printbarcode"><i class="fa fa-barcode"></i> พิมพ์บาร์โค้ด</div>
 <!--                          <div class="btn btn-default view-list"><i class="fa fa-list"></i></div>-->
 <!--                          <div class="btn btn-default view-grid"><i class="fa fa-th"></i></div>-->
