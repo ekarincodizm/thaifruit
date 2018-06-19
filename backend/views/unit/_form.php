@@ -55,10 +55,10 @@ use toxor88\switchery\Switchery;
                               </div>
                           
 
-                             <div class="ln_solid"></div>
+
                         <div class="form-group">
                                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                                  <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
+                                    <input type="submit" value="Save" class="btn btn-success">
                                 </div>
                         </div>
 
