@@ -145,6 +145,15 @@ $(function(){
                             </ul>
                         </div>
                     </li>
+                    <li class="has-sub">
+                        <a href="#subProduct" data-toggle="collapse" class="collapsed"><i class="fa fa-cubes"></i> <span>ข้อมูลสินค้า</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                        <div id="subProduct" class="collapse ">
+                            <ul class="nav">
+                                <li><a href="index.php?r=productcat/index" class="productcat">กลุ่มสินค้า</a></li>
+                                <li><a href="index.php?r=product/index" class="product">สินค้า</a></li>
+                            </ul>
+                        </div>
+                    </li>
                     <li><a href="index.php?r=purchplan/index" class="purchplan"><i class="lnr lnr-cog"></i> <span>วางแผนซื้อ</span></a></li>
                     <li><a href="notifications.html" class=""><i class="lnr lnr-alarm"></i> <span>รับวัตถุดิบ</span></a></li>
 
