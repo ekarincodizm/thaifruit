@@ -90,8 +90,8 @@ table.table-vendor td{
       <div class="col-lg-12">
       </div>
      </div>
-    <div class="x_panel">
-                  <div class="x_title">
+    <div class="panel panel-headline">
+        <div class="panel-heading">
                     
                       <div class="btn-group">
                          <?= Html::a(Yii::t('app', '<i class="fa fa-plus"></i> สร้างรหัสสินค้า'), ['create'], ['class' => 'btn btn-success']) ?>
@@ -125,7 +125,7 @@ table.table-vendor td{
                     </ul> -->
                     
                   </div>
-                  <div class="x_content">
+                  <div class="panel-body">
                         <div class="row">
                           <div class="col-lg-9">
                             <form id="search-form" action="<?=Url::to(['product/index'],true)?>" method="post">
