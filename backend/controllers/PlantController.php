@@ -35,7 +35,7 @@ class PlantController extends Controller
                 'rules'=>[
                     [
                         'allow'=>true,
-                        'actions'=>['index','create','update','delete'],
+                        'actions'=>['index','create','update','delete','showcity','showdistrict','showzipcode'],
                         'roles'=>['@'],
                     ]
                 ]

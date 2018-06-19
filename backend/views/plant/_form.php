@@ -202,12 +202,12 @@ $bank = Bank::find()->all();
                                      'data'=> ArrayHelper::map($amp,'AMPHUR_ID','AMPHUR_NAME'),
                                     'options'=>['maxlength' => true,'class'=>'form-control form-inline','id'=>'city','disabled'=>'disabled',
                                           'onchange'=>'
-                                          $.post("'.Url::to(['plant/showdistrict/'],true).'"+"/"+$(this).val(),function(data){
+                                          $.post("'.Url::to(['plant/showdistrict/'],true).'"+"&id="+$(this).val(),function(data){
                                           $("select#district").html(data);
                                           $("select#district").prop("disabled","");
 
                                         });
-                                           $.post("'.Url::to(['plant/showzipcode/'],true).'"+"/"+$(this).val(),function(data){
+                                           $.post("'.Url::to(['plant/showzipcode/'],true).'"+"&id="+$(this).val(),function(data){
                                                 $("#zipcode").val(data);
                                               });
                                        '
@@ -230,7 +230,7 @@ $bank = Bank::find()->all();
                                      'data'=> ArrayHelper::map($prov,'PROVINCE_ID','PROVINCE_NAME'),
                                      'options'=>['maxlength' => true,'class'=>'form-control form-inline','id'=>'province',
                                        'onchange'=>'
-                                          $.post("'.Url::to(['plant/showcity/'],true).'"+"/"+$(this).val(),function(data){
+                                          $.post("'.Url::to(['plant/showcity/'],true).'"+"&id="+$(this).val(),function(data){
                                           $("select#city").html(data);
                                           $("select#city").prop("disabled","");
 
