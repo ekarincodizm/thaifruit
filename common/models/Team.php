@@ -36,6 +36,7 @@ class Team extends \yii\db\ActiveRecord
         return [
             [['leader_id', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by','team_type'], 'integer'],
             [['name', 'description', 'leader'], 'string', 'max' => 255],
+            [['wage'],'number'],
         ];
     }
 
@@ -49,6 +50,7 @@ class Team extends \yii\db\ActiveRecord
             'name' => Yii::t('app', 'ชื่อ'),
             'description' => Yii::t('app', 'รายละเอียด'),
             'team_type' => Yii::t('app', 'ประเภททีม'),
+            'wage' => Yii::t('app', 'ค่าจ้าง'),
             'leader' => Yii::t('app', 'หัวหน้าทีม'),
             'leader_id' => Yii::t('app', 'Leader ID'),
             'status' => Yii::t('app', 'สถานะ'),

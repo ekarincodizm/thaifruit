@@ -120,6 +120,20 @@ $this->params['breadcrumbs'][] = $this->title;
                             'contentOptions' => ['style' => 'vertical-align: middle'],
                         ],
                         [
+                            'attribute'=>'team_type',
+                            'contentOptions' => ['style' => 'vertical-align: middle'],
+                            'value' => function($data){
+                                return \backend\helpers\TeamType::getTypeById($data->team_type);
+                            }
+                        ],
+                        [
+                            'attribute'=>'wage',
+                            'contentOptions' => ['style' => 'vertical-align: middle'],
+                            'value' => function($data){
+                               return number_format($data->wage,0);
+                            }
+                        ],
+                        [
                             'attribute'=>'status',
                             'contentOptions' => ['style' => 'vertical-align: middle'],
                             'format' => 'html',

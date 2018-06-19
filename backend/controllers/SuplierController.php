@@ -10,7 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 
-use \backend\models\Addressbook;
+use \backend\models\AddressBook;
 
 /**
  * SuplierController implements the CRUD actions for Vendor model.
