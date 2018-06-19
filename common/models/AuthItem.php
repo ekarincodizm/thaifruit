@@ -53,9 +53,9 @@ class AuthItem extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'name' => Yii::t('app', 'Name'),
-            'type' => Yii::t('app', 'Type'),
-            'description' => Yii::t('app', 'Description'),
+            'name' => Yii::t('app', 'ชื่อ'),
+            'type' => Yii::t('app', 'ประเภท'),
+            'description' => Yii::t('app', 'รายละเอียด'),
             'rule_name' => Yii::t('app', 'Rule Name'),
             'data' => Yii::t('app', 'Data'),
             'created_at' => Yii::t('app', 'Created At'),

@@ -36,7 +36,7 @@ class UserController extends Controller
                         'actions'=>['index','create','update','delete','view','resetpassword'],
                         'roles'=>['@'],
                     ],
-                   
+
                 ]
             ]
 
