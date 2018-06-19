@@ -176,7 +176,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
     <?php Pjax::end(); ?>
 </div>
-<?php 
+<?php
+$this->registerJsFile( '@web/js/sweetalert.min.js',['depends' => [\yii\web\JqueryAsset::className()]],static::POS_END);
+$this->registerCssFile( '@web/css/sweetalert.css');
+//$url_to_delete =  Url::to(['product/bulkdelete'],true);
   //$url_to_delete =  Url::to(['product/bulkdelete'],true);
   $this->registerJs('
     $(function(){
