@@ -40,9 +40,10 @@ class ProdRec extends \yii\db\ActiveRecord
         return
         [
             [['journal_no'],'required'],
-            [['trans_date', 'suplier_id', 'raw_type', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
+            [[ 'suplier_id', 'raw_type', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
             [['qty', 'plan_price'], 'number'],
             [['qc_note'], 'string'],
+            [['trans_date',],'safe'],
             [['journal_no', 'description'], 'string', 'max' => 255],
         ];
     }

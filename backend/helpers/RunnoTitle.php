@@ -17,6 +17,7 @@ class RunnoTitle
     const RUNNO_ADJUST = 11;
     const RUNNO_WORKREQ = 12;
     const RUNNO_WORKORDER = 13;
+    const RUNNO_PRODREC = 13;
 
     private static $data = [
         1 => 'ขอซื้อ',
@@ -32,6 +33,7 @@ class RunnoTitle
         11 => 'ปรับสต๊อก',
         12 => 'ใบคำร้อง',
         13 => 'ใบสั่งงาน',
+        14 => 'ใบรับวัตถุดิบ',
     ];
 
     private static $dataobj = [
@@ -47,7 +49,8 @@ class RunnoTitle
         ['id'=>10,'name' => 'นับสต๊อก','prefix'=>'CT'],
         ['id'=>11,'name' => 'ปรับสต๊อก','prefix'=>'AD'],
         ['id'=>12,'name' => 'ใบคำร้อง','prefix'=>'WR'],
-        ['id'=>13,'name' => 'ใบสั่งงาน','prefix'=>'WO']
+        ['id'=>13,'name' => 'ใบสั่งงาน','prefix'=>'WO'],
+        ['id'=>14,'name' => 'ใบรับวัตถุดิบ','prefix'=>'PDR']
     ];
     public static function asArray()
     {

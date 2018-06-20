@@ -12,6 +12,7 @@ use backend\models\Prodrec;
  */
 class ProdrecSearch extends Prodrec
 {
+    public $globalSearch;
     /**
      * {@inheritdoc}
      */
@@ -21,6 +22,7 @@ class ProdrecSearch extends Prodrec
             [['id', 'trans_date', 'suplier_id', 'raw_type', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
             [['journal_no', 'description', 'qc_note'], 'safe'],
             [['qty', 'plan_price'], 'number'],
+            [['globalSearch'],'string'],
         ];
     }
 
@@ -73,9 +75,12 @@ class ProdrecSearch extends Prodrec
             'updated_by' => $this->updated_by,
         ]);
 
-        $query->andFilterWhere(['like', 'journal_no', $this->journal_no])
-            ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'qc_note', $this->qc_note]);
+        if($this->globalSearch !=''){
+            $query->orFilterWhere(['like', 'journal_no', $this->globalSearch])
+                ->orFilterWhere(['like', 'description', $this->globalSearch])
+                ->orFilterWhere(['like', 'qc_note', $this->globalSearch]);
+
+        }
 
         return $dataProvider;
     }
