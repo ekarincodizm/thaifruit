@@ -11,6 +11,17 @@ use lavrentiev\widgets\toastr\Notification;
 
 $this->title = Yii::t('app', 'แผนสั่งซื้อ');
 $this->params['breadcrumbs'][] = $this->title;
+
+$js =<<<JS
+  $(function() {
+     $(".btn-calendar").click(function(){
+         
+     });
+  })
+JS;
+$this->registerJs($js,static::POS_END);
+
+
 ?>
 <div class="purchplan-index">
     <?php $session = Yii::$app->session;
@@ -49,6 +60,10 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="panel-heading">
             <div class="btn-group">
                 <?= Html::a(Yii::t('app', '<i class="fa fa-plus"></i> สร้างแผนสั่งซื้อ'), ['create'], ['class' => 'btn btn-success']) ?>
+            </div>
+            <div class="btn-group">
+                <div class="btn btn-default btn-copy"><i class="fa fa-copy"></i> copy </div>
+                <div class="btn btn-default btn-calendar"><i class="fa fa-calendar"></i> ปฏิทินสั่งซื้อ </div>
             </div>
             <h4 class="pull-right"><?=$this->title?> <i class="fa fa-calendar-check-o"></i><small></small></h4>
             <!-- <ul class="nav navbar-right panel_toolbox">
@@ -110,8 +125,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'contentOptions' => ['style' => 'vertical-align: middle'],
             ],
             [
-                'attribute'=>'description',
+                'attribute'=>'plan_date',
                 'contentOptions' => ['style' => 'vertical-align: middle'],
+                'value' => function($data){
+                    return date('d-m-Y',$data->plan_date);
+                }
             ],
             [
                 'attribute'=>'status',
@@ -124,9 +142,9 @@ $this->params['breadcrumbs'][] = $this->title;
             [
 
                 'header' => '',
-                'headerOptions' => ['style' => 'width: 160px;text-align:center;','class' => 'activity-view-link',],
+                'headerOptions' => ['style' => 'text-align:center;','class' => 'activity-view-link',],
                 'class' => 'yii\grid\ActionColumn',
-                'contentOptions' => ['style' => 'text-align: center'],
+                'contentOptions' => ['style' => 'text-align: right'],
                 'buttons' => [
                     'view' => function($url, $data, $index) {
                         $options = [

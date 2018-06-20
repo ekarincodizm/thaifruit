@@ -23,7 +23,7 @@ class PurchplanController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'delete' => ['POST','GET'],
                 ],
             ],
             'access'=>[
@@ -31,7 +31,7 @@ class PurchplanController extends Controller
                 'rules'=>[
                     [
                         'allow'=>true,
-                        'actions'=>['index','create','update','delete','view','calendaritem','createtitle'],
+                        'actions'=>['index','create','update','delete','view','calendaritem','createtitle','showcalendar'],
                         'roles'=>['@'],
                     ]
                 ]
@@ -53,7 +53,7 @@ class PurchplanController extends Controller
 
         $modelevent = new \common\models\Event();
 
-        return $this->render('_plancalendar', [
+        return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'perpage' => $pageSize,
@@ -84,6 +84,7 @@ class PurchplanController extends Controller
         $model = new Purchplan();
 
         if ($model->load(Yii::$app->request->post())) {
+            $model->plan_date = strtotime($model->plan_date);
             if($model->save()){
                 $session = Yii::$app->session;
                 $session->setFlash('msg','บันทึกรายการเรียบร้อย');
@@ -108,6 +109,9 @@ class PurchplanController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
+           // $pdate = date_create($model->plan_date);
+
+            $model->plan_date = strtotime($model->plan_date);
             if($model->save()){
                 $session = Yii::$app->session;
                 $session->setFlash('msg','บันทึกรายการเรียบร้อย');
@@ -157,17 +161,18 @@ class PurchplanController extends Controller
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
        // $times = \app\modules\timetrack\models\Timetable::find()->where(array('category'=>\app\modules\timetrack\models\Timetable::CAT_TIMETRACK))->all();
-        $times = \common\models\Event::find()->all();
+        //$times = \common\models\Event::find()->all();
+        $times = \common\models\PurchPlan::find()->all();
         $events = [];
 
         foreach ($times AS $time){
             //Testing
             $Event = new \yii2fullcalendar\models\Event();
             $Event->id = $time->id;
-            $Event->title = $time->title;
-            $Event->start = date('Y-m-d\TH:i:s\Z',$time->start);
-            $Event->end = date('Y-m-d\TH:i:s\Z',strtotime($time->end.' '.$time->end));
-            $Event->backgroundColor = "green";
+            $Event->title = $time->name;
+            $Event->start = date('Y-m-d\TH:i:s\Z',$time->plan_date);
+           // $Event->end = date('Y-m-d\TH:i:s\Z',strtotime($time->end.' '.$time->end));
+            $Event->backgroundColor = "blue";
             $events[] = $Event;
         }
 
@@ -184,5 +189,9 @@ class PurchplanController extends Controller
                 return $this->redirect(['index']);
             }
         }
+    }
+    public function actionShowcalendar(){
+        $modelevent = new \common\models\Event();
+        return $this->render('_plancalendar',['modelevent'=>$modelevent,]);
     }
 }

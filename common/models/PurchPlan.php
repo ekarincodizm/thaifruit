@@ -39,9 +39,11 @@ class PurchPlan extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['name'],'required'],
             [['discription', 'note'], 'string'],
-            [['plan_date', 'product_type', 'plan_type', 'plan_qty', 'received_qty', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
+            [[ 'product_type', 'plan_type', 'plan_qty', 'received_qty', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
             [['plan_price'], 'number'],
+            [['plan_date',],'safe'],
             [['name'], 'string', 'max' => 255],
         ];
     }
@@ -53,20 +55,20 @@ class PurchPlan extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Name'),
-            'discription' => Yii::t('app', 'Discription'),
-            'plan_date' => Yii::t('app', 'Plan Date'),
-            'product_type' => Yii::t('app', 'Product Type'),
-            'plan_type' => Yii::t('app', 'Plan Type'),
-            'plan_qty' => Yii::t('app', 'Plan Qty'),
-            'received_qty' => Yii::t('app', 'Received Qty'),
-            'plan_price' => Yii::t('app', 'Plan Price'),
-            'note' => Yii::t('app', 'Note'),
-            'status' => Yii::t('app', 'Status'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'created_by' => Yii::t('app', 'Created By'),
-            'updated_by' => Yii::t('app', 'Updated By'),
+            'name' => Yii::t('app', 'ชื่อ'),
+            'discription' => Yii::t('app', 'รายละเอียด'),
+            'plan_date' => Yii::t('app', 'วันที่'),
+            'product_type' => Yii::t('app', 'ประเภทสินค้า'),
+            'plan_type' => Yii::t('app', 'ประเภท'),
+            'plan_qty' => Yii::t('app', 'จำนวนวางแผน'),
+            'received_qty' => Yii::t('app', 'จำนวนรับ'),
+            'plan_price' => Yii::t('app', 'ราคา'),
+            'note' => Yii::t('app', 'บันทีก'),
+            'status' => Yii::t('app', 'สถานะ'),
+            'created_at' => Yii::t('app', 'สร้างเมื่อ'),
+            'updated_at' => Yii::t('app', 'แก้ไขเมื่อ'),
+            'created_by' => Yii::t('app', 'สร้างโดย'),
+            'updated_by' => Yii::t('app', 'แก้ไขโดย'),
         ];
     }
 }
