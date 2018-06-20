@@ -56,9 +56,10 @@ use kartik\date\DatePicker;
             <?= $form->field($model, 'qc_note')->textarea(['rows' => 6]) ?>
            <div class="row">
                <div class="col-lg-4">
-                   <?= $form->field($model, 'status')->textInput(['readonly'=>'readonly']) ?>
+                   <?= $form->field($model, 'status')->hiddenInput(['readonly'=>'readonly']) ?>
+                   <input type="text" class="form-control" readonly name="prodrec_status" value="">
                </div>
-           </div>
+           </div><br>
 
 
 
