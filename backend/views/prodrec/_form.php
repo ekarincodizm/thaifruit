@@ -51,14 +51,21 @@ use kartik\date\DatePicker;
                 <div class="col-lg-4">
                     <?= $form->field($model, 'qty')->textInput(['style'=>'font-size: 32px;height: 100px;font-weight: bold;']) ?>
                 </div>
+                <div class="col-lg-4">
+                    <?= $form->field($model, 'status')->hiddenInput(['readonly'=>'readonly']) ?>
+                    <?php
+                    $statuss = '';
+                    if($model->isNewRecord){
+                        $statuss = 'Open';
+                    }
+                    ?>
+                    <input type="text" class="form-control" readonly name="prodrec_status" value="<?=$statuss?>">
+                </div>
             </div>
 
-            <?= $form->field($model, 'qc_note')->textarea(['rows' => 6]) ?>
+
            <div class="row">
-               <div class="col-lg-4">
-                   <?= $form->field($model, 'status')->hiddenInput(['readonly'=>'readonly']) ?>
-                   <input type="text" class="form-control" readonly name="prodrec_status" value="">
-               </div>
+               <?= $form->field($model, 'qc_note')->textarea(['rows' => 6]) ?>
            </div><br>
 
 

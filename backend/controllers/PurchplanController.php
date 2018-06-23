@@ -14,6 +14,7 @@ use yii\filters\AccessControl;
  */
 class PurchplanController extends Controller
 {
+    public $enableCsrfValidation = false;
     /**
      * {@inheritdoc}
      */
@@ -31,7 +32,7 @@ class PurchplanController extends Controller
                 'rules'=>[
                     [
                         'allow'=>true,
-                        'actions'=>['index','create','update','delete','view','calendaritem','createtitle','showcalendar'],
+                        'actions'=>['index','create','update','delete','view','calendaritem','createtitle','showcalendar','test','testsave'],
                         'roles'=>['@'],
                     ]
                 ]
@@ -193,5 +194,12 @@ class PurchplanController extends Controller
     public function actionShowcalendar(){
         $modelevent = new \common\models\Event();
         return $this->render('_plancalendar',['modelevent'=>$modelevent,]);
+    }
+    public function actionTest(){
+        return $this->render('_test');
+    }
+    public function actionTestsave(){
+        $post = Yii::$app->request->post();
+        print_r($post);return;
     }
 }
