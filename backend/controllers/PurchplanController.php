@@ -93,7 +93,7 @@ class PurchplanController extends Controller
             }
         }
 
-        return $this->render('create', [
+        return $this->render('_test', [
             'model' => $model,
         ]);
     }
@@ -200,6 +200,11 @@ class PurchplanController extends Controller
     }
     public function actionTestsave(){
         $post = Yii::$app->request->post();
-        print_r($post);return;
+
+       // $plan_no = Yii::$app->request->post('plan_type');
+
+        echo "<pre>";
+        print_r($post);
+        echo "</pre>";return;
     }
 }

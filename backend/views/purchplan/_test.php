@@ -5,40 +5,76 @@ use yii\helpers\Url;
 $url_to_search = Url::to(['purchplan/findsub'],true);
 $js=<<<JS
   var idInc = 2;
-  var idCol = 2
-  var idTr = 0;
+  var idCol = 1;
+  var idTr = 1;
   $(function() {
-      
+    $(".plan_qty,.qty,.price").on("keypress keyup blur",function(event){
+       $(this).val($(this).val().replace(/[^0-9\.]/g,""));
+       if((event.which != 46 || $(this).val().indexOf(".") != -1) && (event.which <48 || event.which >57)){event.preventDefault();}
+    });
     $('.btn-add-row').click(function() {
       //  alert();
       var tr = $("table.table tr:last");
       var clone = tr.clone();
-      clone.find(".plan-type").attr("id","type-"+idInc);
-      clone.find(".plan-type").attr("id","type-"+idInc);
+      idTr +=1;
+     // clone.find(".plan-type").attr("id","type-"+idTr);
+      clone.find(".plan-type").attr("id","type-"+idTr);
+      clone.find(".plan-type").attr("name","plan_type_"+idTr+"[]");
       tr.after(clone);
-      $("table.table tr:last").attr("class",'tr-'+idInc);
-      idInc +=1;
+      $("table.table tr:last").attr("class",'tr-'+idTr);
+      idInc = 2;
+      idCol = 1;
+      var loop = 3;
+      var loop_cnt = 0;
+      $("table.table tbody tr:last td").each(function(){
+          loop_cnt +=1;
+          if(loop_cnt > loop){
+              $(this).remove();
+          }
+          
+      });
+       $("table.table tbody tr:last").find(".sub").attr("name","plan_row_"+idTr+"_sub_"+idCol+"[]");
+       $("table.table tbody tr:last").find(".sub").attr("id","sub-"+idCol);
+       $("table.table tbody tr:last").find(".plan_qty").attr("name","plan_row_"+idTr+"_plan_qty_"+idCol+"[]");
+       $("table.table tbody tr:last").find(".plan_qty").attr("id","plan_qty-"+idCol);
+       $("table.table tbody tr:last").find(".qty").attr("name","plan_row_"+idTr+"_qty_"+idCol+"[]");
+       $("table.table tbody tr:last").find(".qty").attr("id","qty-"+idCol);
+       $("table.table tbody tr:last").find(".price").attr("name","plan_row_"+idTr+"_price_"+idCol+"[]");
+       $("table.table tbody tr:last").find(".price").attr("id","price-"+idCol);
+      
     });
     
   });
-function addline(e) {
+  function delline(e){
+      e.parent().parent().parent().parent().remove();
+  }
+  function addline(e) {
       var td = e.closest('tr').find('td:last');
       var clone = td.clone();
-      var plantype = $("table.table-plan tr:last").attr("class");
-      alert(plantype);
-      clone.find(".sub").attr("name",plantype+"-"+idCol+"sup[]");
-      clone.find(".sub").attr("id",plantype+"-"+idCol+"sup");
-      clone.find(".plan_qty").attr("name","plan_qty"+idCol+"[]");
+      //var plantype = $("table.table-plan tr:last").attr("class");
+     // alert(plantype);
+       if(idCol == 1){idCol =2;}
+      clone.find(".sub").attr("name","plan_row[]");
+      clone.find(".sub").attr("name","plan_row_"+idTr+"_sub_"+idCol+"[]");
+     // clone.find(".sub").attr("id","sub-"+idCol);
+      clone.find(".plan_qty").attr("name","plan_row_"+idTr+"_plan_qty_"+idCol+"[]");
       clone.find(".plan_qty").attr("id","plan_qty-"+idCol);
-      clone.find(".qty").attr("name","qty"+idCol+"[]");
+      clone.find(".qty").attr("name","plan_row_"+idTr+"_qty_"+idCol+"[]");
       clone.find(".qty").attr("id","qty-"+idCol);
-      clone.find(".price").attr("name","price"+idCol+"[]");
+      clone.find(".price").attr("name","plan_row_"+idTr+"_price_"+idCol+"[]");
       clone.find(".price").attr("id","price-"+idCol);
       td.after(clone);
       idCol +=1;
 }
   function remove(e) {
     e.parent().parent().remove();
+  }
+  
+  function chk_num(e){
+   e.on("keypress keyup blur",function(event){
+       $(this).val($(this).val().replace(/[^0-9\.]/g,""));
+       if((event.which != 46 || $(this).val().indexOf(".") != -1) && (event.which <48 || event.which >57)){event.preventDefault();}
+    });
   }
 JS;
 $this->registerJs($js,static::POS_END);
@@ -48,25 +84,29 @@ $sub = \backend\models\Suplier::find()->all();
 <div class="prodrec-form">
     <div class="panel panel-headlin">
 <div class="panel-heading">
-<div class="btn btn-primary btn-add-row"> เพิ่มประเภท</div>
+  <i class="fa fa-calendar-check-o"> แผนซื้อประจำวันที่</i> <?=date('d-m-Y')?>
 </div>
         <div class="panel-body">
 <form action="index.php?r=purchplan/testsave" method="post">
-    <table class="table table-plan" id="niran">
+    <table class="table table-plan">
         <tbody class="xaa">
-        <tr class="tr-1" id="niran">
+        <tr class="tr-1">
             <td style="width: 10%;">
                 <div class="row">
-                    <select name="plan_type[]" id="plan-1" class="form-control plan-type">
+                    <select name="plan_type_1[]" id="plan-1" class="form-control plan-type" style="left: -10px;">
                         <option value="0">ควั่น</option>
                         <option value="1">ลูกสำเร็จ</option>
                     </select>
-                    <div class="row">
+
+                    <br>
+                    <div class="row" style="text-align: center;">
+                        <div class="btn btn-success" onclick="addline($(this));"><i class="fa fa-plus-circle"></i></div>
                     </div>
                     <br>
                     <div class="row" style="text-align: center;">
-                        <div class="btn btn-success" onclick="addline($(this));"><i fa <i class="fa fa-plus-circle"></i></div>
+                        <div class="btn btn-danger" onclick="delline($(this));">ลบ</div>
                     </div>
+                </div>
             </td>
             <td style="width: 5%;">
                 <div class="row">
@@ -86,20 +126,20 @@ $sub = \backend\models\Suplier::find()->all();
             <td style="padding-left: 5px ;">
                 <div class="row">
 <!--                    <input type="text" name="plan-1-1sup[]" class="form-control sub">-->
-                    <select name="plan_1-1sup[]" class="form-control sub" id="">
+                    <select name="plan_row[]" class="form-control sub" id="">
                         <?php foreach($sub as $data):?>
                         <option value="<?=$data->id?>"><?=$data->name?></option>
                         <?php endforeach;?>
                     </select>
                 </div>
                 <div class="row">
-                    <input type="text" name="plan_qty[]" class="form-control plan_qty">
+                    <input type="text" name="plan_row_1_plan_qty_1[]" class="form-control plan_qty">
                 </div>
                 <div class="row">
-                    <input type="text" name="qty[]" class="form-control qty">
+                    <input type="text" name="plan_row_1_qty_1[]" class="form-control qty" onkeypress="chk_num($(this));">
                 </div>
                 <div class="row">
-                    <input type="text" name="price[]" class="form-control price">
+                    <input type="text" name="plan_row_1_price_1[]" class="form-control price">
                 </div>
                 <div class="row">
                     <div class="btn btn-remove" onclick="remove($(this));"><i class="fa fa-trash-o"></i> </div>
@@ -113,7 +153,8 @@ $sub = \backend\models\Suplier::find()->all();
     <hr>
     <div class="row">
         <div class="col-lg-12">
-            <input type="submit" value="บันทึก" class="btn btn-success">
+            <div class="btn btn-primary btn-add-row"> เพิ่มประเภท</div>
+            <input type="submit" value="บันทึกแผน" class="btn btn-success">
         </div>
     </div>
 </form>
