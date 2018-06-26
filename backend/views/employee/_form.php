@@ -11,8 +11,6 @@ use toxor88\switchery\Switchery;
 /* @var $model backend\models\Employee */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-
-
         <div class="panel panel-headlin">
             <div class="panel-heading">
                 <h3><i class="fa fa-institution"></i> <?=$this->title?> <small></small></h3>
