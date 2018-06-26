@@ -63,12 +63,9 @@ use kartik\date\DatePicker;
                 </div>
             </div>
 
-
            <div class="row">
-               <?= $form->field($model, 'qc_note')->textarea(['rows' => 6]) ?>
+               <?= $form->field($model, 'qc_note')->textarea(['rows' => 6,'style'=>'font-size: 24px;']) ?>
            </div><br>
-
-
 
             <div class="form-group">
                 <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>

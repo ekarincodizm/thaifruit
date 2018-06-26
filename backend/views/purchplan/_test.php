@@ -10,7 +10,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 $url_to_search = Url::to(['purchplan/findsub'],true);
 
 $url_plan = '';
-if($model->isNewRecord){$url_plan="index.php?r=puchplan/testsave";}else{$url_plan="index.php?r=purchplan/updateplan";}
+if($model->isNewRecord){$url_plan="index.php?r=purchplan/testsave";}else{$url_plan="index.php?r=purchplan/updateplan";}
 
 $js=<<<JS
   var idInc = 2;
@@ -66,6 +66,7 @@ $js=<<<JS
   });
   function delline(e){
       e.parent().parent().parent().parent().remove();
+    
   }
   function addline(e) {
       var td = e.closest('tr').find('td:last');
@@ -96,7 +97,36 @@ $js=<<<JS
       idCol +=1;
 }
   function remove(e) {
-    e.parent().parent().remove();
+      var dd = e.parent().parent().parent().attr("class");
+       e.parent().parent().remove();
+       $("table.table tbody tr").each(function(){
+           var x = $(this).attr('class');
+           if(x == dd){
+               // var td_len = $(this).find("td").length -2;
+               var id_td = dd.split("-");
+               var i = 0;
+               var n = 0;
+               $(this).find("td").each(function(){
+                   n+=1;
+                   if(n >2){
+                       i+=1;
+                          $(this).find(".sub").attr("name","plan_row_"+id_td[1]+"_sub_"+i+"[]");
+                          $(this).find(".sub").attr("id","sub-"+i);
+                          $(this).find(".plan_qty").attr("name","plan_row_"+id_td[1]+"_plan_qty_"+i+"[]");
+                          $(this).find(".plan_qty").attr("id","plan_qty-"+i);
+                          $(this).find(".qty").attr("name","plan_row_"+id_td[1]+"_qty_"+i+"[]");
+                          $(this).find(".qty").attr("id","qty-"+i);
+                          $(this).find(".price").attr("name","plan_row_"+id_td[1]+"_price_"+i+"[]");
+                          $(this).find(".price").attr("id","price-"+i);
+                   }
+               });
+               $(this).find(".rows_col").val(i);
+               
+           }
+       });
+       
+       
+     // alert(dd);
   }
   
   function chk_num(e){
