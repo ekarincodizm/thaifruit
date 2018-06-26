@@ -35,7 +35,7 @@ class PurchPlanLine extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['plan_id', 'product_type', 'plan_type', 'plan_qty', 'received_qty', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
+            [['plan_id','sup_id' ,'product_type', 'plan_type', 'plan_qty', 'received_qty', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
             [['plan_price'], 'number'],
         ];
     }
@@ -47,6 +47,7 @@ class PurchPlanLine extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
+            'sup_id' => Yii::t('app', 'Sup ID'),
             'plan_id' => Yii::t('app', 'Plan ID'),
             'product_type' => Yii::t('app', 'Product Type'),
             'plan_type' => Yii::t('app', 'Plan Type'),

@@ -63,7 +63,7 @@ $this->registerJs($js,static::POS_END);
             </div>
             <div class="btn-group">
                 <div class="btn btn-default btn-copy"><i class="fa fa-copy"></i> copy </div>
-                <div class="btn btn-default btn-calendar"><i class="fa fa-calendar"></i> ปฏิทินสั่งซื้อ </div>
+                <a href="index.php?r=purchplan/showcalendar" class="btn btn-default btn-calendar"><i class="fa fa-calendar"></i> ปฏิทินสั่งซื้อ </a>
             </div>
             <h4 class="pull-right"><?=$this->title?> <i class="fa fa-calendar-check-o"></i><small></small></h4>
             <!-- <ul class="nav navbar-right panel_toolbox">

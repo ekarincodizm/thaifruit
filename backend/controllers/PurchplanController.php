@@ -108,6 +108,7 @@ class PurchplanController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $modelline = \common\models\PurchPlanLine::find()->where(['plan_id'=>$id])->all();
 
         if ($model->load(Yii::$app->request->post())) {
            // $pdate = date_create($model->plan_date);
@@ -120,8 +121,9 @@ class PurchplanController extends Controller
             }
         }
 
-        return $this->render('update', [
+        return $this->render('_test', [
             'model' => $model,
+            'modelline'=> $modelline,
         ]);
     }
 
@@ -200,11 +202,74 @@ class PurchplanController extends Controller
     }
     public function actionTestsave(){
         $post = Yii::$app->request->post();
+        $rows = Yii::$app->request->post('row');
+       // echo count($rows);
 
-       // $plan_no = Yii::$app->request->post('plan_type');
+        if( $post){
+            $model = new \backend\models\Purchplan();
+            $model->name = "แผนซื้อประจำวันที่ ".date('d-m-Y');
+            $model->plan_date = strtotime(date('d-m-Y'));
+            $model->status = 1;
+            if($model->save()){
+                for($i=0;$i<=count($rows)-1;$i++){
+                    $sup = 0;
+                    $plan_qty = 0;
+                    $qty = 0;
+                    $price = 0;
+                    $plan_type = Yii::$app->request->post("plan_row_".($i+1)."_type")[0];
 
-        echo "<pre>";
-        print_r($post);
-        echo "</pre>";return;
+                    $row_col = Yii::$app->request->post("row_".($i+1)."_col");
+
+
+                    for($x=0;$x<=$row_col[0]-1;$x++){
+                        $r_sup = 'plan_row_'.($i+1).'_sub_'.($x+1);
+                        $r_p_qty = 'plan_row_'.($i+1).'_plan_qty_'.($x+1);
+                        $r_qty = 'plan_row_'.($i+1).'_qty_'.($x+1);
+                        $r_price = 'plan_row_'.($i+1).'_price_'.($x+1);
+                        // echo $xi;
+                        // return;
+                        if(Yii::$app->request->post($r_sup)!== null){
+                            $sup =Yii::$app->request->post($r_sup)[0];
+                        }
+                        if(Yii::$app->request->post($r_p_qty)!== null){
+                            $plan_qty = Yii::$app->request->post($r_p_qty)[0];
+                        }
+                        if(Yii::$app->request->post($r_qty)!== null){
+                            $qty = Yii::$app->request->post($r_qty)[0];
+                        }
+                        if(Yii::$app->request->post($r_price)!== null){
+                            $price = Yii::$app->request->post($r_price)[0];
+                        }
+
+
+                        $modelline = new \common\models\PurchPlanLine();
+                        $modelline->plan_type = $plan_type;
+                        $modelline->plan_id = $model->id;
+                        $modelline->sup_id = $sup;
+                        $modelline->plan_qty = $plan_qty;
+                        $modelline->received_qty = $qty;
+                        $modelline->plan_price = $price;
+                        $modelline->save(false);
+
+
+                    }
+
+                    // print_r($plan_qty);
+
+
+                }
+            }
+        }
+
+        $session = Yii::$app->session;
+        $session->setFlash('msg','บันทึกรายการเรียบร้อย');
+        return $this->redirect(['index']);
+
+//        echo "<pre>";
+//        print_r($post);
+//        echo "</pre>";
+
+
+
     }
 }
