@@ -1,14 +1,15 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 use yii\widgets\Pjax;
 use yii\helpers\Url;
 use lavrentiev\widgets\toastr\Notification;
+use backend\assets\ICheckAsset;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\ProdrecSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
+ICheckAsset::register($this);
 $this->title = Yii::t('app', 'รับวัตถุดิบ');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -51,6 +52,9 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="btn-group">
                 <?= Html::a(Yii::t('app', '<i class="fa fa-plus"></i> บันทึกรับวัตถุดิบ'), ['create'], ['class' => 'btn btn-success']) ?>
             </div>
+            <div class="btn-group">
+                <div class="btn btn-default btn-bill"><i class="fa fa-bitcoin"></i> สร้างใบเสร็จ </div>
+            </div>
             <h4 class="pull-right"><?=$this->title?> <i class="fa fa-institution"></i><small></small></h4>
             <!-- <ul class="nav navbar-right panel_toolbox">
               <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
@@ -92,7 +96,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
             </div>
             <div class="table-responsive">
-
+                <div class="table-grid">
                     <?= GridView::widget([
                         'dataProvider' => $dataProvider,
                         // 'filterModel' => $searchModel,
@@ -100,18 +104,34 @@ $this->params['breadcrumbs'][] = $this->title;
                         'layout'=>'{items}{summary}{pager}',
                         'summary' => "แสดง {begin} - {end} ของทั้งหมด {totalCount} รายการ",
                         'showOnEmpty'=>false,
+                        'bordered'=>false,
+                        'striped' => false,
                         'tableOptions' => ['class' => 'table table-hover'],
                         'emptyText' => '<br /><div style="color: red;align: center;"> <b>ไม่พบรายการไดๆ</b></div>',
                         'columns' => [
                             ['class' => 'yii\grid\SerialColumn','contentOptions' => ['style' => 'vertical-align: middle']],
-
+                            ['class' => 'yii\grid\CheckboxColumn','headerOptions' => ['style' => 'text-align: center'],'contentOptions' => ['style' => 'vertical-align: middle;text-align: center;']],
                             // 'id',
                             [
                                 'attribute'=>'journal_no',
                                 'contentOptions' => ['style' => 'vertical-align: middle'],
                             ],
                             [
+                                'attribute'=>'suplier_id',
+                                'contentOptions' => ['style' => 'vertical-align: middle'],
+                                'value' => function($data){
+                                   return \backend\models\Suplier::findName($data->suplier_id);
+                                }
+                            ],
+                            [
                                 'attribute'=>'trans_date',
+                                'contentOptions' => ['style' => 'vertical-align: middle'],
+                                'value' => function($data){
+                                   return date('d-m-Y',$data->trans_date);
+                                }
+                            ],
+                            [
+                                'attribute'=>'qty',
                                 'contentOptions' => ['style' => 'vertical-align: middle'],
                             ],
                             [
@@ -119,7 +139,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'contentOptions' => ['style' => 'vertical-align: middle'],
                                 'format' => 'html',
                                 'value'=>function($data){
-                                    return $data->status === 1 ? '<div class="label label-success">Active</div>':'<div class="label label-default">Inactive</div>';
+                                    return $data->status === 1 ? '<div class="label label-success">Received</div>':'<div class="label label-default">Open</div>';
                                 }
                             ],
                             [
@@ -145,7 +165,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             'data-pjax' => '0',
                                             'id'=>'modaledit',
                                         ]);
-                                        return $data->status == 1? Html::a(
+                                        return Html::a(
                                             '<span class="glyphicon glyphicon-pencil btn btn-xs btn-default"></span>', $url, [
                                             'id' => 'activity-view-link',
                                             //'data-toggle' => 'modal',
@@ -153,7 +173,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             'data-id' => $index,
                                             'data-pjax' => '0',
                                             // 'style'=>['float'=>'rigth'],
-                                        ]):'';
+                                        ]);
                                     },
                                     'delete' => function($url, $data, $index) {
                                         $options = array_merge([
@@ -171,6 +191,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ],
                         ],
                     ]); ?>
+                </div>
             </div>
         </div>
     </div>

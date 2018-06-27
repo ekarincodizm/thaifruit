@@ -147,6 +147,7 @@ $sub = \backend\models\Suplier::find()->all();
 </div>
         <div class="panel-body">
 <form action="<?=$url_plan?>" method="post">
+    <div class="table-responsive">
     <table class="table table-plan">
         <tbody class="xaa">
 
@@ -304,7 +305,7 @@ $sub = \backend\models\Suplier::find()->all();
         <?php endif;?>
         </tbody>
     </table>
-
+    </div>
     <hr>
     <div class="row">
         <div class="col-lg-12">

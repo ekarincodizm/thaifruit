@@ -55,5 +55,24 @@ class Prodrec extends \common\models\ProdRec
 //        $model = Position::find()->where(['name'=>$code])->one();
 //        return count($model)>0?$model->id:0;
 //    }
+    public static function getLastNo(){
+        $model = Prodrec::find()->MAX('journal_no');
+        $pre = \backend\models\Sequence::find()->where(['module_id'=>14])->one();
+        if($model){
+            $prefix = $pre->prefix.substr(date("Y"),2,2);
+            $cnum = substr((string)$model,4,strlen($model));
+            $len = strlen($cnum);
+            $clen = strlen($cnum + 1);
+            $loop = $len - $clen;
+            for($i=1;$i<=$loop;$i++){
+                $prefix.="0";
+            }
+            $prefix.=$cnum + 1;
+            return $prefix;
+        }else{
+            $prefix =$pre->prefix.substr(date("Y"),2,2);
+            return $prefix.'000001';
+        }
+    }
 
 }

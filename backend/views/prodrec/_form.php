@@ -23,13 +23,14 @@ use kartik\date\DatePicker;
 
             <div class="row">
                 <div class="col-lg-4">
-                    <?= $form->field($model, 'journal_no')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($model, 'journal_no')->textInput(['maxlength' => true,'value'=>$model->isNewRecord?$runno:$model->journal_no,'readonly'=>'readonly']) ?>
                 </div>
                 <div class="col-lg-4">
                     <?php $model->trans_date = !$model->isNewRecord?date('d-m-Y',$model->trans_date):date('d-m-Y');?>
                     <?= $form->field($model, 'trans_date')->widget(DatePicker::className(),[
                         'name'=>'trans_date',
                         'pluginOptions' => [
+                                'format'=>'dd-mm-yyyy'
                         ]
                     ]) ?>
                 </div>
@@ -44,7 +45,7 @@ use kartik\date\DatePicker;
             <div class="row">
                 <div class="col-lg-4">
                     <?= $form->field($model, 'raw_type')->widget(Select2::className(),[
-                        'data'=>ArrayHelper::map(\backend\helpers\RawType::asArrayObject(),'id','name'),
+                        'data'=>ArrayHelper::map(\backend\models\Product::find()->all(),'id','name'),
                         'options' => ['placeholder'=>'เลือก'],
                     ]) ?>
                 </div>
@@ -52,16 +53,10 @@ use kartik\date\DatePicker;
                     <?= $form->field($model, 'qty')->textInput(['style'=>'font-size: 32px;height: 100px;font-weight: bold;']) ?>
                 </div>
                 <div class="col-lg-4">
-                    <?= $form->field($model, 'status')->hiddenInput(['readonly'=>'readonly']) ?>
-                    <?php
-                    $statuss = '';
-                    if($model->isNewRecord){
-                        $statuss = 'Open';
-                    }
-                    ?>
-                    <input type="text" class="form-control" readonly name="prodrec_status" value="<?=$statuss?>">
+                    <?= $form->field($model, 'plan_price')->textInput() ?>
                 </div>
             </div>
+            
 
            <div class="row">
                <?= $form->field($model, 'qc_note')->textarea(['rows' => 6,'style'=>'font-size: 24px;']) ?>

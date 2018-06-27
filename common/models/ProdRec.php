@@ -39,7 +39,7 @@ class ProdRec extends \yii\db\ActiveRecord
     {
         return
         [
-            [['journal_no'],'required'],
+            [['journal_no','suplier_id','qty','raw_type'],'required'],
             [[ 'suplier_id', 'raw_type', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
             [['qty', 'plan_price'], 'number'],
             [['qc_note'], 'string'],
@@ -61,7 +61,7 @@ class ProdRec extends \yii\db\ActiveRecord
             'suplier_id' => Yii::t('app', 'รหัสผู้ขาย'),
             'raw_type' => Yii::t('app', 'ประเภทส่ง'),
             'qty' => Yii::t('app', 'จำนวน'),
-            'plan_price' => Yii::t('app', 'ราคาแผน'),
+            'plan_price' => Yii::t('app', 'ราคา'),
             'qc_note' => Yii::t('app', 'บันทีกคุณภาพ'),
             'status' => Yii::t('app', 'สถานะ'),
             'created_at' => Yii::t('app', 'สร้างเมื่อ'),
