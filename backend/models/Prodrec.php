@@ -60,7 +60,7 @@ class Prodrec extends \common\models\ProdRec
         $pre = \backend\models\Sequence::find()->where(['module_id'=>14])->one();
         if($model){
             $prefix = $pre->prefix.substr(date("Y"),2,2);
-            $cnum = substr((string)$model,4,strlen($model));
+            $cnum = substr((string)$model,5,strlen($model));
             $len = strlen($cnum);
             $clen = strlen($cnum + 1);
             $loop = $len - $clen;
