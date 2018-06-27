@@ -34,7 +34,7 @@ class Vendor extends \yii\db\ActiveRecord
     {
         return [
             [['vendor_code','name','vendor_group_id'],'required'],
-            [['vendor_group_id', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by','vendor_type','payment_type','payment_term','delivery_type','lead_time'], 'integer'],
+            [['vendor_group_id', 'status', 'created_at','buyer_id', 'updated_at', 'created_by', 'updated_by','vendor_type','payment_type','payment_term','delivery_type','lead_time'], 'integer'],
             [['name', 'description','vendor_code','id_card'], 'string', 'max' => 255],
         ];
     }

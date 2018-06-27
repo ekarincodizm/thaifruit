@@ -70,6 +70,19 @@ $dist = District::find()->all();
                               <?= $form->field($model, 'id_card')->textInput(['maxlength' => true,'class'=>'form-control'])->label(false) ?>
                           </div>
                       </div>
+                      <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">ผู้ดูแล
+                          </label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                              <?= $form->field($model, 'buyer_id')->widget(Select2::className(),[
+                                  'data' => ArrayHelper::map(backend\models\Employee::find()->all(),'id',
+                                      function($data){
+                                      return $data->first_name." ".$data->last_name;
+                                  }),
+                                  'options' => ['placeholder'=>'เลือก']
+                              ])->label(false) ?>
+                          </div>
+                      </div>
                               <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">กลุ่มผู้ขาย 
                                 </label>

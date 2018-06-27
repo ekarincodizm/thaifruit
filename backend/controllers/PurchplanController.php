@@ -108,8 +108,8 @@ class PurchplanController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $modelline = \common\models\PurchPlanLine::find()->where(['plan_id'=>$id])->all();
-        $modelrow = \common\models\PurchPlanLine::find()->select('plan_type')->where(['plan_id'=>$id])->distinct()->all();
+        $modelline = \common\models\PurchPlanLine::find()->where(['plan_id'=>$id])->orderBy(['id'=>SORT_ASC])->all();
+        $modelrow = \common\models\PurchPlanLine::find()->select('plan_type')->where(['plan_id'=>$id])->distinct()->orderBy(['plan_type'=>SORT_ASC])->all();
 
         if ($model->load(Yii::$app->request->post())) {
            // $pdate = date_create($model->plan_date);
