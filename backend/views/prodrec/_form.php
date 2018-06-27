@@ -56,7 +56,7 @@ use kartik\date\DatePicker;
                     <?= $form->field($model, 'plan_price')->textInput() ?>
                 </div>
             </div>
-            
+
 
            <div class="row">
                <?= $form->field($model, 'qc_note')->textarea(['rows' => 6,'style'=>'font-size: 24px;']) ?>

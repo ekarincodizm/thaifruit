@@ -12,6 +12,14 @@ use backend\assets\ICheckAsset;
 ICheckAsset::register($this);
 $this->title = Yii::t('app', 'รับวัตถุดิบ');
 $this->params['breadcrumbs'][] = $this->title;
+
+$this->registerJsFile(
+    '@web/js/stockbalancejs.js?V=001',
+    ['depends' => [\yii\web\JqueryAsset::className()]],
+    static::POS_END
+);
+
+
 ?>
 <div class="prodrec-index">
 
