@@ -158,10 +158,10 @@ $sub = \backend\models\Suplier::find()->all();
             <td style="width: 10%;">
                 <div class="row">
                     <select name="plan_row_1_type[]" id="plan-1" class="form-control plan-type" style="left: -10px;">
-                        <?php $raw = \backend\helpers\RawType::asArrayObject()  ?>
-                        <?php for($x=0;$x<=count($raw)-1;$x++):?>
-                            <option value="<?=$raw[$x]['id']?>"><?=$raw[$x]['name']?></option>
-                        <?php endfor;?>
+                        <?php $raw = \backend\models\Product::find()->all()  ?>
+                        <?php foreach($raw as $data):?>
+                            <option value="<?=$data->id?>"><?=$data->name?></option>
+                        <?php endforeach;?>
                     </select>
 
                     <br>
@@ -189,7 +189,7 @@ $sub = \backend\models\Suplier::find()->all();
                 </div>
 
             </td>
-            <td style="padding-left: 5px ;">
+            <td style="padding-left: 5px ;width: 20px;">
                 <div class="row">
 <!--                    <input type="text" name="plan-1-1sup[]" class="form-control sub">-->
                     <select name="plan_row_1_sub_1[]" class="form-control sub" id="">
@@ -231,14 +231,14 @@ $sub = \backend\models\Suplier::find()->all();
                     <td style="width: 10%;">
                         <div class="row">
                             <select name="plan_row_<?=$i+1?>_type[]" id="plan-1" class="form-control plan-type" style="left: -10px;">
-                                <?php $raw = \backend\helpers\RawType::asArrayObject()  ?>
-                                <?php for($x=0;$x<=count($raw)-1;$x++):?>
+                                <?php $raw = \backend\models\Product::find()->all()  ?>
+                                <?php foreach($raw as $data):?>
                                     <?php
                                     $select = '';
-                                    if($modelrow[$i]['plan_type'] == $raw[$x]['id']){$select = 'selected';}
+                                    if($modelrow[$i]['plan_type'] == $data->id){$select = 'selected';}
                                     ?>
-                                    <option value="<?=$raw[$x]['id']?>" <?=$select?>><?=$raw[$x]['name']?></option>
-                                <?php endfor;?>
+                                    <option value="<?=$data->id?>" <?=$select?>><?=$data->name?></option>
+                                <?php endforeach;?>
                             </select>
 
                             <br>
