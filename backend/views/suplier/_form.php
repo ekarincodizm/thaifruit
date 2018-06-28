@@ -71,6 +71,13 @@ $dist = District::find()->all();
                           </div>
                       </div>
                       <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">เบอร์โทร
+                          </label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                              <?= $form->field($model, 'tel')->textInput(['maxlength' => true,'class'=>'form-control'])->label(false) ?>
+                          </div>
+                      </div>
+                      <div class="form-group">
                           <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">ผู้ดูแล
                           </label>
                           <div class="col-md-6 col-sm-6 col-xs-12">
