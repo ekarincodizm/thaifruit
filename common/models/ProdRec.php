@@ -63,6 +63,7 @@ class ProdRec extends \yii\db\ActiveRecord
             'qty' => Yii::t('app', 'จำนวน'),
             'plan_price' => Yii::t('app', 'ราคา'),
             'qc_note' => Yii::t('app', 'บันทีกคุณภาพ'),
+            'zone_id' => Yii::t('app','เลขกอง'),
             'status' => Yii::t('app', 'สถานะ'),
             'created_at' => Yii::t('app', 'สร้างเมื่อ'),
             'updated_at' => Yii::t('app', 'แก้ไขเมื่อ'),

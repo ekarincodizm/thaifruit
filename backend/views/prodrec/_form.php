@@ -50,16 +50,26 @@ use kartik\date\DatePicker;
                     ]) ?>
                 </div>
                 <div class="col-lg-4">
-                    <?= $form->field($model, 'qty')->textInput(['style'=>'font-size: 32px;height: 100px;font-weight: bold;']) ?>
+                    <?= $form->field($model, 'zone_id')->widget(Select2::className(),[
+                        'data'=>ArrayHelper::map(\backend\models\Zone::find()->all(),'id','name'),
+                        'options' => ['placeholder'=>'เลือก'],
+                    ]) ?>
                 </div>
                 <div class="col-lg-4">
                     <?= $form->field($model, 'plan_price')->textInput() ?>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <?= $form->field($model, 'qty')->textInput(['style'=>'font-size: 32px;height: 100px;font-weight: bold;']) ?>
+                </div>
+            </div>
 
 
            <div class="row">
-               <?= $form->field($model, 'qc_note')->textarea(['rows' => 6,'style'=>'font-size: 24px;']) ?>
+               <div class="col-lg-12">
+                   <?= $form->field($model, 'qc_note')->textarea(['rows' => 6,'style'=>'font-size: 24px;']) ?>
+               </div>
            </div><br>
 
             <div class="form-group">
