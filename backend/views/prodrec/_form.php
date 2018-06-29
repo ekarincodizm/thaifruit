@@ -65,7 +65,6 @@ use kartik\date\DatePicker;
                 </div>
             </div>
 
-
            <div class="row">
                <div class="col-lg-12">
                    <?= $form->field($model, 'qc_note')->textarea(['rows' => 4,'style'=>'font-size: 24px;']) ?>

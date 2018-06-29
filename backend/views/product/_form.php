@@ -96,6 +96,23 @@ use yii\helpers\Url;
                                          </div>
                                      </div>
 
+                                     <div class="form-group">
+                                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">ประเภทกอง <span class="required"></span>
+                                         </label>
+                                         <div class="col-md-6 col-sm-6 col-xs-12">
+                                             <?= $form->field($model, 'zone_group')->widget(Select2::className(),[
+                                                 'data' => ArrayHelper::map([['id'=>1,'name'=>'A'],['id'=>2,'name'=>'B'],['id'=>3,'name'=>'C']],'id','name'),
+                                                 'options' => ['placeholder'=>'เลือกประเภทกอง']
+                                             ])->label(false) ?>
+                                         </div>
+                                     </div>
+                                     <div class="form-group">
+                                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">จำนวน/กอง <span class="required"></span>
+                                         </label>
+                                         <div class="col-md-6 col-sm-6 col-xs-12">
+                                             <?= $form->field($model, 'zone_qty_per')->textInput(['maxlength' => true,'class'=>'form-control'])->label(false) ?>
+                                         </div>
+                                     </div>
                                            <div class="form-group">
                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">ราคา <span class="required"></span>
                                             </label>

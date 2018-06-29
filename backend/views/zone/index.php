@@ -120,7 +120,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'contentOptions' => ['style' => 'vertical-align: middle'],
                             'format' => 'html',
                             'value'=>function($data){
-                                return $data->status === 1 ? '<div class="label label-success">Active</div>':'<div class="label label-default">Inactive</div>';
+                                return $data->status === 1 ? '<div class="label label-success">On</div>':'<div class="label label-default">Off</div>';
                             }
                         ],
                         [

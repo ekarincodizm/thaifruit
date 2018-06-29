@@ -6,6 +6,7 @@ use yii\widgets\Pjax;
 use yii\helpers\Url;
 use lavrentiev\widgets\toastr\Notification;
 use backend\assets\ICheckAsset;
+use kartik\daterange\DateRangePicker;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\ProdrecSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -19,6 +20,11 @@ $this->registerJsFile(
     static::POS_END
 );
 
+$addon = <<< HTML
+<span class="input-group-addon">
+    <i class="glyphicon glyphicon-calendar"></i>
+</span>
+HTML;
 
 ?>
 <div class="prodrec-index">
@@ -84,7 +90,38 @@ $this->registerJsFile(
             <div class="row">
                 <div class="col-lg-9">
                     <div class="form-inline">
-                        <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
+                    <div class="btn-group">
+<!--                        --><?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+                        <input type="text" class="form-control" name="txt_search" placeholder="ค้นหา">
+                    </div>
+                    <div class="btn-group">
+                       <?php
+                         echo \kartik\select2\Select2::widget([
+                                 'name'=>'sup_select',
+                                 'data'=>\yii\helpers\ArrayHelper::map(\backend\models\Suplier::find()->all(),'id','name'),
+                                 'options'=>['placeholder'=>'เลือกผุ้ขาย']
+                         ]);
+                       ?>
+                    </div>
+                    <div class="btn-group">
+                       <?php
+                       echo '<div class="input-group drp-container">';
+                       echo DateRangePicker::widget([
+                               'name'=>'date_range_1',
+                               'value'=>date('d-m-Y')." ถึง ".date('d-m-Y'),
+                               'convertFormat'=>true,
+                               'useWithAddon'=>true,
+                               'pluginOptions'=>[
+                                   'locale'=>[
+                                           'format'=>'d-M-y',
+                                       'separator'=>' ถึง ',
+                                   ],
+                                   'opens'=>'left'
+                               ]
+                           ]) . $addon;
+                       echo '</div>';
+                       ?>
+                    </div>
                     </div>
                 </div>
                 <div class="col-lg-3">
@@ -103,6 +140,7 @@ $this->registerJsFile(
                     </div>
                 </div>
             </div>
+            <br>
             <div class="table-responsive">
                 <div class="table-grid">
                     <?= GridView::widget([
@@ -147,7 +185,13 @@ $this->registerJsFile(
                                 'contentOptions' => ['style' => 'vertical-align: middle'],
                                 'format' => 'html',
                                 'value'=>function($data){
-                                    return $data->status === 1 ? '<div class="label label-success">Received</div>':'<div class="label label-default">Open</div>';
+                                   if($data->status === 0){
+                                       return '<div class="label label-default">รับสินค้าแล้ว</div>';
+                                   }else  if($data->status === 1){
+                                       return '<div class="label label-primary">รอจ่ายเงิน</div>';
+                                   } else{
+                                       return '<div class="label label-success">จ่ายเงินแล้ว</div>';
+                                   }
                                 }
                             ],
                             [
