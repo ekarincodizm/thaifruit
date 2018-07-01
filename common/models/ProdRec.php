@@ -39,7 +39,7 @@ class ProdRec extends \yii\db\ActiveRecord
     {
         return
         [
-            [['journal_no','suplier_id','qty','raw_type'],'required'],
+            [['journal_no','suplier_id','qty','raw_type','zone_id'],'required'],
             [[ 'suplier_id', 'raw_type', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
             [['qty', 'plan_price'], 'number'],
             [['qc_note'], 'string'],

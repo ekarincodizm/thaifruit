@@ -5,6 +5,7 @@ use yii\widgets\ActiveForm;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 use kartik\date\DatePicker;
+use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Prodrec */
 /* @var $form yii\widgets\ActiveForm */
@@ -46,13 +47,21 @@ use kartik\date\DatePicker;
                 <div class="col-lg-4">
                     <?= $form->field($model, 'raw_type')->widget(Select2::className(),[
                         'data'=>ArrayHelper::map(\backend\models\Product::find()->all(),'id','name'),
-                        'options' => ['placeholder'=>'เลือก'],
+                        'options' => ['placeholder'=>'เลือก',
+                            'onchange'=>'
+                           // alert($(this).val());
+                                $.post("'.Url::to(['prodrec/findzone'],true).'"+"&id="+$(this).val(),function(data){
+                                          $("select#zone_id").html(data);
+                                          $("select#zone_id").prop("disabled","disabled");
+                                       });
+                            ',
+                            ],
                     ]) ?>
                 </div>
                 <div class="col-lg-4">
                     <?= $form->field($model, 'zone_id')->widget(Select2::className(),[
                         'data'=>ArrayHelper::map(\backend\models\Zone::find()->all(),'id','name'),
-                        'options' => ['placeholder'=>'เลือก'],
+                        'options' => ['placeholder'=>'เลือก','id'=>'zone_id'],
                     ]) ?>
                 </div>
                 <div class="col-lg-4">

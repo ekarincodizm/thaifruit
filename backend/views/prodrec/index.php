@@ -67,7 +67,8 @@ HTML;
                 <?= Html::a(Yii::t('app', '<i class="fa fa-plus"></i> บันทึกรับวัตถุดิบ'), ['create'], ['class' => 'btn btn-success']) ?>
             </div>
             <div class="btn-group">
-                <div class="btn btn-default btn-bill"><i class="fa fa-bitcoin"></i> สร้างใบเสร็จ </div>
+                <div class="btn btn-default btn-bill"><i class="fa fa-print"></i> พิมพ์ใบรับสินค้า </div>
+                <div class="btn btn-default btn-invoice"><i class="fa fa-bitcoin"></i> จ่ายเงิน </div>
             </div>
             <h4 class="pull-right"><?=$this->title?> <i class="fa fa-institution"></i><small></small></h4>
             <!-- <ul class="nav navbar-right panel_toolbox">

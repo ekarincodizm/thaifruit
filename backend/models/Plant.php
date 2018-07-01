@@ -46,5 +46,16 @@ class Plant extends \common\models\Plant
 		        ],
 		    ];
 		 }
-
+    public function findDistrictname($id){
+          $model = \common\models\District::find()->where(['DISTRICT_ID'=>$id])->one();
+          return count($model)>0?$model->DISTRICT_NAME:'';
+    }
+    public function findCityname($id){
+        $model = \common\models\Amphur::find()->where(['AMPHUR_ID'=>$id])->one();
+        return count($model)>0?$model->AMPHUR_NAME:'';
+    }
+    public function findProvincename($id){
+        $model = \common\models\Province::find()->where(['PROVINCE_ID'=>$id])->one();
+        return count($model)>0?$model->PROVINCE_NAME:'';
+    }
 }

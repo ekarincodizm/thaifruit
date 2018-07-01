@@ -34,7 +34,7 @@ class Zone extends \yii\db\ActiveRecord
         return [
             [['name'],'required'],
             [['discription'], 'string'],
-            [['status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
+            [['status', 'created_at', 'updated_at', 'created_by', 'updated_by','max_qty','qty'], 'integer'],
             [['name'], 'string', 'max' => 255],
         ];
     }
@@ -46,6 +46,8 @@ class Zone extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
+            'max_qty' => Yii::t('app', 'จำนวนต่อกอง'),
+            'qty' => Yii::t('app', 'จำนวน'),
             'name' => Yii::t('app', 'ชื่อกอง'),
             'discription' => Yii::t('app', 'รายละเอียด'),
             'status' => Yii::t('app', 'สถานะ'),
