@@ -80,7 +80,7 @@ HTML;
                     <div class="btn btn-default btn-bill"><i class="fa fa-print"></i> พิมพ์ใบรับสินค้า </div>
                 <div class="btn btn-default btn-invoice"><i class="fa fa-bitcoin"></i> จ่ายเงิน </div>
             </div>
-            <h4 class="pull-right"><?=$this->title?> <i class="fa fa-institution"></i><small></small></h4>
+            <h4 class="pull-right"><?=$this->title?> <i class="fa fa-cubes"></i><small></small></h4>
             <!-- <ul class="nav navbar-right panel_toolbox">
               <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
               <li class="dropdown">
@@ -104,7 +104,7 @@ HTML;
                     <div class="form-inline">
                     <div class="btn-group">
 <!--                        --><?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-                        <input type="text" class="form-control" name="txt_search" placeholder="ค้นหา" value="<?=$txt_search?>">
+                        <input type="text" class="form-control txt_search" name="txt_search" placeholder="ค้นหา" value="<?=$txt_search?>">
                     </div>
                     <div class="btn-group">
                         <?php      echo kartik\select2\Select2::widget([
@@ -330,6 +330,11 @@ $this->registerJs('
                            $(".bill_to").val(finddate[1]);
             $(".sup_bill").val($("#sup_select").val());
             $("form#form-bill").submit();
+        });
+        $(".btn-reset").click(function(){
+           $("#sup_select").prop("selectedIndex",0);
+           $("#sup_select").trigger("change");
+           $(".txt_search").val("");
         });
     });
 
