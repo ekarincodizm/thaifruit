@@ -33,18 +33,7 @@ HTML;
 
 ?>
 <div class="prodrec-index">
-   <?php echo MultiSelect::widget([
-    'id'=>"multiXX",
-    "options" => ['multiple'=>"multiple"], // for the actual multiselect
-    'data' => [ 0 => 'super', 2 => 'natural'], // data as array
-    'value' => [ 0, 2], // if preselected
-    'name' => 'multti', // name for the form
-    "clientOptions" =>
-    [
-    "includeSelectAllOption" => true,
-    'numberDisplayed' => 2
-    ],
-    ]);?>
+
     <?php $session = Yii::$app->session;
     if ($session->getFlash('msg')): ?>
         <!-- <div class="alert alert-success alert-dismissible" role="alert">
@@ -118,23 +107,13 @@ HTML;
                         <input type="text" class="form-control" name="txt_search" placeholder="ค้นหา" value="<?=$txt_search?>">
                     </div>
                     <div class="btn-group">
-                        <?php      echo MultiSelect::widget([
+                        <?php      echo kartik\select2\Select2::widget([
                             // 'id'=>"multiXX",
                             'name'=>'sup_select',
                             'id'=>"sup_select",
-                            //'model'=>null,
-                            "options" => ['multiple'=>"multiple"], // for the actual multiselect
-                            'data' => count($sup)==0?['No Data']:[1,2], // data as array
-                           // 'value' => $sup_select, // if preselected
-                            "clientOptions" =>
-                                [
-                                    "includeSelectAllOption" => true,
-                                    'numberDisplayed' => 5,
-                                    'nonSelectedText'=>'ผู้ขาย',
-                                    'enableFiltering' => true,
-                                    'disabled'=>false,
-                                    'enableCaseInsensitiveFiltering'=>true,
-                                ],
+                            'data'=>ArrayHelper::map($sup,'id','name'),
+                            'options'=>['placeholder'=>'ผู้ขาย'],
+
                         ]); ?>
                     </div>
                     <div class="btn-group">
