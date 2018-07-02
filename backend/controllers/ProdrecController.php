@@ -83,6 +83,7 @@ class ProdrecController extends Controller
 
         $dataProvider->query->andFilterWhere(['or',['LIKE','journal_no',$txt_search],['LIKE','qty',$txt_search]]);
         $dataProvider->query->andFilterWhere(['and',['>=','trans_date',$from_date],['<=','trans_date',$to_date]]);
+        $dataProvider->query->andFilterWhere(['suplier_id'=>$sup_select]);
 
 
         $dataProvider->pagination->pageSize = $pageSize;
@@ -92,8 +93,8 @@ class ProdrecController extends Controller
             'dataProvider' => $dataProvider,
             'txt_search' => $txt_search,
             'sup_select' => $sup_select,
-            'from_date'=>$bill_date[0],
-            'to_date'=>$bill_date[1],
+            'from_date'=>trim($bill_date[0]),
+            'to_date'=>trim($bill_date[1]),
             'perpage' => $pageSize,
         ]);
     }
@@ -202,13 +203,30 @@ class ProdrecController extends Controller
     }
     public function actionBill(){
 
+       // print_r(Yii::$app->request->post()); return;
+
         $sup = Yii::$app->request->post('sup');
+        $txt_search = Yii::$app->request->post('txt_search');
         $from_date = Yii::$app->request->post('from_date');
         $to_date = Yii::$app->request->post('to_date');
 
         $model = \backend\models\Plant::find()->one();
         $modeladdress = \backend\models\AddressBook::find()->where(['party_id'=>1])->one();
-        $modelline = \backend\models\Prodrec::find()->all();
+
+
+        $supname = '';
+        $modelsup = \backend\models\Suplier::find()->where(['id'=>$sup])->one();
+        if($modelsup){
+            $supname = $modelsup->name;
+        }
+
+        $modelline = \backend\models\Prodrec::find()
+            ->andFilterWhere(['or',['LIKE','journal_no',$txt_search],['LIKE','qty',$txt_search]])
+            ->andFilterWhere(['and',['>=','trans_date',strtotime($from_date)],['<=','trans_date',strtotime($to_date)]])
+            ->andFilterWhere(['suplier_id'=>$sup])->all();
+      //  echo $sup;return;
+
+        if(!$modelline){ return;}
 
         $pdf = new Pdf([
             'mode' => Pdf::MODE_ASIAN, // leaner size using standard fonts
@@ -220,7 +238,7 @@ class ProdrecController extends Controller
                 'model'=>$model,
                 'modelline'=>$modelline,
                 'modeladdress' => $modeladdress,
-                'sup'=>$from_date,
+                'sup'=>$supname,
                 'bill_date'=>$from_date,
                 // 'list'=>$modellist,
                 // 'from_date'=> $from_date,

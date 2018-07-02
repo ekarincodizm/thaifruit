@@ -49,8 +49,8 @@ $url_to_find_sup = Url::to('index.php?r=prodrec/findsupcode',true);
                                 $.post("'.Url::to(['prodrec/findsupcode'],true).'"+"&id="+$(this).val(),function(data){
                                           var xdate = new Date();
                                           var supcode = data;
-                                          var da = xdate.getDate()<9?"0"+xdate.getDate():xdate.getDate();                                                                    
-                                          var mo = xdate.getMonth()<9?"0"+xdate.getMonth():xdate.getMonth();                                                                    
+                                          var da = xdate.getDate()<=9?"0"+xdate.getDate():xdate.getDate();                                                                    
+                                          var mo = xdate.getMonth()<=9?"0"+xdate.getMonth():xdate.getMonth();                                                                    
                                           var lot = supcode+ da + mo +(xdate.getFullYear()+543).toString().substr(-2);
                                           $(".lot_no").val(lot);
                                 });

@@ -40,7 +40,9 @@
             <td style="border: none;font-size: 18px;font-weight: bold;text-align: right">จำนวน(ลูก)</td>
             <td style="border: none;font-size: 18px;font-weight: bold;text-align: right">ราคา</td>
         </tr>
+        <?php $rows = 0; ?>
         <?php foreach ($modelline as $data):?>
+            <?php $rows +=1; ?>
         <tr style="border: 1px solid black">
             <td style="border: none;font-size: 18px;font-weight: bold;text-align: left"><?=\backend\models\Product::findProductinfo($data->raw_type)->name;?></td>
             <td style="border: none;font-size: 18px;font-weight: bold;text-align: left"><?=\backend\models\Product::findProductinfo($data->raw_type)->description;?></td>
@@ -48,7 +50,16 @@
             <td style="border: none;font-size: 18px;font-weight: bold;text-align: right"><?=$data->plan_price?></td>
         </tr>
     <?php endforeach; ?>
-
+        <?php if($rows < 10): ?>
+        <?php for($x=0;$x<=(20-$rows)-1;$x++): ?>
+            <tr style="border: 1px solid black;">
+                <td style="border: none;font-size: 18px;font-weight: bold;text-align: left;height: 10px;"></td>
+                <td style="border: none;font-size: 18px;font-weight: bold;text-align: left"></td>
+                <td style="border: none;font-size: 18px;font-weight: bold;text-align: right"></td>
+                <td style="border: none;font-size: 18px;font-weight: bold;text-align: right"></td>
+            </tr>
+        <?php endfor; ?>
+        <?php endif; ?>
     </tbody>
     <tfoot>
     <tr>

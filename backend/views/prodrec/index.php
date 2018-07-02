@@ -68,7 +68,7 @@ HTML;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <div class="panel panel-headline">
         <form id="form-bill" action="<?=Url::to(['prodrec/bill'],true)?>" method="post" target="_blank">
-            <input type="hidden" class="sup_bill" name="sup[]" value="">
+            <input type="hidden" class="sup_bill" name="sup" value="">
             <input type="hidden" class="bill_from" name="from_date" value="">
             <input type="hidden" class="bill_to" name="to_date" value="">
         </form>
@@ -112,7 +112,15 @@ HTML;
                             'name'=>'sup_select',
                             'id'=>"sup_select",
                             'data'=>ArrayHelper::map($sup,'id','name'),
-                            'options'=>['placeholder'=>'ผู้ขาย'],
+                            'value' => $sup_select ,
+                            'options'=>['placeholder'=>'ผู้ขาย',
+                                 'onchange'=>'
+                                  
+                                    $(".sup_bill").val($(this).val());
+                                     
+                                    
+                                 '
+                                ],
 
                         ]); ?>
                     </div>
@@ -125,6 +133,7 @@ HTML;
                                'value'=>$from_date." ถึง ".$to_date,
                                'convertFormat'=>true,
                                'useWithAddon'=>true,
+                               'options' => ['class'=>'form-control find_date'],
                                'pluginOptions'=>[
                                    'locale'=>[
                                            'format'=>'d-m-Y',
@@ -313,7 +322,13 @@ $this->registerJs('
         });
         
         $(".btn-bill").click(function(){
-            $("form#form-bill").find(".bill_from").val("'.$from_date.'");
+          if($("#sup_select").val()==""){
+             alert("ทำการเลือกผู้ขายก่อน");return;
+          }
+            var finddate = $(".find_date").val().split("ถึง");
+                           $(".bill_from").val(finddate[0]);
+                           $(".bill_to").val(finddate[1]);
+            $(".sup_bill").val($("#sup_select").val());
             $("form#form-bill").submit();
         });
     });
