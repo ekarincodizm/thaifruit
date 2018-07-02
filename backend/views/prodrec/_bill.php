@@ -64,7 +64,7 @@
     <tfoot>
     <tr>
         <td style="border: none;font-size: 18px;font-weight: bold;text-align: center">หมายเหตุ</td>
-        <td colspan="3" style="border: none;font-size: 12px;">ตามรายการข้างบบ ผู้ขายยินดีให้ผู้ซื้อทำการตรวจนับและเช็คของก่อนว่ามีปัญหาหรือไม่ โดยมีเครดิตในการชำระเงินอย่างน้อยสุด 7-10 วัน </td>
+        <td colspan="3" style="border: none;font-size: 12px;">ตามรายการข้างบน ผู้ขายยินดีให้ผู้ซื้อทำการตรวจนับและเช็คของก่อนว่ามีปัญหาหรือไม่ โดยมีเครดิตในการชำระเงินอย่างน้อยสุด 7-10 วัน </td>
     </tr>
 
     <tr>
@@ -72,8 +72,8 @@
         <td colspan="2" style="border: none;font-size: 16px;font-weight: bold;text-align: center"></td>
     </tr><br><br><br>
     <tr>
-        <td colspan="2" style="border: none;font-size: 16px;font-weight: normal;text-align: center">ชื่อ..........................................ผู้รับ</td>
-        <td colspan="2" style="border: none;font-size: 16px;font-weight: normal;text-align: center">ชื่อ..........................................ผู้ส่ง</td>
+        <td colspan="2" style="border: none;font-size: 16px;font-weight: normal;text-align: center">ชื่อ............................................ผู้รับ</td>
+        <td colspan="2" style="border: none;font-size: 16px;font-weight: normal;text-align: center">ชื่อ............................................ผู้ส่ง</td>
     </tr>
     </tfoot>
 </table>
