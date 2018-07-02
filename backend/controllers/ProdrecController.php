@@ -10,11 +10,14 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use kartik\mpdf\Pdf;
+
+date_default_timezone_set('Asia/Bangkok');
 /**
  * ProdrecController implements the CRUD actions for Prodrec model.
  */
 class ProdrecController extends Controller
 {
+    public $enableCsrfValidation =false;
     /**
      * {@inheritdoc}
      */
@@ -32,7 +35,7 @@ class ProdrecController extends Controller
                 'rules'=>[
                     [
                         'allow'=>true,
-                        'actions'=>['index','create','update','delete','view','bill','invoice','findzone'],
+                        'actions'=>['index','create','update','delete','view','bill','invoice','findzone','callbill'],
                         'roles'=>['@'],
                     ]
                 ]
@@ -46,14 +49,51 @@ class ProdrecController extends Controller
      */
     public function actionIndex()
     {
+//       $datetime = new \DateTime('01-07-2018');
+//       echo $datetime->getTimestamp()."<br/>";
+//       echo date('d-m-Y',$datetime->getTimestamp());
+//       return;
+
+        $post = Yii::$app->request->post();
+
+        $txt_search = '';
+        $sup_select = '';
+        $bill_date =  '';
+
+        $txt_search = Yii::$app->request->post('txt_search');
+        $bill_date = explode('ถึง',Yii::$app->request->post('bill_range'));
+        $sup_select = explode(',',Yii::$app->request->post('sup_select'));
+
+       //print_r($bill_date);return;
+
+        if($bill_date[0]!= null) {
+            $from_date = strtotime($bill_date[0]);
+            $to_date = strtotime($bill_date[1]);
+        }else{
+            $bill_date[0] = date('d-m-Y');
+            $bill_date[1] = date('d-m-Y',strtotime(date('d-m-Y').'+7 days'));
+            $from_date = strtotime($bill_date[0]);
+            $to_date = strtotime($bill_date[1]);
+        }
+
+
         $pageSize = \Yii::$app->request->post("perpage");
         $searchModel = new ProdrecSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        $dataProvider->query->andFilterWhere(['or',['LIKE','journal_no',$txt_search],['LIKE','qty',$txt_search]]);
+        $dataProvider->query->andFilterWhere(['and',['>=','trans_date',$from_date],['<=','trans_date',$to_date]]);
+
+
         $dataProvider->pagination->pageSize = $pageSize;
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'txt_search' => $txt_search,
+            'sup_select' => $sup_select,
+            'from_date'=>$bill_date[0],
+            'to_date'=>$bill_date[1],
             'perpage' => $pageSize,
         ]);
     }
@@ -82,10 +122,13 @@ class ProdrecController extends Controller
         $data = [];
         if ($model->load(Yii::$app->request->post())) {
             $model->status = 1;
-            $model->trans_date = strtotime($model->trans_date);
+            $model->trans_date = strtotime(date('d-m-Y',$model->trans_date));
             if($model->save()){
                 array_push($data,['product_id'=>$model->raw_type,'qty'=>$model->qty,'price'=>$model->plan_price]);
+
+               // print_r($data);return;
                 \backend\models\Journal::createTrans($model->zone_id,$data,'','');
+
                 $session = Yii::$app->session;
                 $session->setFlash('msg','บันทึกรายการเรียบร้อย');
                 return $this->redirect(['index']);
@@ -154,9 +197,18 @@ class ProdrecController extends Controller
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
+    public function actionCallbill(){
+        return $this->render('_tezt');
+    }
     public function actionBill(){
+
+        $sup = Yii::$app->request->post('sup');
+        $from_date = Yii::$app->request->post('from_date');
+        $to_date = Yii::$app->request->post('to_date');
+
         $model = \backend\models\Plant::find()->one();
         $modeladdress = \backend\models\AddressBook::find()->where(['party_id'=>1])->one();
+        $modelline = \backend\models\Prodrec::find()->all();
 
         $pdf = new Pdf([
             'mode' => Pdf::MODE_ASIAN, // leaner size using standard fonts
@@ -166,8 +218,11 @@ class ProdrecController extends Controller
             'destination' => Pdf::DEST_BROWSER,
             'content' => $this->renderPartial('_bill',[
                 'model'=>$model,
-                'modeladdress' => $modeladdress
-               // 'list'=>$modellist,
+                'modelline'=>$modelline,
+                'modeladdress' => $modeladdress,
+                'sup'=>$from_date,
+                'bill_date'=>$from_date,
+                // 'list'=>$modellist,
                 // 'from_date'=> $from_date,
                 // 'to_date' => $to_date,
             ]),
@@ -181,8 +236,11 @@ class ProdrecController extends Controller
             'methods' => [
               //  'SetHeader' => ['รายงานรหัสสินค้า||Generated On: ' . date("r")],
               //  'SetFooter' => ['|Page {PAGENO}|'],
-            ]
+                //'SetFooter'=>'niran',
+            ],
+
         ]);
+
         return $pdf->render();
 
 

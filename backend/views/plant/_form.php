@@ -324,80 +324,80 @@ $bank = Bank::find()->all();
 </div>
 
 <div id="bankModal" class="modal fade" role="dialog">
-  <div class="modal-dialog modal-md">
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title"><i class="fa fa-shopping-cart"></i> เพิ่มบัญชีธนาคาร <small id="items"> </small></h4>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-lg-12">
-            <table style="text-align: center;">
-              <tr >
-               <td style="width: 10%;"></td>
-                <td style="padding: 15px 0px 0px 25px; "><b>ธนาคาร</b></td>
-                <td style="padding: 15px 0px 0px 15px;">
-                  <!-- <input type="text" class="form-control" name="account_no" value=""> -->
-                  <?= Select2::widget([
-                     'name'=>'bank',
-                     'data'=> ArrayHelper::map($bank,'id',function($data){
-                        return $data->short_name.' '.$data->name;
-                     }),
-                     'options'=>['placeholder'=>'เลือกธนาคาร','id'=>'select-bank','style'=>'text-align: left;']
+    <div class="modal-dialog modal-md">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><i class="fa fa-shopping-cart"></i> เพิ่มบัญชีธนาคาร <small id="items"> </small></h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table style="text-align: center;">
+                            <tr >
+                                <td style="width: 10%;"></td>
+                                <td style="padding: 15px 0px 0px 25px; "><b>ธนาคาร</b></td>
+                                <td style="padding: 15px 0px 0px 15px;">
+                                    <!-- <input type="text" class="form-control" name="account_no" value=""> -->
+                                    <?= Select2::widget([
+                                        'name'=>'bank',
+                                        'data'=> ArrayHelper::map($bank,'id',function($data){
+                                            return $data->short_name.' '.$data->name;
+                                        }),
+                                        'options'=>['placeholder'=>'เลือกธนาคาร','id'=>'select-bank','style'=>'text-align: left;']
 
-                  ]); 
-                  ?>
-                </td>
-              </tr>
-              <tr >
-                <td style="width: 10%;"></td>
-                <td style="padding: 15px 0px 0px 25px;"><b>ชื่อบัญชี</b></td>
-                <td style="padding: 15px 0px 0px 15px;">
-                  <input type="text" class="form-control" id="select-account-name" name="name" value="">
-                  <input type="hidden" class="form-control" id="select-edit" name="name" value="">
-                </td>
-              </tr>
-              <tr >
-                 <td style="width: 10%;"></td>
-                <td style="padding: 15px 0px 0px 25px;"><b>เลขที่บัญชี</b></td>
-                <td style="padding: 15px 0px 0px 15px;">
-                  <input type="text" class="form-control" id="select-account-no" name="account_no" value="">
-                </td>
-              </tr>
-              <tr >
-                <td style="width: 10%;"></td>
-                <td style="padding: 15px 0px 0px 25px;"><b>ประเภทบัญชี</b></td>
-                <td style="padding: 15px 0px 0px 15px;">
-                   <?= Select2::widget([
-                     'name'=>'account_type',
-                     'data'=> ArrayHelper::map(\backend\helpers\AccountType::asArrayObject(),'id','name'),
-                     'options'=>['placeholder'=>'เลือกประเภทบัญชี','id'=>'select-account-type']
+                                    ]);
+                                    ?>
+                                </td>
+                            </tr>
+                            <tr >
+                                <td style="width: 10%;"></td>
+                                <td style="padding: 15px 0px 0px 25px;"><b>ชื่อบัญชี</b></td>
+                                <td style="padding: 15px 0px 0px 15px;">
+                                    <input type="text" class="form-control" id="select-account-name" name="name" value="">
+                                    <input type="hidden" class="form-control" id="select-edit" name="name" value="">
+                                </td>
+                            </tr>
+                            <tr >
+                                <td style="width: 10%;"></td>
+                                <td style="padding: 15px 0px 0px 25px;"><b>เลขที่บัญชี</b></td>
+                                <td style="padding: 15px 0px 0px 15px;">
+                                    <input type="text" class="form-control" id="select-account-no" name="account_no" value="">
+                                </td>
+                            </tr>
+                            <tr >
+                                <td style="width: 10%;"></td>
+                                <td style="padding: 15px 0px 0px 25px;"><b>ประเภทบัญชี</b></td>
+                                <td style="padding: 15px 0px 0px 15px;">
+                                    <?= Select2::widget([
+                                        'name'=>'account_type',
+                                        'data'=> ArrayHelper::map(\backend\helpers\AccountType::asArrayObject(),'id','name'),
+                                        'options'=>['placeholder'=>'เลือกประเภทบัญชี','id'=>'select-account-type']
 
-                  ]); 
-                  ?>
-                </td>
-              </tr>
-              <tr >
-                 <td style="width: 10%;"></td>
-                <td style="padding: 15px 0px 0px 15px;"><b>รายละเอียด</b></td>
-                <td style="padding: 15px 0px 0px 15px;">
-                  <textarea class="form-control" id="select-description" value=""></textarea>
-                </td>
-              </tr>
-            </table>
-             
-          </div>
+                                    ]);
+                                    ?>
+                                </td>
+                            </tr>
+                            <tr >
+                                <td style="width: 10%;"></td>
+                                <td style="padding: 15px 0px 0px 15px;"><b>รายละเอียด</b></td>
+                                <td style="padding: 15px 0px 0px 15px;">
+                                    <textarea class="form-control" id="select-description" value=""></textarea>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success btn-add-bank">บันทึก</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
+            </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-success btn-add-bank">บันทึก</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
-      </div>
-    </div>
 
-  </div>
+    </div>
 </div>
 
 <?php

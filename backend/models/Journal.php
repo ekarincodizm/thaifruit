@@ -55,7 +55,7 @@ class Journal extends \common\models\Journal
     public static function createTrans($zone,$data,$ref,$reftype){
         if(count($data)>0){
             $model = new Journal();
-            $model->name = self::getLastNo();
+            $model->journal_no = self::getLastNo();
             $model->reference = $ref;
             $model->reference_type_id = $reftype;
             if($model->save()){
@@ -65,8 +65,9 @@ class Journal extends \common\models\Journal
                     $modelline->journal_id = $model->id;
                     $modelline->product_id = $data[$i]['product_id'];
                     $modelline->qty = $data[$i]['qty'];
+                    $modelline->line_price = $data[$i]['price'];
+                    $modelline->line_amount = ($data[$i]['price'] * $data[$i]['qty']);
                     $modelline->status = 1;
-                    $modelline->line_amount = 0;
                     if($modelline->save()){
                         $zone_sum_qty += $data[$i]['qty'];
                     }

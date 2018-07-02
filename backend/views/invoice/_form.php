@@ -33,7 +33,7 @@ use kartik\date\DatePicker;
                 <div class="col-lg-3">
                     <?= $form->field($model, 'suplier_id')->widget(Select2::className(),[
                             'data'=>ArrayHelper::map(\backend\models\Suplier::find()->all(),'id','name'),
-                            'options'=>['placeholder'=>'รหัสผลู้ขาย']
+                            'options'=>['placeholder'=>'รหัสผู้ขาย']
                     ]) ?>
                 </div>
                 <div class="col-lg-4"><br>

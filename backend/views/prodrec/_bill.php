@@ -28,19 +28,43 @@
         </td>
     </tr><br>
     <tr >
-        <td colspan="2" style="border: none;font-size: 18px;font-weight: bold">ผู้ขาย.................................................</td>
-
-        <td colspan="2" style="border: none;font-size: 18px;font-weight: bold">วันที่..........................................</td>
+        <td colspan="2" style="border: none;font-size: 18px;font-weight: bold">ผู้ขาย <?=$sup?></td>
+        <td style="border: none;font-size: 18px;font-weight: bold"></td>
+        <td style="border: none;font-size: 18px;font-weight: bold">วันที่  <?=$bill_date?></td>
     </tr>
     </thead>
     <tbody>
         <tr style="background: #c3c3c3">
             <td style="border: none;font-size: 18px;font-weight: bold;text-align: center">ประเภทของ</td>
             <td style="border: none;font-size: 18px;font-weight: bold;text-align: center">รายละเอียด</td>
-            <td style="border: none;font-size: 18px;font-weight: bold;text-align: center">จำนวน(ลูก)</td>
-            <td style="border: none;font-size: 18px;font-weight: bold;text-align: center">ราคา</td>
+            <td style="border: none;font-size: 18px;font-weight: bold;text-align: right">จำนวน(ลูก)</td>
+            <td style="border: none;font-size: 18px;font-weight: bold;text-align: right">ราคา</td>
         </tr>
+        <?php foreach ($modelline as $data):?>
+        <tr style="border: 1px solid black">
+            <td style="border: none;font-size: 18px;font-weight: bold;text-align: left"><?=\backend\models\Product::findProductinfo($data->raw_type)->name;?></td>
+            <td style="border: none;font-size: 18px;font-weight: bold;text-align: left"><?=\backend\models\Product::findProductinfo($data->raw_type)->description;?></td>
+            <td style="border: none;font-size: 18px;font-weight: bold;text-align: right"><?=$data->qty?></td>
+            <td style="border: none;font-size: 18px;font-weight: bold;text-align: right"><?=$data->plan_price?></td>
+        </tr>
+    <?php endforeach; ?>
+
     </tbody>
+    <tfoot>
+    <tr>
+        <td style="border: none;font-size: 18px;font-weight: bold;text-align: center">หมายเหตุ</td>
+        <td colspan="3" style="border: none;font-size: 12px;">ตามรายการข้างบบ ผู้ขายยินดีให้ผู้ซื้อทำการตรวจนับและเช็คของก่อนว่ามีปัญหาหรือไม่ โดยมีเครดิตในการชำระเงินอย่างน้อยสุด 7-10 วัน </td>
+    </tr>
+
+    <tr>
+        <td colspan="2" style="border: none;font-size: 16px;font-weight: bold;text-align: center"></td>
+        <td colspan="2" style="border: none;font-size: 16px;font-weight: bold;text-align: center"></td>
+    </tr><br><br><br>
+    <tr>
+        <td colspan="2" style="border: none;font-size: 16px;font-weight: normal;text-align: center">ชื่อ..........................................ผู้รับ</td>
+        <td colspan="2" style="border: none;font-size: 16px;font-weight: normal;text-align: center">ชื่อ..........................................ผู้ส่ง</td>
+    </tr>
+    </tfoot>
 </table>
     </div>
 </div>

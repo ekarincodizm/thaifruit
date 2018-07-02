@@ -7,6 +7,8 @@ use yii\helpers\Url;
 use lavrentiev\widgets\toastr\Notification;
 use backend\assets\ICheckAsset;
 use kartik\daterange\DateRangePicker;
+use dosamigos\multiselect\MultiSelect;
+use yii\helpers\ArrayHelper;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\ProdrecSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -14,12 +16,15 @@ ICheckAsset::register($this);
 $this->title = Yii::t('app', 'รับวัตถุดิบ');
 $this->params['breadcrumbs'][] = $this->title;
 
+$sup = \backend\models\Suplier::find()->where(['status'=>1])->all();
+
 $this->registerJsFile(
     '@web/js/stockbalancejs.js?V=001',
     ['depends' => [\yii\web\JqueryAsset::className()]],
     static::POS_END
 );
-
+$this->registerJsFile( '@web/js/sweetalert.min.jsV=001',['depends' => [\yii\web\JqueryAsset::className()]],static::POS_END);
+$this->registerCssFile( '@web/css/sweetalert.css');
 $addon = <<< HTML
 <span class="input-group-addon">
     <i class="glyphicon glyphicon-calendar"></i>
@@ -28,7 +33,18 @@ HTML;
 
 ?>
 <div class="prodrec-index">
-
+   <?php echo MultiSelect::widget([
+    'id'=>"multiXX",
+    "options" => ['multiple'=>"multiple"], // for the actual multiselect
+    'data' => [ 0 => 'super', 2 => 'natural'], // data as array
+    'value' => [ 0, 2], // if preselected
+    'name' => 'multti', // name for the form
+    "clientOptions" =>
+    [
+    "includeSelectAllOption" => true,
+    'numberDisplayed' => 2
+    ],
+    ]);?>
     <?php $session = Yii::$app->session;
     if ($session->getFlash('msg')): ?>
         <!-- <div class="alert alert-success alert-dismissible" role="alert">
@@ -62,12 +78,17 @@ HTML;
     <?php Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <div class="panel panel-headline">
+        <form id="form-bill" action="<?=Url::to(['prodrec/bill'],true)?>" method="post" target="_blank">
+            <input type="hidden" class="sup_bill" name="sup[]" value="">
+            <input type="hidden" class="bill_from" name="from_date" value="">
+            <input type="hidden" class="bill_to" name="to_date" value="">
+        </form>
         <div class="panel-heading">
             <div class="btn-group">
                 <?= Html::a(Yii::t('app', '<i class="fa fa-plus"></i> บันทึกรับวัตถุดิบ'), ['create'], ['class' => 'btn btn-success']) ?>
             </div>
             <div class="btn-group">
-                <div class="btn btn-default btn-bill"><i class="fa fa-print"></i> พิมพ์ใบรับสินค้า </div>
+                    <div class="btn btn-default btn-bill"><i class="fa fa-print"></i> พิมพ์ใบรับสินค้า </div>
                 <div class="btn btn-default btn-invoice"><i class="fa fa-bitcoin"></i> จ่ายเงิน </div>
             </div>
             <h4 class="pull-right"><?=$this->title?> <i class="fa fa-institution"></i><small></small></h4>
@@ -90,31 +111,44 @@ HTML;
         <div class="panel-body">
             <div class="row">
                 <div class="col-lg-9">
+                <form id="form-search" action="<?=Url::to(['prodrec/index'],true)?>" method="post">
                     <div class="form-inline">
                     <div class="btn-group">
 <!--                        --><?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-                        <input type="text" class="form-control" name="txt_search" placeholder="ค้นหา">
+                        <input type="text" class="form-control" name="txt_search" placeholder="ค้นหา" value="<?=$txt_search?>">
+                    </div>
+                    <div class="btn-group">
+                        <?php      echo MultiSelect::widget([
+                            // 'id'=>"multiXX",
+                            'name'=>'sup_select',
+                            'id'=>"sup_select",
+                            //'model'=>null,
+                            "options" => ['multiple'=>"multiple"], // for the actual multiselect
+                            'data' => count($sup)==0?['No Data']:[1,2], // data as array
+                           // 'value' => $sup_select, // if preselected
+                            "clientOptions" =>
+                                [
+                                    "includeSelectAllOption" => true,
+                                    'numberDisplayed' => 5,
+                                    'nonSelectedText'=>'ผู้ขาย',
+                                    'enableFiltering' => true,
+                                    'disabled'=>false,
+                                    'enableCaseInsensitiveFiltering'=>true,
+                                ],
+                        ]); ?>
                     </div>
                     <div class="btn-group">
                        <?php
-                         echo \kartik\select2\Select2::widget([
-                                 'name'=>'sup_select',
-                                 'data'=>\yii\helpers\ArrayHelper::map(\backend\models\Suplier::find()->all(),'id','name'),
-                                 'options'=>['placeholder'=>'เลือกผุ้ขาย']
-                         ]);
-                       ?>
-                    </div>
-                    <div class="btn-group">
-                       <?php
+
                        echo '<div class="input-group drp-container">';
                        echo DateRangePicker::widget([
-                               'name'=>'date_range_1',
-                               'value'=>date('d-m-Y')." ถึง ".date('d-m-Y'),
+                               'name'=>'bill_range',
+                               'value'=>$from_date." ถึง ".$to_date,
                                'convertFormat'=>true,
                                'useWithAddon'=>true,
                                'pluginOptions'=>[
                                    'locale'=>[
-                                           'format'=>'d-M-y',
+                                           'format'=>'d-m-Y',
                                        'separator'=>' ถึง ',
                                    ],
                                    'opens'=>'left'
@@ -123,7 +157,13 @@ HTML;
                        echo '</div>';
                        ?>
                     </div>
+                        <input type="hidden" name="perpage" value="<?=$perpage?>">
+                        <div class="btn-group">
+                            <input type="submit" class="btn btn-info btn-search" value="ค้นหา" />
+                            <div class="btn btn-default btn-reset"> รีเซ็ต</div>
+                        </div>
                     </div>
+                 </form>
                 </div>
                 <div class="col-lg-3">
                     <div class="pull-right">
@@ -251,15 +291,47 @@ HTML;
     <?php Pjax::end(); ?>
 </div>
 
+    <div id="billxModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-md">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><i class="fa fa-print"></i> พิมพ์ใบรับของ <small id="items"> </small></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                             ผู้ขาย
+                            <select name="vendor" id="vendor" class="form-control">
+                                <?php foreach ($sup as $data): ?>
+                                <option value="<?=$data->id?>"><?=$data->name?></option>
+                                <?php endforeach;?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success btn-add-bank">บันทึก</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
 
 <?php
-$this->registerJsFile( '@web/js/sweetalert.min.js',['depends' => [\yii\web\JqueryAsset::className()]],static::POS_END);
-$this->registerCssFile( '@web/css/sweetalert.css');
-//$url_to_delete =  Url::to(['product/bulkdelete'],true);
+
+$url_to_print_bill =  Url::to(['prodrec/callbill'],true);
 $this->registerJs('
     $(function(){
         $("#perpage").change(function(){
             $("#form-perpage").submit();
+        });
+        
+        $(".btn-bill").click(function(){
+            $("form#form-bill").find(".bill_from").val("'.$from_date.'");
+            $("form#form-bill").submit();
         });
     });
 
