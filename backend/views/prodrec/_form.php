@@ -9,6 +9,10 @@ use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Prodrec */
 /* @var $form yii\widgets\ActiveForm */
+
+$url_to_find_sup = Url::to('index.php?r=prodrec/findsupcode',true);
+
+
 ?>
 
 <div class="prodrec-form">
@@ -39,7 +43,17 @@ use yii\helpers\Url;
 
                     <?= $form->field($model, 'suplier_id')->widget(Select2::className(),[
                         'data'=>ArrayHelper::map(\backend\models\Suplier::find()->all(),'id','name'),
-                        'options' => ['placeholder'=>'เลือก'],
+                        'options' => ['placeholder'=>'เลือก','class'=>'suplier_id',
+                            'onchange'=>'
+                           // alert($(this).val());
+                                $.post("'.Url::to(['prodrec/findsupcode'],true).'"+"&id="+$(this).val(),function(data){
+                                          var xdate = new Date();
+                                          var supcode = data;                                                                    
+                                          var lot = supcode+xdate.getDate()+xdate.getMonth()+(xdate.getFullYear()+543);
+                                          $(".lot_no").val(lot);
+                                });
+                            ',
+                            ],
                     ]) ?>
                 </div>
             </div>
@@ -51,18 +65,22 @@ use yii\helpers\Url;
                             'onchange'=>'
                            // alert($(this).val());
                                 $.post("'.Url::to(['prodrec/findzone'],true).'"+"&id="+$(this).val(),function(data){
-                                          $("select#zone_id").html(data);
-                                          $("select#zone_id").prop("disabled","disabled");
+//                                          $("select#zone_id").html(data);
+//                                          $("select#zone_id").prop("disabled","disabled");
+                                            
+                                            var xdata = data.split("/");
+                                            $(".zone_text").val(xdata[1]);
+                                            $(".zone_id").val(xdata[0]);
                                        });
                             ',
                             ],
                     ]) ?>
                 </div>
                 <div class="col-lg-4">
-                    <?= $form->field($model, 'zone_id')->widget(Select2::className(),[
-                        'data'=>ArrayHelper::map(\backend\models\Zone::find()->all(),'id','name'),
-                        'options' => ['placeholder'=>'เลือก','id'=>'zone_id'],
-                    ]) ?>
+                     <p>เลขกอง</p>
+                    <input type="text" style="margin-top: -5px;" class="form-control zone_text" name="zone_text" value="" readonly>
+                    <?= $form->field($model, 'zone_id')->hiddenInput(['class'=>'zone_id'])->label(false) ?>
+
                 </div>
                 <div class="col-lg-4">
                     <?= $form->field($model, 'plan_price')->textInput() ?>
@@ -71,6 +89,9 @@ use yii\helpers\Url;
             <div class="row">
                 <div class="col-lg-4">
                     <?= $form->field($model, 'qty')->textInput(['style'=>'font-size: 32px;height: 100px;font-weight: bold;']) ?>
+                </div>
+                <div class="col-lg-4">
+                    <?= $form->field($model, 'lot_no')->textInput(['readonly'=>'readonly','class'=>'form-control lot_no']) ?>
                 </div>
             </div>
 

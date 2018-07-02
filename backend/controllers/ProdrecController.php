@@ -35,7 +35,7 @@ class ProdrecController extends Controller
                 'rules'=>[
                     [
                         'allow'=>true,
-                        'actions'=>['index','create','update','delete','view','bill','invoice','findzone','callbill'],
+                        'actions'=>['index','create','update','delete','view','bill','invoice','findzone','callbill','findsupcode'],
                         'roles'=>['@'],
                     ]
                 ]
@@ -249,6 +249,11 @@ class ProdrecController extends Controller
 //            'modeladdress' => $modeladdress
 //        ]);
     }
+    public function actionFindsupcode($id){
+        $model = \backend\models\Suplier::find()->where(['id'=>$id])->one();
+        echo count($model)>0?$model->vendor_code:'';
+       // echo $id;
+    }
     public function actionFindzone($id){
        // $model = \common\models\Zone::find()->where(['AMPHUR_ID' => $id])->all();
 
@@ -272,11 +277,13 @@ class ProdrecController extends Controller
                    foreach ($modelzone as $data){
                        $zon = $data->name;
                        if($data->qty == 0){
-                           echo "<option value='" .$data->id. "'>$data->name</option>";
+                           //echo "<option value='" .$data->id. "'>$data->name</option>";
+                          return $data->id."/".$data->name;
                        }
                    }
                }else{
-                   echo "<option>-</option>";
+                   //echo "<option>-</option>";
+                   echo "หห";
                }
            }
         }

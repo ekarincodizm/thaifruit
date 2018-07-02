@@ -5,16 +5,14 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Productionrec */
 
-$this->title = Yii::t('app', 'Update Productionrec: ' . $model->name, [
+$this->title = Yii::t('app', 'รับยอดผลิต: ' . $model->name, [
     'nameAttribute' => '' . $model->name,
 ]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Productionrecs'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'รับยอดผลิต'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
+$this->params['breadcrumbs'][] = Yii::t('app', 'แก้ไข');
 ?>
 <div class="productionrec-update">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,
