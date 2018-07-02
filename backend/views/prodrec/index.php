@@ -218,6 +218,10 @@ HTML;
                                 }
                             ],
                             [
+                                'attribute'=>'lot_no',
+                                'contentOptions' => ['style' => 'vertical-align: middle'],
+                            ],
+                            [
                                 'attribute'=>'qty',
                                 'contentOptions' => ['style' => 'vertical-align: middle'],
                             ],

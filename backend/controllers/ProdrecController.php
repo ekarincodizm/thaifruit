@@ -122,7 +122,7 @@ class ProdrecController extends Controller
         $data = [];
         if ($model->load(Yii::$app->request->post())) {
             $model->status = 1;
-            $model->trans_date = strtotime(date('d-m-Y',$model->trans_date));
+            $model->trans_date = strtotime($model->trans_date);
             if($model->save()){
                 array_push($data,['product_id'=>$model->raw_type,'qty'=>$model->qty,'price'=>$model->plan_price]);
 
