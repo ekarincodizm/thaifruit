@@ -159,7 +159,7 @@ $(function(){
                     <li><a href="index.php?r=prodrec/index" class="prodrec"><i class="lnr lnr-alarm"></i> <span>รับวัตถุดิบ</span></a></li>
                     <li><a href="index.php?r=invoice/index" class="invoice"><i class="lnr lnr-file-add"></i> <span>ใบเสร็จ</span></a></li>
 
-                    <li><a href="tables.html" class=""><i class="lnr lnr-dice"></i> <span>รายงานการผลิต</span></a></li>
+                    <li><a href="index.php?r=productionrec/index" class="productionrec"><i class="lnr lnr-dice"></i> <span>รายงานการผลิต</span></a></li>
                     <li><a href="typography.html" class=""><i class="lnr lnr-text-format"></i> <span>บัญชี</span></a></li>
                     <li><a href="index.php?r=report/index" class="report"><i class="fa fa-area-chart"></i> <span>รายงาน</span></a></li>
                 </ul>
