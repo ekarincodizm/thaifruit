@@ -42,7 +42,7 @@ class ProdRec extends \yii\db\ActiveRecord
             [['journal_no','suplier_id','qty','raw_type','zone_id'],'required'],
             [[ 'suplier_id', 'raw_type', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
             [['qty', 'plan_price'], 'number'],
-            [['qc_note','lot_no'], 'string'],
+            [['qc_note','lot_no','ref_no'], 'string'],
             [['trans_date',],'safe'],
             [['journal_no', 'description'], 'string', 'max' => 255],
         ];
@@ -64,6 +64,7 @@ class ProdRec extends \yii\db\ActiveRecord
             'plan_price' => Yii::t('app', 'ราคา'),
             'qc_note' => Yii::t('app', 'บันทีกคุณภาพ'),
             'zone_id' => Yii::t('app','เลขกอง'),
+            'ref_no' => Yii::t('app','เลขอ้างอิง'),
             'lot_no' => Yii::t('app','Lot'),
             'status' => Yii::t('app', 'สถานะ'),
             'created_at' => Yii::t('app', 'สร้างเมื่อ'),

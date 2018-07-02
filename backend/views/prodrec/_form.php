@@ -95,6 +95,9 @@ $url_to_find_sup = Url::to('index.php?r=prodrec/findsupcode',true);
                 <div class="col-lg-4">
                     <?= $form->field($model, 'lot_no')->textInput(['readonly'=>'readonly','class'=>'form-control lot_no']) ?>
                 </div>
+                <div class="col-lg-4">
+                    <?= $form->field($model, 'ref_no')->textInput(['class'=>'form-control ref_no']) ?>
+                </div>
             </div>
 
            <div class="row">

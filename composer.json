@@ -21,7 +21,6 @@
         "kartik-v/yii2-grid": "*",
         "kartik-v/yii2-widget-datepicker": "*",
         "kartik-v/yii2-widget-select2": "@dev",
-        "kartik-v/yii2-widget-typeahead": "*",
         "toxor88/yii2-widget-switchery": "*",
         "kartik-v/bootstrap-fileinput": "@dev",
         "kartik-v/yii2-date-range": "dev-master",
