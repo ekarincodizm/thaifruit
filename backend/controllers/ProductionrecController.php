@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\helpers\Json;
 /**
  * ProductionrecController implements the CRUD actions for Productionrec model.
  */
@@ -32,7 +33,7 @@ class ProductionrecController extends Controller
                 'rules'=>[
                     [
                         'allow'=>true,
-                        'actions'=>['index','create','update','delete','view'],
+                        'actions'=>['index','create','update','delete','view','findemp','findzonedate'],
                         'roles'=>['@'],
                     ]
                 ]
@@ -137,5 +138,22 @@ class ProductionrecController extends Controller
         }
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+    }
+    public function actionFindemp(){
+        $emp = Yii::$app->request->post('term');
+        $model = \backend\models\Employee::find()->where(['LIKE','first_name',$emp])->all();
+        if($model){
+            return Json::encode($model);
+        }
+    }
+    public function actionFindzonedate($id){
+        if($id){
+            $model = \backend\models\Prodrec::find()->where(['zone_id'=>$id])->one();
+            if($model){
+                return date('d-m-Y',$model->created_at);
+            }else{
+                return '';
+            }
+        }
     }
 }

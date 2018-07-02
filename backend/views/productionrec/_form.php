@@ -10,6 +10,14 @@ use kartik\date\DatePicker;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Productionrec */
 /* @var $form yii\widgets\ActiveForm */
+
+$this->registerJsFile(
+    '@web/jquery-ui-1.12.1/jquery-ui.js?V=001',
+    ['depends' => [\yii\web\JqueryAsset::className()]],
+    static::POS_END
+);
+$this->registerCssFile('@web/jquery-ui-1.12.1/jquery-ui.css');
+
 ?>
 
 <div class="productionrec-form">
@@ -31,11 +39,18 @@ use kartik\date\DatePicker;
                 <div class="col-lg-4">
                     <?= $form->field($model, 'zone_id')->widget(Select2::className(),[
                             'data'=>ArrayHelper::map(\backend\models\Zone::find()->all(),'id','name'),
-                            'options' => ['placeholder'=>'เลือก'],
+                            'options' => ['placeholder'=>'เลือก',
+                                'onchange'=>' 
+                                  var xx = "'.Url::to(['productionrec/findzonedate'],true).'&id="+$(this).val();
+                                    $.post(xx,function(data){
+                                           $(".zone_date").val(data);                                             
+                                        });
+                                '
+                                ],
                     ]) ?>
                 </div>
                 <div class="col-lg-4">
-                    <?= $form->field($model, 'zone_date')->textInput() ?>
+                    <?= $form->field($model, 'zone_date')->textInput(['class'=>'form-control zone_date','readonly'=>'readonly']) ?>
                 </div>
             </div>
            <div class="row">
@@ -68,28 +83,28 @@ use kartik\date\DatePicker;
                          </thead>
                            <tbody>
                            <tr>
-                               <td>1</td>
+                               <td style="vertical-align: middle">1</td>
                                <td>
-                                   <input type="hidden" class="asset_id" name="asset_id[]" value="">
-                                   <input  id="task-1" class="line_asset_code" type="text" name="line_asset_code[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;" value="">
+                                   <input type="hidden" class="emp_id" name="emp_id[]" value="">
+                                   <input  id="task-1" class="line_emp_code" type="text" name="line_emp_code[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: left" value="">
                                </td>
                                <td>
-                                   <input  id="task-1" class="line_asset_code" type="text" name="line_asset_code[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;" value="">
+                                   <input  id="task-1" class="line_time_one" onchange="cal_num($(this));" type="text" name="line_time_one[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="">
                                </td>
                                <td>
-                                   <input  id="task-1" class="line_asset_code" type="text" name="line_asset_code[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;" value="">
+                                   <input  id="task-1" class="line_time_two" onchange="cal_num($(this));" type="text" name="line_time_two[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="">
                                </td>
                                <td>
-                                   <input  id="task-1" class="line_asset_code" type="text" name="line_asset_code[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;" value="">
+                                   <input  id="task-1" class="line_time_three" onchange="cal_num($(this));" type="text" name="line_time_three[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="">
                                </td>
                                <td>
-                                   <input  id="task-1" class="line_asset_code" type="text" name="line_asset_code[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;" value="">
+                                   <input  id="task-1" class="line_time_four" onchange="cal_num($(this));" type="text" name="line_time_four[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="">
                                </td>
                                <td>
-                                   <input  id="task-1" class="line_asset_code" type="text" name="line_asset_code[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;" value="">
+                                   <input  id="task-1" class="line_time_five" onchange="cal_num($(this));" type="text" name="line_time_five[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="">
                                </td>
                                <td>
-                                   <input readonly id="task-1" class="line_asset_code" type="text" name="line_asset_code[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;" value="">
+                                   <input readonly id="task-1" class="line_total"  type="text" name="line_total[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="">
                                </td>
                                <td>
                                    <div class="btn btn-danger btn-sm btn-remove-line" onclick="removeline($(this))">ลบ</div>
@@ -119,39 +134,75 @@ $url_to_search = Url::to(['productionrec/findemp'],true);
  $this->registerJs('
    $(function(){
     var idInc = 2;
-       $(".btn-add").click(function(){
+    $(".line_emp_code").autocomplete({
+        minLength: 1,
+        source: function(query,response){
+            $.ajax({
+            url: "'.$url_to_search.'",
+            data: { term: query},
+            dataType: "json",
+            type: "POST",
+            success: function(data) { 
+                response($.map(data, function(obj) {
+                   // return obj.asset_code;
+                    return {
+                        label: obj.first_name,
+                        value: obj.first_name,            
+                        name: obj.first_name,            
+                        id: obj.id 
+                    };
+                }));
+            }
+
+            });
+        },
+        change: function(event,ui){
+           //alert(event);
+           $(".line_name").val(ui.item.name);
+           $(".emp_id").val(ui.item.id);
+           $(".line_qty").focus();
+        }
+      });
+     
+    
+      $(".btn-add").click(function(){
+      
       var linenum = 0;
       var $tr = $(".table-line tbody tr:last");
+      
+      if($tr.find(".line_emp_code").val()==""){return;}
+      
       var $clone = $tr.clone();
       $clone.find(":text").val("");
-      $clone.find(".line_asset_code").attr("id","task-"+idInc);
-//             $clone.find(".line_asset_code").autocomplete({
-//                minLength: 1,
-//                source: function(query,response){
-//                    $.ajax({
-//                    url: "'.$url_to_search.'",
-//                    data: { term: query},
-//                    dataType: "json",
-//                    type: "POST",
-//                    success: function(data) { 
-//                        response($.map(data, function(obj) {
-//                            //return obj.asset_code;
-//                            return {
-//                                label: obj.asset_code,
-//                                value: obj.asset_code,            
-//                                name: obj.name,            
-//                                id: obj.id 
-//                            };
-//                        }));
-//                    }
-//        
-//                    });
-//                },
-//                 change: function(event,ui){
-//                    $clone.find(".line_name").val(ui.item.name);
-//                    $clone.find(".line_qty").focus();
-//                }
-//            });
+      $clone.find(".line_emp_code").attr("id","task-"+idInc);
+             $clone.find(".line_emp_code").autocomplete({
+                minLength: 1,
+                source: function(query,response){
+                    $.ajax({
+                    url: "'.$url_to_search.'",
+                    data: { term: query},
+                    dataType: "json",
+                    type: "POST",
+                    success: function(data) { 
+                        response($.map(data, function(obj) {
+                            //return obj.asset_code;
+                            return {
+                                label: obj.first_name,
+                                value: obj.first_name,            
+                                name: obj.first_name,            
+                                id: obj.id 
+                            };
+                        }));
+                    }
+        
+                    });
+                },
+                 change: function(event,ui){
+                    $clone.find(".line_name").val(ui.item.first_name);
+                    $clone.find(".emp_id").val(ui.item.id);
+                    $clone.find(".line_qty").focus();
+                }
+            });
       idInc+=1;
       $tr.after($clone);
       
@@ -159,9 +210,31 @@ $url_to_search = Url::to(['productionrec/findemp'],true);
          linenum+=1;
          $(this).closest("tr").find("td:eq(0)").text(linenum);
       });
+     });
+    $(".line_num_one").on("keypress keyup blur",function(event){
+       $(this).val($(this).val().replace(/[^0-9\.]/g,""));
+       if((event.which != 46 || $(this).val().indexOf(".") != -1) && (event.which <48 || event.which >57)){event.preventDefault();}
     });
+    
    });
+   function cal_num(e){
    
+     var one = e.closest("tr").find(".line_time_one").val();
+     var two = e.closest("tr").find(".line_time_two").val();
+     var three = e.closest("tr").find(".line_time_three").val();
+     var four = e.closest("tr").find(".line_time_four").val();
+     var five = e.closest("tr").find(".line_time_five").val();
+     
+     if(one == ""){one = 0;}
+     if(two == ""){two = 0;}
+     if(three == ""){three = 0;}
+     if(four == ""){four = 0;}
+     if(five == ""){five = 0;}
+     
+     var newqty = parseInt(one) + parseInt(two) + parseInt(three) + parseInt(four) + parseInt(five);
+     e.closest("tr").find(".line_total").val("");
+     e.closest("tr").find(".line_total").val(newqty);
+   }
     function removeline(e){
    if(confirm("Do you want to delete this record ?")){
      if($(".table-line tbody tr").length == 1){

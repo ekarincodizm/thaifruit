@@ -38,8 +38,9 @@ class ProductionRec extends \yii\db\ActiveRecord
     {
         return [
             [['zone_id'],'required'],
-            [['trans_date', 'zone_id','zone_type', 'zone_date', 'zone_status', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
+            [['trans_date', 'zone_id','zone_type', 'zone_status', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
             [['all_qty'], 'number'],
+            [['zone_date'],'safe'],
             [['name', 'note'], 'string', 'max' => 255],
         ];
     }
