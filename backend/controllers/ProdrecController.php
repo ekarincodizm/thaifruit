@@ -83,7 +83,7 @@ class ProdrecController extends Controller
 
         $dataProvider->query->andFilterWhere(['or',['LIKE','journal_no',$txt_search],['LIKE','qty',$txt_search]]);
         $dataProvider->query->andFilterWhere(['and',['>=','trans_date',$from_date],['<=','trans_date',$to_date]]);
-        $dataProvider->query->andFilterWhere(['suplier_id'=>$sup_select]);
+        $dataProvider->query->andFilterWhere(['LIKE','suplier_id',$sup_select]);
 
 
         $dataProvider->pagination->pageSize = $pageSize;
@@ -122,13 +122,69 @@ class ProdrecController extends Controller
         $model = new Prodrec();
         $data = [];
         if ($model->load(Yii::$app->request->post())) {
+
+            $prod_recid = Yii::$app->request->post('product_id');
+            $line_zone = Yii::$app->request->post('line_zone_id');
+            $line_lot = Yii::$app->request->post('line_lot');
+            $line_qty = Yii::$app->request->post('line_qty');
+
+
+            $has_issue = Yii::$app->request->post('has_issue');
+            $product_issue_id = Yii::$app->request->post('product_issue_id');
+            $line_issue_qty = Yii::$app->request->post('line_issue_qty');
+            $line_issue_price = Yii::$app->request->post('line_issue_price');
+
+             // echo count($product_issue_id);return;
+
+            // print_r($prod_recid);return;
+
             $model->status = 1;
             $model->trans_date = strtotime($model->trans_date);
             if($model->save()){
-                array_push($data,['product_id'=>$model->raw_type,'qty'=>$model->qty,'price'=>$model->plan_price]);
 
+                if(count($prod_recid)>0){
+
+                    for($i=0;$i<=count($prod_recid)-1;$i++){
+                        if($prod_recid[$i]==''){continue;}
+
+                        $modelrec = new \backend\models\Prodrecline();
+                        $modelrec->prod_rec_id = $model->id;
+                        $modelrec->product_id = $prod_recid[$i];
+                        $modelrec->zone_id = $line_zone[$i];
+                        $modelrec->lot_no = $line_lot[$i];
+                        $modelrec->qty = $line_qty[$i];
+                        $modelrec->line_type = 1; // รับสินค้า
+
+                        if($modelrec->save(false)){
+                            array_push($data,['product_id'=>$prod_recid[$i],'qty'=>$line_qty[$i],'price'=>$model->plan_price]);
+                            \backend\models\Journal::createTrans($line_zone[$i],$data,'','');
+                        }
+                    }
+                }
+
+                if($has_issue ==1 && count($product_issue_id)>0){
+                    for($i=0;$i<=count($product_issue_id)-1;$i++){
+                        if($product_issue_id[$i]==''){continue;}
+
+                        $modelrec = new \backend\models\Prodrecline();
+                        $modelrec->prod_rec_id = $model->id;
+                        $modelrec->product_id = $product_issue_id[$i];
+                       // $modelrec->zone_id = $line_zone[$i];
+                       // $modelrec->lot_no = $line_lot[$i];
+                        $modelrec->qty = $line_issue_qty[$i];
+                        $modelrec->price = $line_issue_price[$i];
+                        $modelrec->line_type = 2; // เบิกสินค้า
+
+                        if($modelrec->save(false)){
+//                            array_push($data,['product_id'=>$prod_recid[$i],'qty'=>$line_qty[$i],'price'=>$model->plan_price]);
+//                            \backend\models\Journal::createTrans($line_zone[$i],$data,'','');
+                        }
+                    }
+                }
+
+                //array_push($data,['product_id'=>$model->raw_type,'qty'=>$model->qty,'price'=>$model->plan_price]);
                // print_r($data);return;
-                \backend\models\Journal::createTrans($model->zone_id,$data,'','');
+                //\backend\models\Journal::createTrans($model->zone_id,$data,'','');
 
                 $session = Yii::$app->session;
                 $session->setFlash('msg','บันทึกรายการเรียบร้อย');
@@ -152,6 +208,8 @@ class ProdrecController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $modelrec = \backend\models\Prodrecline::find()->where(['prod_rec_id'=>$id,'line_type'=>1])->all();
+        $modelissue = \backend\models\Prodrecline::find()->where(['prod_rec_id'=>$id,'line_type'=>2])->all();
 
         if ($model->load(Yii::$app->request->post())) {
             $model->status = 1;
@@ -165,6 +223,8 @@ class ProdrecController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'modelrec'=> $modelrec,
+            'modelissue'=>$modelissue,
 
         ]);
     }
@@ -223,7 +283,7 @@ class ProdrecController extends Controller
         $modelline = \backend\models\Prodrec::find()
             ->andFilterWhere(['or',['LIKE','journal_no',$txt_search],['LIKE','qty',$txt_search]])
             ->andFilterWhere(['and',['>=','trans_date',strtotime($from_date)],['<=','trans_date',strtotime($to_date)]])
-            ->andFilterWhere(['suplier_id'=>$sup])->all();
+            ->andFilterWhere(['like','suplier_id',$sup])->all();
       //  echo $sup;return;
 
         if(!$modelline){ return;}
@@ -261,10 +321,12 @@ class ProdrecController extends Controller
 
         return $pdf->render();
 
-
 //        return $this->render('_bill',[
 //            'model'=>$model,
-//            'modeladdress' => $modeladdress
+//            'modelline'=>$modelline,
+//            'modeladdress' => $modeladdress,
+//            'sup'=>$supname,
+//            'bill_date'=>$from_date,
 //        ]);
     }
     public function actionFindsupcode($id){

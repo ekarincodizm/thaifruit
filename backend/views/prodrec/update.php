@@ -16,6 +16,8 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'แก้ไข');
 
     <?= $this->render('_form', [
         'model' => $model,
+        'modelrec'=> $modelrec,
+        'modelissue'=>$modelissue,
         //'runno' => $runno,
     ]) ?>
 
