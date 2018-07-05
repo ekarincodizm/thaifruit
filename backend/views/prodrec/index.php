@@ -6,7 +6,7 @@ use yii\widgets\Pjax;
 use yii\helpers\Url;
 use lavrentiev\widgets\toastr\Notification;
 use backend\assets\ICheckAsset;
-use kartik\daterange\DateRangePicker;
+//use kartik\daterange\DateRangePicker;
 use dosamigos\multiselect\MultiSelect;
 use yii\helpers\ArrayHelper;
 /* @var $this yii\web\View */
@@ -127,22 +127,22 @@ HTML;
                     <div class="btn-group">
                        <?php
 
-                       echo '<div class="input-group drp-container">';
-                       echo DateRangePicker::widget([
-                               'name'=>'bill_range',
-                               'value'=>$from_date." ถึง ".$to_date,
-                               'convertFormat'=>true,
-                               'useWithAddon'=>true,
-                               'options' => ['class'=>'form-control find_date'],
-                               'pluginOptions'=>[
-                                   'locale'=>[
-                                           'format'=>'d-m-Y',
-                                       'separator'=>' ถึง ',
-                                   ],
-                                   'opens'=>'left'
-                               ]
-                           ]) . $addon;
-                       echo '</div>';
+//                       echo '<div class="input-group drp-container">';
+//                       echo DateRangePicker::widget([
+//                               'name'=>'bill_range',
+//                               'value'=>$from_date." ถึง ".$to_date,
+//                               'convertFormat'=>true,
+//                               'useWithAddon'=>true,
+//                               'options' => ['class'=>'form-control find_date'],
+//                               'pluginOptions'=>[
+//                                   'locale'=>[
+//                                           'format'=>'d-m-Y',
+//                                       'separator'=>' ถึง ',
+//                                   ],
+//                                   'opens'=>'left'
+//                               ]
+//                           ]) . $addon;
+//                       echo '</div>';
                        ?>
                     </div>
                         <input type="hidden" name="perpage" value="<?=$perpage?>">

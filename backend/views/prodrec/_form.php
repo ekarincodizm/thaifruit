@@ -99,18 +99,20 @@ $has = count($modelissue)>0?1:0;
                                 <td>
                                     <input readonly id="task-1" class="line_zone"  type="text" name="line_zone[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="">
                                     <input readonly id="task-1" class="line_zone_id"  type="hidden" name="line_zone_id[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="">
+                                    <input readonly id="task-1" class="line_zone_max"  type="hidden" name="line_zone_max[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="">
                                 </td>
                                 <td>
                                     <input readonly id="task-1" class="line_lot"  type="text" name="line_lot[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="">
                                 </td>
                                 <td>
-                                    <input  id="task-1" class="line_qty"  type="text" name="line_qty[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="">
+                                    <input  id="task-1" class="line_qty"  type="text" name="line_qty[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="" onchange="line_qty_change($(this))">
                                 </td>
                                 <td>
                                     <div class="btn btn-danger btn-sm btn-remove-line" onclick="removeline($(this))">ลบ</div>
                                 </td>
                             </tr>
                         <?php else:?>
+                           <?php if(count($modelrec)>0):?>
                              <?php foreach($modelrec as $value):?>
                                <tr>
                                    <td>
@@ -128,6 +130,7 @@ $has = count($modelissue)>0?1:0;
                                    <td>
                                        <input readonly id="task-1" class="line_zone"  type="text" name="line_zone[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="<?=\backend\models\Zone::findName($value->zone_id)?>">
                                        <input readonly id="task-1" class="line_zone_id"  type="hidden" name="line_zone_id[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="<?=$value->zone_id?>">
+                                       <input readonly id="task-1" class="line_zone_max"  type="hidden" name="line_zone_max[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="">
                                    </td>
                                    <td>
                                        <input readonly id="task-1" class="line_lot"  type="text" name="line_lot[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="<?=$value->lot_no?>">
@@ -140,7 +143,33 @@ $has = count($modelissue)>0?1:0;
                                    </td>
                                </tr>
                             <?php endforeach;?>
-                        <?php endif;?>
+                               <?php else:?>
+                                   <tr>
+                                       <td>
+                                           <select name="product_id[]" onchange="checkzone($(this));" class="form-control line_product" id="" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center">
+                                               <option value="">เลือกประเภท</option>
+                                               <?php foreach($modelproduct as $data):?>
+                                                   <option value="<?=$data->id?>"><?=$data->product_code?></option>
+                                               <?php endforeach;?>
+                                           </select>
+                                       </td>
+                                       <td>
+                                           <input readonly id="task-1" class="line_zone"  type="text" name="line_zone[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="">
+                                           <input readonly id="task-1" class="line_zone_id"  type="hidden" name="line_zone_id[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="">
+                                           <input readonly id="task-1" class="line_zone_max"  type="hidden" name="line_zone_max[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="">
+                                       </td>
+                                       <td>
+                                           <input readonly id="task-1" class="line_lot"  type="text" name="line_lot[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="">
+                                       </td>
+                                       <td>
+                                           <input  id="task-1" class="line_qty"  type="text" name="line_qty[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="" onchange="line_qty_change($(this))">
+                                       </td>
+                                       <td>
+                                           <div class="btn btn-danger btn-sm btn-remove-line" onclick="removeline($(this))">ลบ</div>
+                                       </td>
+                                   </tr>
+                            <?php endif;?>
+                           <?php endif;?>
                         </tbody>
                     </table>
                     <div class="btn btn-primary btn-add"><i class="fa fa-plus-circle"></i> เพิ่มรายการ </div>
@@ -165,32 +194,55 @@ $has = count($modelissue)>0?1:0;
                         </thead>
                         <tbody>
                         <?php if(!$model->isNewRecord):?>
-                        <?php foreach ($modelissue as $data):?>
+                            <?php if(count($modelissue)>0):?>
+                                <?php foreach ($modelissue as $data):?>
+                                        <tr>
+                                            <td>
+                                                <select name="product_issue_id[]" onchange="checkzone($(this));" class="form-control line_product" id="" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center">
+                                                    <option value="">เลือกประเภท</option>
+                                                    <?php foreach($modelproduct2 as $data2):?>
+                                                    <?php
+                                                        $select = '';
+                                                        if($data2->id == $data->product_id){$select="selected";}
+                                                        ?>
+                                                        <option value="<?=$data2->id?>" <?=$select?>><?=$data2->product_code?></option>
+                                                    <?php endforeach;?>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input  id="task-1" class="line_issue_qty"  type="text" name="line_issue_qty[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="<?=$data->qty?>">
+                                            </td>
+                                            <td>
+                                                <input  id="task-1" class="line_issue_price"  type="text" name="line_issue_price[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="<?=$data->price?>">
+                                            </td>
+                                            <td>
+                                                <div class="btn btn-danger btn-sm btn-remove-line" onclick="removelineissue($(this))">ลบ</div>
+                                            </td>
+                                        </tr>
+                                <?php endforeach;?>
+
+                                <?php else:?>
                                 <tr>
                                     <td>
                                         <select name="product_issue_id[]" onchange="checkzone($(this));" class="form-control line_product" id="" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center">
                                             <option value="">เลือกประเภท</option>
-                                            <?php foreach($modelproduct2 as $data2):?>
-                                            <?php
-                                                $select = '';
-                                                if($data2->id == $data->product_id){$select="selected";}
-                                                ?>
-                                                <option value="<?=$data2->id?>" <?=$select?>><?=$data2->product_code?></option>
+                                            <?php foreach($modelproduct2 as $data):?>
+                                                <option value="<?=$data->id?>"><?=$data->product_code?></option>
                                             <?php endforeach;?>
                                         </select>
                                     </td>
                                     <td>
-                                        <input  id="task-1" class="line_issue_qty"  type="text" name="line_issue_qty[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="<?=$data->qty?>">
+                                        <input  id="task-1" class="line_issue_qty"  type="text" name="line_issue_qty[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="">
                                     </td>
                                     <td>
-                                        <input  id="task-1" class="line_issue_price"  type="text" name="line_issue_price[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="<?=$data->price?>">
+                                        <input  id="task-1" class="line_issue_price"  type="text" name="line_issue_price[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="">
                                     </td>
                                     <td>
                                         <div class="btn btn-danger btn-sm btn-remove-line" onclick="removelineissue($(this))">ลบ</div>
                                     </td>
                                 </tr>
-                        <?php endforeach;?>
-                        <?php else:?>
+                        <?php endif;?>
+                  <?php else:?>
                         <tr>
                             <td>
                                 <select name="product_issue_id[]" onchange="checkzone($(this));" class="form-control line_product" id="" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center">
@@ -298,15 +350,48 @@ $this->registerJs('
    });
    function checkzone(e){
       //  alert(e.val());
-        var url = "'.$url_to_findzone.'"+"&id="+e.val();
+      var curzone =  e.closest("tr").find(".line_zone_id").val();
+      var listzone = [];
+       $("table.table-line tbody tr").each(function(){
+          if($(this).find(".line_qty").val() >0){
+            listzone.push($(this).find(".line_zone_id").val());
+          }
+       });
+       alert(listzone[0]);
+        var url = "'.$url_to_findzone.'"+"&id="+e.val()+"&zoneid="+listzone;
      //   alert(url);
         $.post(url,function(data){
-     //   alert(data);
                 var xdata = data.split("/");
                 e.closest("tr").find(".line_qty").val(0);
                 e.closest("tr").find(".line_zone_id").val(xdata[0]);
                 e.closest("tr").find(".line_zone").val(xdata[1]);
+                e.closest("tr").find(".line_zone_max").val(xdata[2]);
          });
+   }
+   function line_qty_change(e){
+      var maxval = e.closest("tr").find(".line_zone_max").val();
+      var addqty = 0;
+     // alert(e.parent().parent().index());
+     
+      if(parseInt(e.val()) > parseInt(maxval)){
+       alert("จำนวนรับมากกว่าจำนวนที่กองกำหนด");
+       e.val(0);
+       return;
+//      addqty = parseInt(e.val())/parseInt(maxval)-1;
+//        if(addqty > 0){
+//        var x = 0;
+//           for(x=0;x<=addqty-1;x++){
+//              var $tr = e.parent().parent();
+//              var $clone = $tr.clone();
+//              $clone.find(":text").val("");
+//              $clone.find(".product_id").val($tr.find(".product_id").val());
+//              $clone.find(".line_zone").val($tr.find(".line_zone").val());
+//              $clone.find(".line_lot").val($tr.find(".line_lot").val());
+//              $clone.find(".line_qty").val(1000);
+//              $tr.after($clone);
+//           }
+//        }
+      }
    }
    function cal_num(e){
    
