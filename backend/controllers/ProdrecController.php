@@ -393,7 +393,7 @@ class ProdrecController extends Controller
     }
     public function actionFindzone($id,$zoneid){
        // $model = \common\models\Zone::find()->where(['AMPHUR_ID' => $id])->all();
-        $lisid = explode(',',$zoneid);
+      //  $lisid = explode(',',$zoneid);
 
         $modelprod = \backend\models\Product::find()->where(['id'=>$id])->one();
         if($modelprod){
@@ -410,7 +410,7 @@ class ProdrecController extends Controller
           //  $maxqty = $modelprod->zone_qty_per;
           //  $currentqty = $modelprod->all_qty;
            if($zonegroup !=''){
-               $modelzone = \backend\models\Zone::find()->where(['like','name',$zonegroup])->all();
+               $modelzone = \backend\models\Zone::find()->where(['like','name',$zonegroup])->andFilterWhere(['!=','id',$zoneid])->all();
                if($modelzone){
                    foreach ($modelzone as $data){
                        $zon = $data->name;
