@@ -11,8 +11,11 @@ use yii\helpers\Url;
 /* @var $form yii\widgets\ActiveForm */
 
 $url_to_find_sup = Url::to('index.php?r=prodrec/findsupcode',true);
-$modelproduct = \backend\models\Product::find()->where(['status'=>1,'category_id'=>[1,2]])->all();
-$modelproduct2 = \backend\models\Product::find()->where(['status'=>1,'category_id'=>3])->all();
+
+$modelgreen = \backend\models\Productcat::find()->where(['LIKE','name','วัสดุ'])->one();
+
+$modelproduct = \backend\models\Product::find()->where(['status'=>1])->andFilterWhere(['!=','category_id',$modelgreen->id])->all();
+$modelproduct2 = \backend\models\Product::find()->where(['status'=>1,'category_id'=>$modelgreen->id])->all();
 
 $has = count($modelissue)>0?1:0;
 ?>
@@ -367,25 +370,68 @@ $this->registerJs('
           }
        });
        //alert(listzone[0]);
-        var url = "'.$url_to_findzone.'"+"&id="+e.val()+"&zoneid="+listzone;
+       // var url = "'.$url_to_findzone.'"+"&id="+e.val()+"&zoneid="+listzone;
         //alert(url);
-        $.post(url,function(data){
-                var xdata = data.split("/");
-                e.closest("tr").find(".line_qty").val(0);
-                e.closest("tr").find(".line_zone_id").val(xdata[0]);
-                e.closest("tr").find(".line_zone").val(xdata[1]);
-                e.closest("tr").find(".line_zone_max").val(xdata[2]);
-         });
+//        $.post(url,function(data){
+//                var xdata = data.split("/");
+//                e.closest("tr").find(".line_qty").val(0);
+//                e.closest("tr").find(".line_zone_id").val(xdata[0]);
+//                e.closest("tr").find(".line_zone").val(xdata[1]);
+//                e.closest("tr").find(".line_zone_max").val(xdata[2]);
+//         });
    }
    function line_qty_change(e){
       var maxval = e.closest("tr").find(".line_zone_max").val();
       var addqty = 0;
      // alert(e.parent().parent().index());
+      
+      var prodid = e.closest("tr").find(".line_product").val();
+      var curqty = e.val();
+      
      
-      if(parseInt(e.val()) > parseInt(maxval)){
-       alert("จำนวนรับมากกว่าจำนวนที่กองกำหนด");
-       e.val(0);
-       return;
+      
+       var url = "'.$url_to_findzone.'"+"&id="+prodid+"&qty="+curqty;
+       var zonename = "";
+       $.ajax({
+          type: "get",
+          dataType: "json",
+          url : "'.$url_to_findzone.'",
+          async: false,
+          data : {id:prodid,qty:curqty},
+          success: function(data){
+             if(data.length > 0){
+                for(var x=0;x<=data.length -1;x++){
+                   if(x==0){
+                       zonename=zonename+data[x]["name"];
+                   }else if(x == data.length -1){
+                       zonename=zonename+","+data[x]["name"];
+                   }
+                   else{
+                      zonename=zonename+","+data[x]["name"];
+                   }
+                   
+                   //alert(zonename);
+                }
+             }
+          }
+       });
+       
+       e.closest("tr").find(".line_zone").val(zonename);
+       
+        //alert(url);
+       // $.post(url,function(data){
+//                var xdata = data.split("/");
+//                e.closest("tr").find(".line_qty").val(0);
+//                e.closest("tr").find(".line_zone_id").val(xdata[0]);
+//                e.closest("tr").find(".line_zone").val(xdata[1]);
+//                e.closest("tr").find(".line_zone_max").val(xdata[2]);
+       //    alert(data[0]);
+         //});
+      
+     // if(parseInt(e.val()) > parseInt(maxval)){
+    //   alert("จำนวนรับมากกว่าจำนวนที่กองกำหนด");
+    //   e.val(0);
+ //      return;
 //      addqty = parseInt(e.val())/parseInt(maxval)-1;
 //        if(addqty > 0){
 //        var x = 0;
@@ -400,7 +446,7 @@ $this->registerJs('
 //              $tr.after($clone);
 //           }
 //        }
-      }
+  //    }
    }
    function cal_num(e){
    

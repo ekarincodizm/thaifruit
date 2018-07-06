@@ -5,6 +5,7 @@ namespace backend\controllers;
 use Yii;
 use backend\models\Prodrec;
 use backend\models\ProdrecSearch;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -391,9 +392,8 @@ class ProdrecController extends Controller
         echo count($model)>0?$model->vendor_code:'';
        // echo $id;
     }
-    public function actionFindzone($id,$zoneid){
-       // $model = \common\models\Zone::find()->where(['AMPHUR_ID' => $id])->all();
-      //  $lisid = explode(',',$zoneid);
+    public function actionFindzone($id,$qty){
+       //return $id;
 
         $modelprod = \backend\models\Product::find()->where(['id'=>$id])->one();
         if($modelprod){
@@ -410,15 +410,30 @@ class ProdrecController extends Controller
           //  $maxqty = $modelprod->zone_qty_per;
           //  $currentqty = $modelprod->all_qty;
            if($zonegroup !=''){
-               $modelzone = \backend\models\Zone::find()->where(['like','name',$zonegroup])->andFilterWhere(['!=','id',$zoneid])->all();
+               $modelzone = \backend\models\Zone::find()->where(['like','name',$zonegroup])->all();
                if($modelzone){
+                   $json = [];
+                   $xqty = 0;
                    foreach ($modelzone as $data){
                        $zon = $data->name;
                        if($data->qty == 0){
+                           if($data->max_qty > $qty){
+                               array_push($json,['id'=>$data->id,'name'=>$data->name,'qty'=>$qty]);
+                               return Json::encode($json);
+                           }else{
+                               if($qty > $data->max_qty){
+                                   array_push($json,['id'=>$data->id,'name'=>$data->name,'qty'=>$data->max_qty]);
+                                   $qty = $qty - $data->max_qty;
+                               }else{
+                                   array_push($json,['id'=>$data->id,'name'=>$data->name,'qty'=>$qty]);
+                               }
+
+                           }
                            //echo "<option value='" .$data->id. "'>$data->name</option>";
-                          return $data->id."/".$data->name."/".$data->max_qty;
+                         // array_push($json,['id'=>$data->id,'name'=>$data->name,'qty'=>$data->max_qty]);
                        }
                    }
+                   return Json::encode($json);
                }else{
                    //echo "<option>-</option>";
                    echo "หห";
