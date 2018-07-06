@@ -102,7 +102,7 @@ $has = count($modelissue)>0?1:0;
                                 <td>
                                     <input readonly id="task-1" class="line_zone"  type="text" name="line_zone[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="">
                                     <input readonly id="task-1" class="line_zone_id"  type="hidden" name="line_zone_id[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="">
-                                    <input readonly id="task-1" class="line_zone_max"  type="hidden" name="line_zone_max[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="">
+                                    <input readonly id="task-1" class="line_zone_qty"  type="hidden" name="line_zone_qty[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="">
                                 </td>
                                 <td>
                                     <input readonly id="task-1" class="line_lot"  type="text" name="line_lot[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="">
@@ -392,6 +392,8 @@ $this->registerJs('
       
        var url = "'.$url_to_findzone.'"+"&id="+prodid+"&qty="+curqty;
        var zonename = "";
+       var zonelist = [];
+       var zonelistqty = [];
        $.ajax({
           type: "get",
           dataType: "json",
@@ -400,6 +402,7 @@ $this->registerJs('
           data : {id:prodid,qty:curqty},
           success: function(data){
              if(data.length > 0){
+                
                 for(var x=0;x<=data.length -1;x++){
                    if(x==0){
                        zonename=zonename+data[x]["name"];
@@ -409,7 +412,8 @@ $this->registerJs('
                    else{
                       zonename=zonename+","+data[x]["name"];
                    }
-                   
+                   zonelist.push(data[x]["id"]);
+                   zonelistqty.push(data[x]["qty"]);
                    //alert(zonename);
                 }
              }
@@ -417,6 +421,8 @@ $this->registerJs('
        });
        
        e.closest("tr").find(".line_zone").val(zonename);
+       e.closest("tr").find(".line_zone_id").val(zonelist);
+       e.closest("tr").find(".line_zone_qty").val(zonelistqty);
        
         //alert(url);
        // $.post(url,function(data){

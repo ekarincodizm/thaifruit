@@ -137,7 +137,7 @@ class ProdrecController extends Controller
 
              // echo count($product_issue_id);return;
 
-            // print_r($prod_recid);return;
+             print_r($line_zone);return;
 
             $model->status = 1;
             $model->trans_date = strtotime($model->trans_date);
