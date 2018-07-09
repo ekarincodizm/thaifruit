@@ -162,6 +162,7 @@ class ProdrecController extends Controller
                                     $modelrec->qty = $qty_line[$m];
                                     $modelrec->line_type = 1; // รับสินค้า
                                     $modelrec->list_zone = $line_zone[$i];
+                                    $modelrec->list_qty = $line_qty[$i];
 
                                     if($modelrec->save(false)){
                                         array_push($data,['product_id'=>$prod_recid[$i],'qty'=>$qty_line[$m],'price'=>$model->plan_price]);

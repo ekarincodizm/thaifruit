@@ -134,16 +134,21 @@ $has = count($modelissue)>0?1:0;
                                    <td>
 
                                        <?php
-                                         $show_zone = '';
-                                         $savezone = explode(',',$value->list_zone);
-                                         if(count($savezone)>0){
+                                       $show_zone = '';
+                                       $show_qty = 0;
+                                       $savezone = explode(',',$value->list_zone);
+                                      // $saveqty = explode(',',$value->list_qty);
+                                       if(count($savezone)>0){
                                              for($x=0;$x<=count($savezone)-1;$x++){
                                                  if($x == 0){
                                                      $show_zone = $show_zone.\backend\models\Zone::findName($savezone[$x]);
+                                                    // $show_qty = $show_qty.$saveqty[$x];
                                                  }else if($x == count($savezone)-1){
                                                      $show_zone = $show_zone.",".\backend\models\Zone::findName($savezone[$x]);
+                                                    // $show_qty = $show_qty.",".$saveqty[$x];
                                                  }else{
                                                      $show_zone = $show_zone.",".\backend\models\Zone::findName($savezone[$x]);
+                                                    // $show_qty = $show_qty.",".$saveqty[$x];
                                                  }
 
                                              }
@@ -152,7 +157,7 @@ $has = count($modelissue)>0?1:0;
 
                                        <input readonly id="task-1" class="line_zone"  type="text" name="line_zone[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="<?=$show_zone?>">
                                        <input readonly id="task-1" class="line_zone_id"  type="hidden" name="line_zone_id[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="<?=$value->list_zone?>">
-                                       <input readonly id="task-1" class="line_zone_qty"  type="hidden" name="line_zone_qty[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="">
+                                       <input readonly id="task-1" class="line_zone_qty"  type="hidden" name="line_zone_qty[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="<?=$value->list_qty?>">
                                    </td>
                                    <td>
                                        <input readonly id="task-1" class="line_lot"  type="text" name="line_lot[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="<?=$value->lot_no?>">
