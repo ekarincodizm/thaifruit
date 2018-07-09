@@ -115,8 +115,9 @@ $has = count($modelissue)>0?1:0;
                                 </td>
                             </tr>
                         <?php else:?>
-                           <?php if(count($modelrec)>0):?>
-                             <?php foreach($modelrec as $value):?>
+                           <?php if(count($modelrecline)>0):?>
+                               <?php $line_qty = 0; ?>
+                             <?php foreach($modelrecline as $value):?>
                                <tr>
                                    <td>
                                        <select name="product_id[]" onchange="checkzone($(this));" class="form-control line_product" id="" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center">
@@ -131,9 +132,27 @@ $has = count($modelissue)>0?1:0;
                                        </select>
                                    </td>
                                    <td>
-                                       <input readonly id="task-1" class="line_zone"  type="text" name="line_zone[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="<?=\backend\models\Zone::findName($value->zone_id)?>">
-                                       <input readonly id="task-1" class="line_zone_id"  type="hidden" name="line_zone_id[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="<?=$value->zone_id?>">
-                                       <input readonly id="task-1" class="line_zone_max"  type="hidden" name="line_zone_max[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="">
+
+                                       <?php
+                                         $show_zone = '';
+                                         $savezone = explode(',',$value->list_zone);
+                                         if(count($savezone)>0){
+                                             for($x=0;$x<=count($savezone)-1;$x++){
+                                                 if($x == 0){
+                                                     $show_zone = $show_zone.\backend\models\Zone::findName($savezone[$x]);
+                                                 }else if($x == count($savezone)-1){
+                                                     $show_zone = $show_zone.",".\backend\models\Zone::findName($savezone[$x]);
+                                                 }else{
+                                                     $show_zone = $show_zone.",".\backend\models\Zone::findName($savezone[$x]);
+                                                 }
+
+                                             }
+                                         }
+                                       ?>
+
+                                       <input readonly id="task-1" class="line_zone"  type="text" name="line_zone[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="<?=$show_zone?>">
+                                       <input readonly id="task-1" class="line_zone_id"  type="hidden" name="line_zone_id[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="<?=$value->list_zone?>">
+                                       <input readonly id="task-1" class="line_zone_qty"  type="hidden" name="line_zone_qty[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="">
                                    </td>
                                    <td>
                                        <input readonly id="task-1" class="line_lot"  type="text" name="line_lot[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="<?=$value->lot_no?>">
@@ -402,7 +421,6 @@ $this->registerJs('
           data : {id:prodid,qty:curqty},
           success: function(data){
              if(data.length > 0){
-                
                 for(var x=0;x<=data.length -1;x++){
                    if(x==0){
                        zonename=zonename+data[x]["name"];
@@ -416,6 +434,11 @@ $this->registerJs('
                    zonelistqty.push(data[x]["qty"]);
                    //alert(zonename);
                 }
+             }else{
+              alert("ไม่มีกองให้ลงสินค้า");
+             }
+             if(data == null){
+             alert("ไม่มีกองให้ลงสินค้า");
              }
           }
        });

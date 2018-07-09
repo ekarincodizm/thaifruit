@@ -39,7 +39,7 @@ class ProdRecLine extends \yii\db\ActiveRecord
         return [
             [['prod_rec_id', 'product_id','line_type','zone_id', 'qty', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
             [['price'], 'number'],
-            [['lot_no', 'ref_no'], 'string', 'max' => 255],
+            [['lot_no', 'ref_no','list_zone'], 'string', 'max' => 255],
         ];
     }
 
@@ -57,6 +57,7 @@ class ProdRecLine extends \yii\db\ActiveRecord
             'price' => Yii::t('app', 'Price'),
             'lot_no' => Yii::t('app', 'Lot No'),
             'ref_no' => Yii::t('app', 'Ref No'),
+            'list_zone' => Yii::t('app', 'List Zone'),
             'status' => Yii::t('app', 'Status'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),

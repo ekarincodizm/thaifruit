@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'แก้ไข');
         'model' => $model,
         'modelrec'=> $modelrec,
         'modelissue'=>$modelissue,
+        'modelrecline'=>$modelrecline,
         //'runno' => $runno,
     ]) ?>
 

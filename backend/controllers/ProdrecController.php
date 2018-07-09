@@ -121,13 +121,13 @@ class ProdrecController extends Controller
     public function actionCreate()
     {
         $model = new Prodrec();
-        $data = [];
+
         if ($model->load(Yii::$app->request->post())) {
 
             $prod_recid = Yii::$app->request->post('product_id');
             $line_zone = Yii::$app->request->post('line_zone_id');
             $line_lot = Yii::$app->request->post('line_lot');
-            $line_qty = Yii::$app->request->post('line_qty');
+            $line_qty = Yii::$app->request->post('line_zone_qty');
 
 
             $has_issue = Yii::$app->request->post('has_issue');
@@ -137,7 +137,9 @@ class ProdrecController extends Controller
 
              // echo count($product_issue_id);return;
 
-             print_r($line_zone);return;
+             //print_r($line_qty);return;
+
+
 
             $model->status = 1;
             $model->trans_date = strtotime($model->trans_date);
@@ -147,24 +149,33 @@ class ProdrecController extends Controller
 
                     for($i=0;$i<=count($prod_recid)-1;$i++){
                         if($prod_recid[$i]==''){continue;}
+                        $zone_line = explode(",",$line_zone[$i]);
+                        $qty_line = explode(",",$line_qty[$i]);
+                        if(count($zone_line)>0){
+                                for($m=0;$m<=count($zone_line)-1;$m++){
+                                    $data = [];
+                                    $modelrec = new \backend\models\Prodrecline();
+                                    $modelrec->prod_rec_id = $model->id;
+                                    $modelrec->product_id = $prod_recid[$i];
+                                    $modelrec->zone_id = $zone_line[$m];
+                                    $modelrec->lot_no = $line_lot[$i];
+                                    $modelrec->qty = $qty_line[$m];
+                                    $modelrec->line_type = 1; // รับสินค้า
+                                    $modelrec->list_zone = $line_zone[$i];
 
-                        $modelrec = new \backend\models\Prodrecline();
-                        $modelrec->prod_rec_id = $model->id;
-                        $modelrec->product_id = $prod_recid[$i];
-                        $modelrec->zone_id = $line_zone[$i];
-                        $modelrec->lot_no = $line_lot[$i];
-                        $modelrec->qty = $line_qty[$i];
-                        $modelrec->line_type = 1; // รับสินค้า
+                                    if($modelrec->save(false)){
+                                        array_push($data,['product_id'=>$prod_recid[$i],'qty'=>$qty_line[$m],'price'=>$model->plan_price]);
+                                        \backend\models\Journal::createTrans($zone_line[$m],$data,'','');
+                                    }
+                                }
+                            }
 
-                        if($modelrec->save(false)){
-                            array_push($data,['product_id'=>$prod_recid[$i],'qty'=>$line_qty[$i],'price'=>$model->plan_price]);
-                            \backend\models\Journal::createTrans($line_zone[$i],$data,'','');
-                        }
                     }
                 }
 
                 if($has_issue ==1 && count($product_issue_id)>0){
                     for($i=0;$i<=count($product_issue_id)-1;$i++){
+                        $data = [];
                         if($product_issue_id[$i]==''){continue;}
 
                         $modelrec = new \backend\models\Prodrecline();
@@ -212,6 +223,7 @@ class ProdrecController extends Controller
         $model = $this->findModel($id);
         $modelrec = \backend\models\Prodrecline::find()->where(['prod_rec_id'=>$id,'line_type'=>1])->all();
         $modelissue = \backend\models\Prodrecline::find()->where(['prod_rec_id'=>$id,'line_type'=>2])->all();
+        $modelrecline = \common\models\QueryProdrecline::find()->where(['prod_rec_id'=>$id])->all();
 
         if ($model->load(Yii::$app->request->post())) {
 
@@ -283,6 +295,7 @@ class ProdrecController extends Controller
             'model' => $model,
             'modelrec'=> $modelrec,
             'modelissue'=>$modelissue,
+            'modelrecline'=>$modelrecline,
 
         ]);
     }
@@ -436,7 +449,7 @@ class ProdrecController extends Controller
                    return Json::encode($json);
                }else{
                    //echo "<option>-</option>";
-                   echo "หห";
+                  return null;
                }
            }
         }
