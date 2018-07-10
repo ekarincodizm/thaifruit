@@ -231,8 +231,9 @@ class ProdrecController extends Controller
             $prod_recid = Yii::$app->request->post('product_id');
             $line_zone = Yii::$app->request->post('line_zone_id');
             $line_lot = Yii::$app->request->post('line_lot');
-            $line_qty = Yii::$app->request->post('line_qty');
+            $line_qty = Yii::$app->request->post('line_zone_qty');
 
+//            print_r($prod_recid);return;
 
             $has_issue = Yii::$app->request->post('has_issue');
             $product_issue_id = Yii::$app->request->post('product_issue_id');
@@ -247,19 +248,30 @@ class ProdrecController extends Controller
                     \backend\models\Prodrecline::deleteAll(['prod_rec_id'=>$model->id,'line_type'=>1]);
                     for($i=0;$i<=count($prod_recid)-1;$i++){
                         if($prod_recid[$i]==''){continue;}
+                       // print_r($prod_recid);return;
+                        $zone_line = explode(",",$line_zone[$i]);
+                        $qty_line = explode(",",$line_qty[$i]);
 
-                        $modelrec = new \backend\models\Prodrecline();
-                        $modelrec->prod_rec_id = $model->id;
-                        $modelrec->product_id = $prod_recid[$i];
-                        $modelrec->zone_id = $line_zone[$i];
-                        $modelrec->lot_no = $line_lot[$i];
-                        $modelrec->qty = $line_qty[$i];
-                        $modelrec->line_type = 1; // รับสินค้า
+                        if(count($zone_line)>0){
+                            for($m=0;$m<=count($zone_line)-1;$m++){
+                                $modelrec = new \backend\models\Prodrecline();
+                                $modelrec->prod_rec_id = $model->id;
+                                $modelrec->product_id = $prod_recid[$i];
+                                $modelrec->zone_id = $zone_line[$m];
+                                $modelrec->lot_no = $line_lot[$i];
+                                $modelrec->qty = $qty_line[$m];
+                                $modelrec->line_type = 1; // รับสินค้า
+                                $modelrec->list_zone = $line_zone[$i];
+                                $modelrec->list_qty = $line_qty[$i];
 
-//                        if($modelrec->save(false)){
-//                            array_push($data,['product_id'=>$prod_recid[$i],'qty'=>$line_qty[$i],'price'=>$model->plan_price]);
-//                            \backend\models\Journal::createTrans($line_zone[$i],$data,'','');
-//                        }
+                                if($modelrec->save(false)){
+//                                    array_push($data,['product_id'=>$prod_recid[$i],'qty'=>$qty_line[$m],'price'=>$model->plan_price]);
+//                                    \backend\models\Journal::createTrans($zone_line[$m],$data,'','');
+                                }
+                            }
+                        }
+
+
                     }
                 }
 

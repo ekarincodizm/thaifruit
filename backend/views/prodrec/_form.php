@@ -163,7 +163,7 @@ $has = count($modelissue)>0?1:0;
                                        <input readonly id="task-1" class="line_lot"  type="text" name="line_lot[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="<?=$value->lot_no?>">
                                    </td>
                                    <td>
-                                       <input  id="task-1" class="line_qty"  type="text" name="line_qty[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="<?=$value->qty?>">
+                                       <input  id="task-1" class="line_qty" onchange="line_qty_change($(this))"  type="text" name="line_qty[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background: transparent;text-align: center;" value="<?=$value->qty?>">
                                    </td>
                                    <td>
                                        <div class="btn btn-danger btn-sm btn-remove-line" onclick="removeline($(this))">ลบ</div>
@@ -183,7 +183,7 @@ $has = count($modelissue)>0?1:0;
                                        <td>
                                            <input readonly id="task-1" class="line_zone"  type="text" name="line_zone[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="">
                                            <input readonly id="task-1" class="line_zone_id"  type="hidden" name="line_zone_id[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="">
-                                           <input readonly id="task-1" class="line_zone_max"  type="hidden" name="line_zone_max[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="">
+                                           <input readonly id="task-1" class="line_zone_qty"  type="hidden" name="line_zone_qty[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="">
                                        </td>
                                        <td>
                                            <input readonly id="task-1" class="line_lot"  type="text" name="line_lot[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="">
