@@ -382,7 +382,6 @@ $this->registerJs('
    });
    function checkzone(e){
       //  alert(e.val());
-   
       
       var curzone =  e.closest("tr").find(".line_zone_id").val();
       var maxzone =  e.closest("tr").find(".line_zone_max").val();
@@ -403,6 +402,7 @@ $this->registerJs('
             
           }
        });
+       e.closest("tr").find(".line_qty").focus();
        //alert(listzone[0]);
        // var url = "'.$url_to_findzone.'"+"&id="+e.val()+"&zoneid="+listzone;
         //alert(url);
