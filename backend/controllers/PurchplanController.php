@@ -138,6 +138,7 @@ class PurchplanController extends Controller
      */
     public function actionDelete($id)
     {
+        \common\models\PurchPlanLine::deleteAll(['plan_id'=>$id]);
         $this->findModel($id)->delete();
 
             $session = Yii::$app->session;

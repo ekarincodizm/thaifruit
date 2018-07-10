@@ -84,6 +84,7 @@ class Journal extends \common\models\Journal
            $model = Zone::find()->where(['id'=>$zone])->one();
            if($model){
                $model->qty = $new_qty;
+               $model->lock = 1;
                $model->save();
            }
        }

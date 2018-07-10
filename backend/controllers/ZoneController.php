@@ -82,6 +82,7 @@ class ZoneController extends Controller
         $model = new Zone();
 
         if ($model->load(Yii::$app->request->post())) {
+            $model->lock = 0;
             if($model->save()){
                 $session = Yii::$app->session;
                 $session->setFlash('msg','บันทึกรายการเรียบร้อย');

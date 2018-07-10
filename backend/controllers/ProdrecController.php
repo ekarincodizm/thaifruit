@@ -421,7 +421,7 @@ class ProdrecController extends Controller
         echo count($model)>0?$model->vendor_code:'';
        // echo $id;
     }
-    public function actionFindzone($id,$qty,$state){
+    public function actionFindzone($id,$qty,$state,$listzone){
        //return $id;
 
         $modelprod = \backend\models\Product::find()->where(['id'=>$id])->one();
@@ -439,34 +439,78 @@ class ProdrecController extends Controller
           //  $maxqty = $modelprod->zone_qty_per;
           //  $currentqty = $modelprod->all_qty;
            if($zonegroup !=''){
-               $modelzone = \backend\models\Zone::find()->where(['like','name',$zonegroup])->all();
-               if($modelzone){
-                   $json = [];
-                   $xqty = 0;
-                   foreach ($modelzone as $data){
+               if($state == 0){ // new
+                   $modelzone = \backend\models\Zone::find()->where(['like','name',$zonegroup])->andFilterWhere(['lock'=>0])->all();
+                   if($modelzone){
+                       $json = [];
+                       $xqty = 0;
+                       foreach ($modelzone as $data){
 
-                       $zon = $data->name;
-                       if($data->qty == 0 && $state == 0){
-                           if($data->max_qty > $qty){
-                               array_push($json,['id'=>$data->id,'name'=>$data->name,'qty'=>$qty]);
-                               return Json::encode($json);
-                           }else{
-                               if($qty > $data->max_qty){
-                                   array_push($json,['id'=>$data->id,'name'=>$data->name,'qty'=>$data->max_qty]);
-                                   $qty = $qty - $data->max_qty;
-                               }else{
+                           $zon = $data->name;
+                           if($data->qty == 0){
+                               if($data->max_qty > $qty){
                                    array_push($json,['id'=>$data->id,'name'=>$data->name,'qty'=>$qty]);
-                               }
+                                   return Json::encode($json);
+                               }else{
+                                   if($qty > $data->max_qty){
+                                       array_push($json,['id'=>$data->id,'name'=>$data->name,'qty'=>$data->max_qty]);
+                                       $qty = $qty - $data->max_qty;
+                                   }else{
+                                       array_push($json,['id'=>$data->id,'name'=>$data->name,'qty'=>$qty]);
+                                   }
 
+                               }
+                               //echo "<option value='" .$data->id. "'>$data->name</option>";
+                               // array_push($json,['id'=>$data->id,'name'=>$data->name,'qty'=>$data->max_qty]);
                            }
-                           //echo "<option value='" .$data->id. "'>$data->name</option>";
-                         // array_push($json,['id'=>$data->id,'name'=>$data->name,'qty'=>$data->max_qty]);
                        }
+                       return Json::encode($json);
+                   }else{
+                       //echo "<option>-</option>";
+                       return null;
                    }
-                   return Json::encode($json);
-               }else{
-                   //echo "<option>-</option>";
-                  return null;
+               }else{ // edit
+                   $xzone = explode(',',$listzone);
+                   if(count($xzone)>0){
+
+                      for($m=0;$m<=count($xzone)-1;$m++){
+                          $unlockzone = \backend\models\Zone::find()->where(['id'=>$xzone[$m]])->one();
+                          if($unlockzone){
+                              $unlockzone->lock = 0;
+                              $unlockzone->save(false);
+                          }
+                      }
+                   }
+
+                   $modelzone = \backend\models\Zone::find()->where(['like','name',$zonegroup])->andFilterWhere(['lock'=>0])->all();
+                   if($modelzone){
+                       $json = [];
+                       $xqty = 0;
+                       foreach ($modelzone as $data){
+
+                           $zon = $data->name;
+                           if($data->lock == 0){
+                               if($data->max_qty > $qty){
+                                   array_push($json,['id'=>$data->id,'name'=>$data->name,'qty'=>$qty]);
+                                   return Json::encode($json);
+                               }else{
+                                   if($qty > $data->max_qty){
+                                       array_push($json,['id'=>$data->id,'name'=>$data->name,'qty'=>$data->max_qty]);
+                                       $qty = $qty - $data->max_qty;
+                                   }else{
+                                       array_push($json,['id'=>$data->id,'name'=>$data->name,'qty'=>$qty]);
+                                   }
+
+                               }
+                               //echo "<option value='" .$data->id. "'>$data->name</option>";
+                               // array_push($json,['id'=>$data->id,'name'=>$data->name,'qty'=>$data->max_qty]);
+                           }
+                       }
+                       return Json::encode($json);
+                   }else{
+                       //echo "<option>-</option>";
+                       return null;
+                   }
                }
            }
         }

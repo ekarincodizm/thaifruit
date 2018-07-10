@@ -46,6 +46,19 @@ use toxor88\switchery\Switchery;
             </div>
         </div>
         <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Lock
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <?php
+                  $model->lock=$model->qty>0?1:0;
+                  $islock = 'No';
+                  if($model->lock == 1){$islock = "Yes";}
+                ?>
+                <input type="text" style="width: 15%;" class="form-control" value="<?=$islock?>" readonly>
+<!--                --><?php //echo  $form->field($model, 'lock')->textInput(['maxlength' => true,'style'=>'width: 15%','class'=>'form-control','readonly'=>'readonly'])->label(false) ?>
+            </div>
+        </div>
+        <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">สถานะ
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">

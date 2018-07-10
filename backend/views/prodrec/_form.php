@@ -329,11 +329,15 @@ $this->registerJs('
       
       var linenum = 0;
       var $tr = $(".table-line tbody tr:last");
-    
+      if($tr.find(".line_product").val()==""){
+          alert("ข้อมูลสินค้าต้องไม่ว่าง กรุณาตรวจสอบใหม่");
+               return;
+      }
       var $clone = $tr.clone();
       $clone.find(":text").val("");
       //$clone.find(".line_lot").attr("id","task-"+idInc);
       $clone.find(".line_lot").val($tr.find(".line_lot").val());
+      $clone.find(".line_product").val("");
              
       //idInc+=1;
       $tr.after($clone);
@@ -378,6 +382,8 @@ $this->registerJs('
    });
    function checkzone(e){
       //  alert(e.val());
+   
+      
       var curzone =  e.closest("tr").find(".line_zone_id").val();
       var maxzone =  e.closest("tr").find(".line_zone_max").val();
      
@@ -386,10 +392,13 @@ $this->registerJs('
        $("table.table-line tbody tr").each(function(){
           if($(this).find(".line_qty").val() >0){
             if(e.val() == $(this).find(".line_product").val() ){
-                zonetotal+= parseInt($(this).find(".line_qty").val());
-                if(zonetotal > parseInt(maxzone)){
-                     listzone.push($(this).find(".line_zone_id").val());
-                 }
+               alert("รายการับสินค้าซ้ำ กรุณาตรวจสอบใหม่");
+               e.val("");
+               return;
+//                zonetotal+= parseInt($(this).find(".line_qty").val());
+//                if(zonetotal > parseInt(maxzone)){
+//                     listzone.push($(this).find(".line_zone_id").val());
+//                 }
             }
             
           }
@@ -413,8 +422,8 @@ $this->registerJs('
       var prodid = e.closest("tr").find(".line_product").val();
       var curqty = e.val();
       var state = "'.$state.'";
+      var listzone = e.closest("tr").find(".line_zone_id").val();
       
-     
       
        var url = "'.$url_to_findzone.'"+"&id="+prodid+"&qty="+curqty;
        var zonename = "";
@@ -425,8 +434,9 @@ $this->registerJs('
           dataType: "json",
           url : "'.$url_to_findzone.'",
           async: false,
-          data : {id:prodid,qty:curqty,status:state},
+          data : {id:prodid,qty:curqty,state:state,listzone:listzone},
           success: function(data){
+         // alert(data);return;
              if(data.length > 0){
                 for(var x=0;x<=data.length -1;x++){
                    if(x==0){
