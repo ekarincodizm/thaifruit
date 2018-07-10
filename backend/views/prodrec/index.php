@@ -18,12 +18,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
 $sup = \backend\models\Suplier::find()->where(['status'=>1])->all();
 
+
+$this->registerJsFile( '@web/js/sweetalert.min.js?V=002',
+    ['depends' => [\yii\web\JqueryAsset::className()]],
+    static::POS_HEAD
+);
 $this->registerJsFile(
     '@web/js/stockbalancejs.js?V=001',
     ['depends' => [\yii\web\JqueryAsset::className()]],
     static::POS_END
 );
-$this->registerJsFile( '@web/js/sweetalert.min.jsV=001',['depends' => [\yii\web\JqueryAsset::className()]],static::POS_END);
 $this->registerCssFile( '@web/css/sweetalert.css');
 $addon = <<< HTML
 <span class="input-group-addon">

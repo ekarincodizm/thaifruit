@@ -18,6 +18,7 @@ $modelproduct = \backend\models\Product::find()->where(['status'=>1])->andFilter
 $modelproduct2 = \backend\models\Product::find()->where(['status'=>1,'category_id'=>$modelgreen->id])->all();
 
 $has = count($modelissue)>0?1:0;
+$state = $model->isNewRecord?0:1;
 ?>
 
 <div class="prodrec-form">
@@ -411,6 +412,7 @@ $this->registerJs('
       
       var prodid = e.closest("tr").find(".line_product").val();
       var curqty = e.val();
+      var state = "'.$state.'";
       
      
       
@@ -423,7 +425,7 @@ $this->registerJs('
           dataType: "json",
           url : "'.$url_to_findzone.'",
           async: false,
-          data : {id:prodid,qty:curqty},
+          data : {id:prodid,qty:curqty,status:state},
           success: function(data){
              if(data.length > 0){
                 for(var x=0;x<=data.length -1;x++){

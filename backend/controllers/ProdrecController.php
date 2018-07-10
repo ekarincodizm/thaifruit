@@ -28,7 +28,7 @@ class ProdrecController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'delete' => ['POST','GET'],
                 ],
             ],
             'access'=>[
@@ -322,8 +322,11 @@ class ProdrecController extends Controller
      */
     public function actionDelete($id)
     {
+        \backend\models\Prodrecline::deleteAll(['prod_rec_id'=>$id]);
         $this->findModel($id)->delete();
 
+        $session = Yii::$app->session;
+        $session->setFlash('msg','บันทึกรายการเรียบร้อย');
         return $this->redirect(['index']);
     }
 
@@ -418,7 +421,7 @@ class ProdrecController extends Controller
         echo count($model)>0?$model->vendor_code:'';
        // echo $id;
     }
-    public function actionFindzone($id,$qty){
+    public function actionFindzone($id,$qty,$state){
        //return $id;
 
         $modelprod = \backend\models\Product::find()->where(['id'=>$id])->one();
@@ -441,8 +444,9 @@ class ProdrecController extends Controller
                    $json = [];
                    $xqty = 0;
                    foreach ($modelzone as $data){
+
                        $zon = $data->name;
-                       if($data->qty == 0){
+                       if($data->qty == 0 && $state == 0){
                            if($data->max_qty > $qty){
                                array_push($json,['id'=>$data->id,'name'=>$data->name,'qty'=>$qty]);
                                return Json::encode($json);
