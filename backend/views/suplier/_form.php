@@ -119,6 +119,13 @@ $dist = District::find()->all();
                                    <?= $form->field($model, 'lead_time')->textInput(['maxlength' => true,'class'=>'form-control'])->label(false) ?>
                                 </div>
                               </div>
+                      <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">สวนบริษัท
+                          </label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                              <?php echo $form->field($model, 'iscompany')->widget(Switchery::className(),['options'=>['label'=>'','class'=>'form-control']])->label(false) ?>
+                          </div>
+                      </div>
                               <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">สถานะ 
                                 </label>

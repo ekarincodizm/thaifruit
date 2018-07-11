@@ -416,10 +416,17 @@ class ProdrecController extends Controller
 //            'bill_date'=>$from_date,
 //        ]);
     }
-    public function actionFindsupcode($id){
+    public function actionFindsupcode(){
+        $id = Yii::$app->request->post('id');
         $model = \backend\models\Suplier::find()->where(['id'=>$id])->one();
-        echo count($model)>0?$model->vendor_code:'';
+        //echo count($model)>0?$model->vendor_code:'';
        // echo $id;
+        $res = [];
+        if($model){
+            array_push($res,['code'=>$model->vendor_code,'company'=>$model->iscompany]);
+            return Json::encode($res);
+        }
+        return $res;
     }
     public function actionFindzone($id,$qty,$state,$listzone){
        //return $id;

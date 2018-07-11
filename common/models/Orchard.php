@@ -38,7 +38,7 @@ class Orchard extends \yii\db\ActiveRecord
         return [
             [['name'],'required'],
             [['area_size', 'wage'], 'number'],
-            [['type_id', 'team_id', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
+            [['type_id', 'team_id', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by','iscompany'], 'integer'],
             [['name', 'description','latlong','id_card','contact_name','standard','attach_file'], 'string', 'max' => 255],
         ];
     }
@@ -61,6 +61,7 @@ class Orchard extends \yii\db\ActiveRecord
             'standard' => Yii::t('app', 'มาตรฐาน'),
             'attach_file' => Yii::t('app', 'เอกสารแนบ'),
             'status' => Yii::t('app', 'สถานะ'),
+            'iscompany' => Yii::t('app', 'สวนของบริษัท'),
             'created_at' => Yii::t('app', 'สร้างเมื่อ'),
             'updated_at' => Yii::t('app', 'แก้ไขเมื่อ'),
             'created_by' => Yii::t('app', 'สร้างโดย'),

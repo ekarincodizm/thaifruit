@@ -51,10 +51,16 @@ $state = $model->isNewRecord?0:1;
                         'data'=>ArrayHelper::map(\backend\models\Suplier::find()->all(),'id','name'),
                         'options' => ['placeholder'=>'เลือก','class'=>'suplier_id',
                             'onchange'=>'
-                           // alert($(this).val());
-                                $.post("'.Url::to(['prodrec/findsupcode'],true).'"+"&id="+$(this).val(),function(data){
-                                          var xdate = new Date();
-                                          var supcode = data;
+                               $.ajax({
+                                  type: "post",
+                                  dataType: "json",
+                                  url: "'.Url::to(['prodrec/findsupcode'],true).'",
+                                  data: {id:$(this).val()},
+                                  async: false,
+                                  success: function(data){
+                                    //alert(data[0]["code"]);
+                                     var xdate = new Date();
+                                          var supcode = data[0]["code"];
                                           var da = xdate.getDate()<=9?"0"+xdate.getDate():xdate.getDate();                                                                    
                                           var mo = xdate.getMonth()<=9?"0"+ (parseInt(xdate.getMonth()) +1):parseInt(xdate.getMonth())+1;                                                                    
                                           var lot = supcode+ da + mo +(xdate.getFullYear()+543).toString().substr(-2);
@@ -63,10 +69,45 @@ $state = $model->isNewRecord?0:1;
                                           $("table.table-line tbody tr").each(function(){
                                              $(this).find(".line_lot").val(lot);
                                           });
-                                });
+                                          
+                                          if(data[0]["company"] == 1){
+                                            $(".extend").show();
+                                          }else{
+                                            $(".extend").hide();
+                                          }
+                                  }
+                                  
+                               });
+//                                $.post("'.Url::to(['prodrec/findsupcode'],true).'"+"&id="+$(this).val(),function(data){
+//                                        alert(data[0]["code"]);return;
+//                                          var xdate = new Date();
+//                                          var supcode = data;
+//                                          var da = xdate.getDate()<=9?"0"+xdate.getDate():xdate.getDate();                                                                    
+//                                          var mo = xdate.getMonth()<=9?"0"+ (parseInt(xdate.getMonth()) +1):parseInt(xdate.getMonth())+1;                                                                    
+//                                          var lot = supcode+ da + mo +(xdate.getFullYear()+543).toString().substr(-2);
+//                                          $(".lot_no").val(lot);
+//                                          
+//                                          $("table.table-line tbody tr").each(function(){
+//                                             $(this).find(".line_lot").val(lot);
+//                                          });
+//                                });
                             ',
                             ],
                     ]) ?>
+                </div>
+            </div>
+            <div class="row extend" style="display: none;">
+                <div class="col-lg-3">
+                       <?= $form->field($model, 'orchard_id')->widget(Select2::className(),[
+                               'data'=>ArrayHelper::map(\backend\models\Orchard::find()->all(),'id','name'),
+                                'options'=>['placeholder'=>'เลือก']
+                       ]);?>
+                </div>
+                <div class="col-lg-3">
+                    <?= $form->field($model, 'team_id')->widget(Select2::className(),[
+                        'data'=>ArrayHelper::map(\backend\models\Team::find()->all(),'id','name'),
+                        'options'=>['placeholder'=>'เลือก']
+                    ]);?>
                 </div>
             </div>
             <div class="row">
@@ -109,7 +150,7 @@ $state = $model->isNewRecord?0:1;
                                     <input readonly id="task-1" class="line_lot"  type="text" name="line_lot[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="">
                                 </td>
                                 <td>
-                                    <input  id="task-1" class="line_qty"  type="text" name="line_qty[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="" onchange="line_qty_change($(this))">
+                                    <input  id="task-1" class="line_qty"   type="text" name="line_qty[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="" onchange="line_qty_change($(this))">
                                 </td>
                                 <td>
                                     <div class="btn btn-danger btn-sm btn-remove-line" onclick="removeline($(this))">ลบ</div>
@@ -379,6 +420,10 @@ $this->registerJs('
        }
     });
     
+    $(".line_qty").on("keypress",function(e){
+      //alert();
+    });
+    
    });
    function checkzone(e){
       //  alert(e.val());
@@ -414,6 +459,7 @@ $this->registerJs('
 //                e.closest("tr").find(".line_zone_max").val(xdata[2]);
 //         });
    }
+  
    function line_qty_change(e){
       var maxval = e.closest("tr").find(".line_zone_max").val();
       var addqty = 0;
