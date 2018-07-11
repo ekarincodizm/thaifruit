@@ -90,6 +90,7 @@ class ProdissueController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'runno' => $model->getLastNo(),
         ]);
     }
 

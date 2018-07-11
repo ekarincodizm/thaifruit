@@ -46,7 +46,25 @@ class Prodissue extends \common\models\ProdIssue
             ],
         ];
     }
-
+    public static function getLastNo(){
+        $model = Prodissue::find()->MAX('issue_no');
+        $pre = \backend\models\Sequence::find()->where(['module_id'=>6])->one();
+        if($model){
+            $prefix = $pre->prefix.substr(date("Y"),2,2);
+            $cnum = substr((string)$model,5,strlen($model));
+            $len = strlen($cnum);
+            $clen = strlen($cnum + 1);
+            $loop = $len - $clen;
+            for($i=1;$i<=$loop;$i++){
+                $prefix.="0";
+            }
+            $prefix.=$cnum + 1;
+            return $prefix;
+        }else{
+            $prefix =$pre->prefix.substr(date("Y"),2,2);
+            return $prefix.'000001';
+        }
+    }
 //    public function findName($id){
 //        $model = Position::find()->where(['id'=>$id])->one();
 //        return count($model)>0?$model->name:'';

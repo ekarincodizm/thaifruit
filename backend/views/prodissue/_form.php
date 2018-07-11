@@ -24,10 +24,14 @@ $modelzone = \backend\models\Zone::find()->all();
     <?php $form = ActiveForm::begin(['options'=>['class'=>'form-label-left']]); ?>
             <div class="row">
                 <div class="col-lg-4">
-                    <?= $form->field($model, 'issue_no')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($model, 'issue_no')->textInput(['maxlength' => true,'readonly'=>'readonly','value'=>$model->isNewRecord?$runno:$model->issue_no]) ?>
                 </div>
                 <div class="col-lg-4">
-                    <?= $form->field($model, 'trans_date')->textInput() ?>
+                    <?= $form->field($model, 'trans_date')->widget(\kartik\date\DatePicker::className(),[
+                            'pluginOptions' => [
+                                    'format'=>'dd-mm-yyyy',
+                            ]
+                    ]) ?>
                 </div>
                 <div class="col-lg-4">
                     <?= $form->field($model, 'section_id')->widget(\kartik\select2\Select2::className(),[
@@ -56,7 +60,7 @@ $modelzone = \backend\models\Zone::find()->all();
                       <tbody>
                       <tr>
                           <td>
-                              <select name="product_issue_id[]" onchange="checkzone($(this));" class="form-control line_product" id="" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center">
+                              <select name="product_issue_id[]"  class="form-control line_product" id="" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center">
                                   <option value="">เลือกกอง</option>
                                   <?php foreach($modelzone as $data):?>
                                       <option value="<?=$data->id?>"><?=$data->name?></option>
@@ -70,7 +74,7 @@ $modelzone = \backend\models\Zone::find()->all();
                               <input  id="task-1" class="line_issue_price"  type="text" name="line_issue_price[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="">
                           </td>
                           <td>
-                              <div class="btn btn-danger btn-sm btn-remove-line" onclick="removelineissue($(this))">ลบ</div>
+                              <div class="btn btn-danger btn-sm btn-remove-line" onclick="removeline($(this))">ลบ</div>
                           </td>
                       </tr>
                       </tbody>
@@ -115,5 +119,16 @@ $this->registerJs('
               
              });
    });
+    function removeline(e){
+     if(confirm("Do you want to delete this record ?")){
+         if($(".table-line tbody tr").length == 1){
+             $(".table-line tbody tr :text").val("");
+             $(".table-line tbody tr td:eq(0)").text("");
+         }else{
+            e.parent().parent().remove();
+           // cal_linenum();
+         }
+     }
+   }
 ',static::POS_END);
 ?>
