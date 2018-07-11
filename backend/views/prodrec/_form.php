@@ -368,25 +368,25 @@ $this->registerJs('
       }
       $(".btn-add").click(function(){
       
-      var linenum = 0;
-      var $tr = $(".table-line tbody tr:last");
-      if($tr.find(".line_product").val()==""){
-          alert("ข้อมูลสินค้าต้องไม่ว่าง กรุณาตรวจสอบใหม่");
-               return;
-      }
-      var $clone = $tr.clone();
-      $clone.find(":text").val("");
-      //$clone.find(".line_lot").attr("id","task-"+idInc);
-      $clone.find(".line_lot").val($tr.find(".line_lot").val());
-      $clone.find(".line_product").val("");
-             
-      //idInc+=1;
-      $tr.after($clone);
-      
-     // $(".table-line tbody tr").each(function(){
-       //  linenum+=1;
-        // $(this).closest("tr").find("td:eq(0)").text(linenum);
-     // });
+              var linenum = 0;
+              var $tr = $(".table-line tbody tr:last");
+              if($tr.find(".line_product").val()==""){
+                  alert("ข้อมูลสินค้าต้องไม่ว่าง กรุณาตรวจสอบใหม่");
+                       return;
+              }
+              var $clone = $tr.clone();
+              $clone.find(":text").val("");
+              //$clone.find(".line_lot").attr("id","task-"+idInc);
+              $clone.find(".line_lot").val($tr.find(".line_lot").val());
+              $clone.find(".line_product").val("");
+                     
+              //idInc+=1;
+              $tr.after($clone);
+              
+             // $(".table-line tbody tr").each(function(){
+               //  linenum+=1;
+                // $(this).closest("tr").find("td:eq(0)").text(linenum);
+             // });
      });
       $(".btn-add-issue").click(function(){
       
