@@ -46,5 +46,27 @@ class AddressBook extends \common\models\Addressbook
             ],
         ];
     }
-
+    public function findAddress($id){
+        $model = AddressBook::find()->where(['party_id'=>$id])->andFilterWhere(['party_type_id'=>2])->one();
+        if(count($model)>0){
+            return $model->address." ".$model->street." ".self::getDistrict($model->district_id)
+                ." ".self::getCity($model->city_id)
+                ." ".self::getProvince($model->province_id)
+                ." ".$model->zipcode;
+        }else{
+            return 'no';
+        }
+    }
+    public function getDistrict($id){
+        $model = \common\models\District::find()->where(['DISTRICT_ID'=>$id])->one();
+        return count($model)>0?$model->DISTRICT_NAME:'';
+    }
+    public function getCity($id){
+        $model = \common\models\Amphur::find()->where(['AMPHUR_ID'=>$id])->one();
+        return count($model)>0?$model->AMPHUR_NAME:'';
+    }
+    public function getProvince($id){
+        $model = \common\models\Province::find()->where(['PROVINCE_ID'=>$id])->one();
+        return count($model)>0?$model->PROVINCE_NAME:'';
+    }
 }

@@ -37,8 +37,9 @@ class ProdIssue extends \yii\db\ActiveRecord
     {
         return [
             [['issue_no'],'required'],
-            [['trans_date', 'section_id', 'qty', 'issue_by', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
+            [['section_id', 'qty', 'issue_by', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
             [['issue_no', 'note'], 'string', 'max' => 255],
+            [['trans_date'],'safe'],
         ];
     }
 

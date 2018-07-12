@@ -5,6 +5,7 @@ use yii\widgets\ActiveForm;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 use kartik\date\DatePicker;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Invoice */
@@ -20,7 +21,7 @@ use kartik\date\DatePicker;
 
             <div class="row">
                 <div class="col-lg-2">
-                    <?= $form->field($model, 'invoice_no')->textInput(['maxlength' => true,'placeholder'=>'เลขที่']) ?>
+                    <?= $form->field($model, 'invoice_no')->textInput(['maxlength' => true,'placeholder'=>'เลขที่','readonly'=>'readonly','value'=>$model->isNewRecord?$runno:$model->invoice_no]) ?>
                 </div>
                 <div class="col-lg-3">
                     <?php $model->invoice_date = $model->isNewRecord?date('d-m-Y'):$model->invoice_date; ?>
@@ -33,11 +34,27 @@ use kartik\date\DatePicker;
                 <div class="col-lg-3">
                     <?= $form->field($model, 'suplier_id')->widget(Select2::className(),[
                             'data'=>ArrayHelper::map(\backend\models\Suplier::find()->all(),'id','name'),
-                            'options'=>['placeholder'=>'รหัสผู้ขาย']
+                            'options'=>['placeholder'=>'รหัสผู้ขาย',
+                                 'onchange'=>'
+                                     $.ajax({
+                                        type: "post",
+                                        dataType : "json",
+                                        url : "'.Url::to(['invoice/showsup'],true).'",
+                                        data : {id:$(this).val()},
+                                        success : function(data){
+                                           $(".sup_name").val(data[0]["name"]);
+                                           $(".sup_taxid").val(data[0]["id_card"]);
+                                           $(".sup_tel").val(data[0]["tel"]);
+                                           $(".sup_address").val(data[0]["address"]);
+                                        }
+                                     });
+                                     
+                                 '
+                            ]
                     ]) ?>
                 </div>
                 <div class="col-lg-4"><br>
-                    <input type="text" style="margin-top: 1px" name="sup_name" class="form-control" placeholder="ชื่อผู้ขาย">
+                    <input type="text" style="margin-top: 1px" name="sup_name" class="form-control sup_name" placeholder="ชื่อผู้ขาย">
                 </div>
             </div>
             <div class="row">
@@ -45,11 +62,11 @@ use kartik\date\DatePicker;
 
                 </div>
                 <div class="col-lg-3">
-                    <input type="text" style="margin-top: -10px" class="form-control" name="tel" value="" placeholder="เลขที่เสียภาษี">
+                    <input type="text" style="margin-top: -10px" class="form-control sup_taxid" name="tel" value="" placeholder="เลขที่เสียภาษี">
 
                 </div>
                 <div class="col-lg-4">
-                    <textarea name="sup_address" style="margin-top: -10px" id="" class="form-control" placeholder="ที่อยู่" cols="30" rows=""></textarea>
+                    <textarea name="sup_address" style="margin-top: -10px" id="" class="form-control sup_address" placeholder="ที่อยู่" cols="30" rows=""></textarea>
                 </div>
             </div>
             <div class="row">
@@ -57,7 +74,7 @@ use kartik\date\DatePicker;
 
                 </div>
                 <div class="col-lg-3">
-                    <input type="text" style="margin-top: -12px" class="form-control" name="tel" value="" placeholder="เบอร์โทร">
+                    <input type="text" style="margin-top: -12px" class="form-control sup_tel" name="tel" value="" placeholder="เบอร์โทร">
                 </div>
                 <div class="col-lg-4">
                 </div>

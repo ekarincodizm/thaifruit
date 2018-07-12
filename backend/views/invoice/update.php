@@ -15,6 +15,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'แก้ไข');
 <div class="invoice-update">
     <?= $this->render('_form', [
         'model' => $model,
+        'runno' => $runno,
     ]) ?>
 
 </div>

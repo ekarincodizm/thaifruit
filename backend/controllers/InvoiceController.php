@@ -5,6 +5,7 @@ namespace backend\controllers;
 use Yii;
 use backend\models\Invoice;
 use backend\models\InvoiceSearch;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -31,7 +32,7 @@ class InvoiceController extends Controller
                 'rules'=>[
                     [
                         'allow'=>true,
-                        'actions'=>['index','create','update','delete','view'],
+                        'actions'=>['index','create','update','delete','view','showsup'],
                         'roles'=>['@'],
                     ]
                 ]
@@ -85,6 +86,7 @@ class InvoiceController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'runno' => $model->getLastNo(),
         ]);
     }
 
@@ -105,6 +107,7 @@ class InvoiceController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'runno' => null,
         ]);
     }
 
@@ -136,5 +139,17 @@ class InvoiceController extends Controller
         }
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+    }
+    public function actionShowsup(){
+        $id = Yii::$app->request->post('id');
+        if($id){
+            $model = \backend\models\Suplier::find()->where(['id'=>$id])->one();
+            if($model){
+                $data = [];
+                $addressbook = \backend\models\AddressBook::findAddress($id);
+                array_push($data,['name'=>$model->name,'id_card'=>$model->id_card,'tel'=>$model->tel,'address'=>$addressbook]);
+                return Json::encode($data);
+            }
+        }
     }
 }

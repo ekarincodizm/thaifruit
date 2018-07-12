@@ -27,6 +27,7 @@ $modelzone = \backend\models\Zone::find()->all();
                     <?= $form->field($model, 'issue_no')->textInput(['maxlength' => true,'readonly'=>'readonly','value'=>$model->isNewRecord?$runno:$model->issue_no]) ?>
                 </div>
                 <div class="col-lg-4">
+                    <?php $model->trans_date = $model->isNewRecord?date('d-m-Y'):date('d-m-Y',$model->trans_date)?>
                     <?= $form->field($model, 'trans_date')->widget(\kartik\date\DatePicker::className(),[
                             'pluginOptions' => [
                                     'format'=>'dd-mm-yyyy',
@@ -42,7 +43,12 @@ $modelzone = \backend\models\Zone::find()->all();
             </div>
             <div class="row">
                 <div class="col-lg-4">
-                    <?= $form->field($model, 'issue_by')->textInput() ?>
+                    <?= $form->field($model, 'issue_by')->widget(\kartik\select2\Select2::className(),[
+                        'data'=>ArrayHelper::map(\backend\models\Employee::find()->all(),'id',function($data){
+                            return $data->first_name." ".$data->last_name;
+                        }),
+                        'options' => ['placeholder'=>'เลือก']
+                    ]) ?>
                 </div>
             </div>
 
