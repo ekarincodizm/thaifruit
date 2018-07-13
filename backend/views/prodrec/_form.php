@@ -562,7 +562,7 @@ $this->registerJs('
      if(confirm("Do you want to delete this record ?")){
      if($(".table-line tbody tr").length == 1){
          $(".table-line tbody tr :text").val("");
-         $(".table-line tbody tr td:eq(0)").text("");
+         $(".table-line tbody tr td:eq(0)").find(".line_product").val("").trigger("change");
      }else{
         e.parent().parent().remove();
        // cal_linenum();
@@ -573,8 +573,9 @@ $this->registerJs('
   function removelineissue(e){
      if(confirm("Do you want to delete this record ?")){
      if($(".table-issue tbody tr").length == 1){
+         
          $(".table-issue tbody tr :text").val("");
-         $(".table-issue tbody tr td:eq(0)").text("");
+         $(".table-issue tbody tr td:eq(0)").selected("");
      }else{
         e.parent().parent().remove();
         //cal_linenum();
