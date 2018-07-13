@@ -16,6 +16,8 @@ $modelgreen = \backend\models\Productcat::find()->where(['LIKE','name','วั�
 
 $modelproduct = \backend\models\Product::find()->where(['status'=>1])->andFilterWhere(['!=','category_id',$modelgreen->id])->all();
 $modelproduct2 = \backend\models\Product::find()->where(['status'=>1,'category_id'=>$modelgreen->id])->all();
+$modelteam = \backend\models\Team::find()->all();
+$modelorchard = \backend\models\Orchard::find()->all();
 
 $has = count($modelissue)>0?1:0;
 $state = $model->isNewRecord?0:1;
@@ -70,11 +72,11 @@ $state = $model->isNewRecord?0:1;
                                              $(this).find(".line_lot").val(lot);
                                           });
                                           
-                                          if(data[0]["company"] == 1){
-                                            $(".extend").show();
-                                          }else{
-                                            $(".extend").hide();
-                                          }
+//                                          if(data[0]["company"] == 1){
+//                                            $(".extend").show();
+//                                          }else{
+//                                            $(".extend").hide();
+//                                          }
                                   }
                                   
                                });
@@ -96,20 +98,7 @@ $state = $model->isNewRecord?0:1;
                     ]) ?>
                 </div>
             </div>
-            <div class="row extend" style="display: none;">
-                <div class="col-lg-3">
-                       <?= $form->field($model, 'orchard_id')->widget(Select2::className(),[
-                               'data'=>ArrayHelper::map(\backend\models\Orchard::find()->all(),'id','name'),
-                                'options'=>['placeholder'=>'เลือก']
-                       ]);?>
-                </div>
-                <div class="col-lg-3">
-                    <?= $form->field($model, 'team_id')->widget(Select2::className(),[
-                        'data'=>ArrayHelper::map(\backend\models\Team::find()->all(),'id','name'),
-                        'options'=>['placeholder'=>'เลือก']
-                    ]);?>
-                </div>
-            </div>
+
             <div class="row">
                 <div class="col-lg-12">
                     <input type="checkbox" class="has-issue" ><span> มีรายการเบิก</span>
@@ -126,7 +115,10 @@ $state = $model->isNewRecord?0:1;
                                 <th>ประเภท</th>
                                 <th style="text-align: center">กอง</th>
                                 <th style="text-align: center">Lot</th>
-                                <th style="text-align: center">จำนวน</th>
+                                <th style="text-align: center">จำนวน
+                                <th style="text-align: center">สวน</th>
+                                <th style="text-align: center">ทีม</th>
+                                <th style="text-align: center">บันทึก</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -151,6 +143,25 @@ $state = $model->isNewRecord?0:1;
                                 </td>
                                 <td>
                                     <input  id="task-1" class="line_qty"   type="text" name="line_qty[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center" value="" onchange="line_qty_change($(this))">
+                                </td>
+                                <td>
+                                    <select name="line_orchard[]" class="form-control line_orchard" id="" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center">
+                                        <option value="">เลือกสวน</option>
+                                        <?php foreach($modelorchard as $data):?>
+                                            <option value="<?=$data->id?>"><?=$data->name?></option>
+                                        <?php endforeach;?>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select name="line_team[]" class="form-control line_team" id="" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center">
+                                        <option value="">เลือกทีม</option>
+                                        <?php foreach($modelteam as $data):?>
+                                            <option value="<?=$data->id?>"><?=$data->name?></option>
+                                        <?php endforeach;?>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="text" class="line_qc" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: left" value="">
                                 </td>
                                 <td>
                                     <div class="btn btn-danger btn-sm btn-remove-line" onclick="removeline($(this))">ลบ</div>
@@ -208,6 +219,25 @@ $state = $model->isNewRecord?0:1;
                                        <input  id="task-1" class="line_qty" onchange="line_qty_change($(this))"  type="text" name="line_qty[]" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background: transparent;text-align: center;" value="<?=$value->qty?>">
                                    </td>
                                    <td>
+                                       <select name="line_orchard[]" class="form-control line_orchard" id="" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center">
+                                           <option value="">เลือกสวน</option>
+                                           <?php foreach($modelorchard as $data):?>
+                                               <option value="<?=$data->id?>"><?=$data->name?></option>
+                                           <?php endforeach;?>
+                                       </select>
+                                   </td>
+                                   <td>
+                                       <select name="line_team[]" class="form-control line_team" id="" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center">
+                                           <option value="">เลือกทีม</option>
+                                           <?php foreach($modelteam as $data):?>
+                                               <option value="<?=$data->id?>"><?=$data->name?></option>
+                                           <?php endforeach;?>
+                                       </select>
+                                   </td>
+                                   <td>
+                                       <input type="text" class="line_qc" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: left" value="">
+                                   </td>
+                                   <td>
                                        <div class="btn btn-danger btn-sm btn-remove-line" onclick="removeline($(this))">ลบ</div>
                                    </td>
                                </tr>
@@ -258,6 +288,7 @@ $state = $model->isNewRecord?0:1;
 <!--                            <th style="text-align: center">Lot</th>-->
                             <th style="text-align: center">จำนวน</th>
                             <th style="text-align: center">ราคา</th>
+
                             <th></th>
                         </tr>
                         </thead>
@@ -563,6 +594,8 @@ $this->registerJs('
      if($(".table-line tbody tr").length == 1){
          $(".table-line tbody tr :text").val("");
          $(".table-line tbody tr td:eq(0)").find(".line_product").val("").trigger("change");
+         $(".table-line tbody tr td:eq(4)").find(".line_orchard").val("").trigger("change");
+         $(".table-line tbody tr td:eq(5)").find(".line_team").val("").trigger("change");
      }else{
         e.parent().parent().remove();
        // cal_linenum();

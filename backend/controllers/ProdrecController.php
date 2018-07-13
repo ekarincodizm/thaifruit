@@ -128,6 +128,9 @@ class ProdrecController extends Controller
             $line_zone = Yii::$app->request->post('line_zone_id');
             $line_lot = Yii::$app->request->post('line_lot');
             $line_qty = Yii::$app->request->post('line_zone_qty');
+            $line_orchard = Yii::$app->request->post('line_orchard');
+            $line_team = Yii::$app->request->post('line_team');
+            $line_qc = Yii::$app->request->post('line_qc');
 
 
             $has_issue = Yii::$app->request->post('has_issue');
@@ -163,6 +166,9 @@ class ProdrecController extends Controller
                                     $modelrec->line_type = 1; // รับสินค้า
                                     $modelrec->list_zone = $line_zone[$i];
                                     $modelrec->list_qty = $line_qty[$i];
+                                    $modelrec->orchard = $line_orchard[$i];
+                                    $modelrec->team1 = $line_team[$i];
+                                    $modelrec->qc_note = $line_qc[$i];
 
                                     if($modelrec->save(false)){
                                         array_push($data,['product_id'=>$prod_recid[$i],'qty'=>$qty_line[$m],'price'=>$model->plan_price]);
@@ -232,6 +238,9 @@ class ProdrecController extends Controller
             $line_zone = Yii::$app->request->post('line_zone_id');
             $line_lot = Yii::$app->request->post('line_lot');
             $line_qty = Yii::$app->request->post('line_zone_qty');
+            $line_orchard = Yii::$app->request->post('line_orchard');
+            $line_team = Yii::$app->request->post('line_team');
+            $line_qc = Yii::$app->request->post('line_qc');
 
 //            print_r($prod_recid);return;
 
@@ -263,6 +272,9 @@ class ProdrecController extends Controller
                                 $modelrec->line_type = 1; // รับสินค้า
                                 $modelrec->list_zone = $line_zone[$i];
                                 $modelrec->list_qty = $line_qty[$i];
+                                $modelrec->orchard = $line_orchard[$i];
+                                $modelrec->team1 = $line_team[$i];
+                                $modelrec->qc_note = $line_qc[$i];
 
                                 if($modelrec->save(false)){
 //                                    array_push($data,['product_id'=>$prod_recid[$i],'qty'=>$qty_line[$m],'price'=>$model->plan_price]);
@@ -270,7 +282,6 @@ class ProdrecController extends Controller
                                 }
                             }
                         }
-
 
                     }
                 }
