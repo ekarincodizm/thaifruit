@@ -161,7 +161,7 @@ $state = $model->isNewRecord?0:1;
                                     </select>
                                 </td>
                                 <td>
-                                    <input type="text" class="line_qc" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: left" value="">
+                                    <input type="text" name="line_qc[]" class="line_qc" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: left" value="">
                                 </td>
                                 <td>
                                     <div class="btn btn-danger btn-sm btn-remove-line" onclick="removeline($(this))">ลบ</div>
@@ -222,7 +222,10 @@ $state = $model->isNewRecord?0:1;
                                        <select name="line_orchard[]" class="form-control line_orchard" id="" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center">
                                            <option value="">เลือกสวน</option>
                                            <?php foreach($modelorchard as $data):?>
-                                               <option value="<?=$data->id?>"><?=$data->name?></option>
+                                           <?php
+                                               $select = '';
+                                               if($data->id == $value->orchard){$select="selected";}?>
+                                               <option value="<?=$data->id?>" <?=$select?>><?=$data->name?></option>
                                            <?php endforeach;?>
                                        </select>
                                    </td>
@@ -230,12 +233,14 @@ $state = $model->isNewRecord?0:1;
                                        <select name="line_team[]" class="form-control line_team" id="" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: center">
                                            <option value="">เลือกทีม</option>
                                            <?php foreach($modelteam as $data):?>
-                                               <option value="<?=$data->id?>"><?=$data->name?></option>
+                                               <?php $select = '';
+                                               if($data->id == $value->orchard){$select="selected";}?>
+                                               <option value="<?=$data->id?>" <?=$select?>><?=$data->name?></option>
                                            <?php endforeach;?>
                                        </select>
                                    </td>
                                    <td>
-                                       <input type="text" class="line_qc" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: left" value="">
+                                       <input type="text" name="line_qc[]" class="line_qc" style="border: none;padding: 5px 5px 5px 5px;width: 100%;background:transparent;text-align: left" value="<?=$value->qc_note?>">
                                    </td>
                                    <td>
                                        <div class="btn btn-danger btn-sm btn-remove-line" onclick="removeline($(this))">ลบ</div>
@@ -410,6 +415,8 @@ $this->registerJs('
               //$clone.find(".line_lot").attr("id","task-"+idInc);
               $clone.find(".line_lot").val($tr.find(".line_lot").val());
               $clone.find(".line_product").val("");
+               $clone.find(".line_orchard").val("");
+               $clone.find(".line_team").val("");
                      
               //idInc+=1;
               $tr.after($clone);

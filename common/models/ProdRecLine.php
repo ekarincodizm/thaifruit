@@ -37,9 +37,9 @@ class ProdRecLine extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['prod_rec_id', 'product_id','line_type','zone_id', 'qty', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
+            [['prod_rec_id','orchard','team1','team2', 'product_id','line_type','zone_id', 'qty', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
             [['price'], 'number'],
-            [['lot_no', 'ref_no','list_zone'], 'string', 'max' => 255],
+            [['lot_no', 'ref_no','list_zone','qc_note'], 'string', 'max' => 255],
         ];
     }
 
