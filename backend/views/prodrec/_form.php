@@ -377,11 +377,12 @@ $state = $model->isNewRecord?0:1;
             <br>
             </div>
 
-           <div class="row">
-               <div class="col-lg-12">
-                   <?= $form->field($model, 'qc_note')->textarea(['rows' => 4,'style'=>'font-size: 24px;']) ?>
-               </div>
-           </div><br>
+<!--           <div class="row">-->
+<!--               <div class="col-lg-12">-->
+<!--                   --><?php //echo $form->field($model, 'qc_note')->textarea(['rows' => 4,'style'=>'font-size: 24px;']) ?>
+<!--               </div>-->
+<!--           </div>-->
+            <br>
 
             <div class="form-group">
                 <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
