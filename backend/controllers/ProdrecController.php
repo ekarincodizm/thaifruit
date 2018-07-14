@@ -461,28 +461,36 @@ class ProdrecController extends Controller
                    $modelzone = \backend\models\Zone::find()->where(['like','name',$zonegroup])->andFilterWhere(['lock'=>0])->all();
                    if($modelzone){
                        $json = [];
-                       $xqty = 0;
+                       $xqty = $qty;
+                       $mqty = 0;
                        foreach ($modelzone as $data){
-
+                          if($mqty == $qty){continue;}
                            $zon = $data->name;
-                           if($data->qty == 0){
-                               if($data->max_qty > $qty){
-                                   array_push($json,['id'=>$data->id,'name'=>$data->name,'qty'=>$qty]);
+                           if($data->qty == 0 && $xqty > 0){
+                               if($data->max_qty > $xqty){
+                                   array_push($json,['id'=>$data->id,'name'=>$data->name,'qty'=>$xqty]);
+                                   $mqty =  $mqty + $xqty;
                                    return Json::encode($json);
                                }else{
                                    if($qty > $data->max_qty){
                                        array_push($json,['id'=>$data->id,'name'=>$data->name,'qty'=>$data->max_qty]);
-                                       $qty = $qty - $data->max_qty;
+                                       $xqty = $xqty - $data->max_qty;
+                                       $mqty =  $mqty + $xqty;
                                    }else{
-                                       array_push($json,['id'=>$data->id,'name'=>$data->name,'qty'=>$qty]);
+                                       array_push($json,['id'=>$data->id,'name'=>$data->name,'qty'=>$xqty]);
+                                       $mqty =  $mqty + $xqty;
                                    }
 
                                }
                                //echo "<option value='" .$data->id. "'>$data->name</option>";
                                // array_push($json,['id'=>$data->id,'name'=>$data->name,'qty'=>$data->max_qty]);
                            }
+
                        }
-                       return Json::encode($json);
+                      // if($qty <= 0){
+                           return Json::encode($json);
+                      // }
+
                    }else{
                        //echo "<option>-</option>";
                        return null;
