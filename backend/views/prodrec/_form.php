@@ -566,6 +566,7 @@ $this->registerJs('
              }
           }
        });
+       alert(zonename);
        
        e.closest("tr").find(".line_zone_id").val("");
        e.closest("tr").find(".line_zone").val("");
