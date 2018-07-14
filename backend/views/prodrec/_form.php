@@ -567,6 +567,9 @@ $this->registerJs('
           }
        });
        
+       e.closest("tr").find(".line_zone_id").val("");
+       e.closest("tr").find(".line_zone").val("");
+       
        e.closest("tr").find(".line_zone").val(zonename);
        e.closest("tr").find(".line_zone_id").val(zonelist);
        e.closest("tr").find(".line_zone_qty").val(zonelistqty);
