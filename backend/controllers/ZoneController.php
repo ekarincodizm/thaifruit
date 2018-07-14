@@ -81,7 +81,8 @@ class ZoneController extends Controller
     {
         $model = new Zone();
 
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(Yii::$app->request->post())){
+            $model->max_qty = $model->max_qty == ''?1000:$model->max_qty;
             $model->lock = 0;
             if($model->save()){
                 $session = Yii::$app->session;
@@ -107,6 +108,7 @@ class ZoneController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
+            $model->max_qty = $model->max_qty == ''?1000:$model->max_qty;
             if($model->save()){
                 $session = Yii::$app->session;
                 $session->setFlash('msg','บันทึกรายการเรียบร้อย');
