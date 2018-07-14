@@ -72,11 +72,20 @@ $state = $model->isNewRecord?0:1;
                                              $(this).find(".line_lot").val(lot);
                                           });
                                           
-//                                          if(data[0]["company"] == 1){
-//                                            $(".extend").show();
-//                                          }else{
-//                                            $(".extend").hide();
-//                                          }
+                                          if(data[0]["company"] == 1){
+                                             $("table.table-line tbody tr").each(function(){
+                                                 $(this).closest("tr").find("td:eq(4)").find(".line_orchard").prop("disabled","");
+                                                 $(this).closest("tr").find("td:eq(5)").find(".line_team").prop("disabled","");
+                                                 $(this).closest("tr").find("td:eq(6)").find(".line_qc").prop("disabled","");
+                                              });
+                                          }else{
+                                              $("table.table-line tbody tr").each(function(){
+                                                 $(this).closest("tr").find("td:eq(4)").find(".line_orchard").attr("disabled","disabled");
+                                                 $(this).closest("tr").find("td:eq(5)").find(".line_team").attr("disabled","disabled");
+                                                 $(this).closest("tr").find("td:eq(6)").find(".line_qc").attr("disabled","disabled");
+                                              });
+
+                                          }
                                   }
                                   
                                });
@@ -397,12 +406,17 @@ $url_to_search = Url::to(['productionrec/findemp'],true);
 $url_to_findzone = Url::to(['prodrec/findzone'],true);
 $this->registerJs('
    $(function(){
-    var idInc = 2;
+      var idInc = 2;
       var hasissue = "'.$has.'";
       if(hasissue == 1){
          $(".has-issue").prop("checked",true);
          $("div.issue").show();
       }
+       $("table.table-line tbody tr").each(function(){
+          $(this).closest("tr").find("td:eq(4)").find(".line_orchard").attr("disabled","disabled");
+          $(this).closest("tr").find("td:eq(5)").find(".line_team").attr("disabled","disabled");
+          $(this).closest("tr").find("td:eq(6)").find(".line_qc").attr("disabled","disabled");
+       });
       $(".btn-add").click(function(){
       
               var linenum = 0;

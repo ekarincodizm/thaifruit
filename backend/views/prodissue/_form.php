@@ -37,7 +37,14 @@ $modelzone = \backend\models\Zone::find()->all();
                 <div class="col-lg-4">
                     <?= $form->field($model, 'section_id')->widget(\kartik\select2\Select2::className(),[
                             'data'=>ArrayHelper::map(\backend\models\Section::find()->all(),'id','name'),
-                            'options' => ['placeholder'=>'เลือก']
+                            'options' => ['placeholder'=>'เลือก',
+                                  'onchange'=>
+                                  '
+                                     $.post("'.Url::to(['prodissue/showemp'],true).'"+"&id="+$(this).val(),function(data){
+                                                $("select#issueby").html(data);
+                                              });
+                                  '
+                                ]
                     ]) ?>
                 </div>
             </div>
@@ -47,7 +54,7 @@ $modelzone = \backend\models\Zone::find()->all();
                         'data'=>ArrayHelper::map(\backend\models\Employee::find()->all(),'id',function($data){
                             return $data->first_name." ".$data->last_name;
                         }),
-                        'options' => ['placeholder'=>'เลือก']
+                        'options' => ['placeholder'=>'เลือก','id'=>'issueby']
                     ]) ?>
                 </div>
             </div>

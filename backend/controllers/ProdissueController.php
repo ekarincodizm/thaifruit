@@ -32,7 +32,7 @@ class ProdissueController extends Controller
                 'rules'=>[
                     [
                         'allow'=>true,
-                        'actions'=>['index','create','update','delete','view'],
+                        'actions'=>['index','create','update','delete','view','showemp'],
                         'roles'=>['@'],
                     ]
                 ]
@@ -149,5 +149,18 @@ class ProdissueController extends Controller
         }
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+    }
+    public function actionShowemp($id){
+        $model = \common\models\Employee::find()->where(['section_id' => $id])->all();
+
+        if (count($model) > 0) {
+            foreach ($model as $value) {
+
+                echo "<option value='" . $value->id . "'>$value->first_name $value->last_name</option>";
+
+            }
+        } else {
+            echo "<option>-</option>";
+        }
     }
 }
