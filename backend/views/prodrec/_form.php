@@ -479,16 +479,21 @@ $this->registerJs('
     
    });
    function checkzone(e){
-      //  alert(e.val());
+       // alert();
       
+  
+      
+      var currow =  e.parent().parent().index();
       var curzone =  e.closest("tr").find(".line_zone_id").val();
       var maxzone =  e.closest("tr").find(".line_zone_max").val();
+      
+         
      
       var listzone = [];
       var zonetotal = 0;
        $("table.table-line tbody tr").each(function(){
           if($(this).find(".line_qty").val() >0){
-            if(e.val() == $(this).find(".line_product").val() ){
+            if(e.val() == $(this).find(".line_product").val() && currow != $(this).index() ){
                alert("รายการับสินค้าซ้ำ กรุณาตรวจสอบใหม่");
                e.val("");
                return;
@@ -500,6 +505,9 @@ $this->registerJs('
             
           }
        });
+       e.closest("tr").find(".line_zone_id").val("");
+       e.closest("tr").find(".line_zone").val("");
+      // alert(e.closest("tr").find(".line_zone").val());
        e.closest("tr").find(".line_qty").focus();
        //alert(listzone[0]);
        // var url = "'.$url_to_findzone.'"+"&id="+e.val()+"&zoneid="+listzone;
